@@ -1,26 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HNMU_donvi</title>
-  <link rel="stylesheet" href="style_menu.css">
-  <link rel="stylesheet" href="heading&button.css">
-  <link rel="stylesheet" href="QL_vaitro.css">
-  <link rel="stylesheet" href="loading/load.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HNMU_donvi</title>
+    <link rel="stylesheet" href="style_menu.css">
+    <link rel="stylesheet" href="heading&button.css">
+    <link rel="stylesheet" href="QL_vaitro.css">
+    <link rel="stylesheet" href="loading/load.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
     <!-- CSS của SweetAlert2 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10">
     <!-- JavaScript của SweetAlert2 -->
@@ -32,6 +33,7 @@
     <!-- JS của DataTables -->
     <script src="https://cdn.datatables.net/1.11.6/js/jquery.dataTables.min.js"></script>
 </head>
+
 <body>
     <!--loading-->
     <div class="loading-cup">
@@ -43,18 +45,18 @@
     <!-- Modal Thêm mới -->
     <div class="modal fade" id="modal-them-moi" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-md" role="document">
-        <div class="modal-content">
-            <!-- Nội dung modal -->
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Thêm mới đơn vị</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <div class="modal-content">
+                <!-- Nội dung modal -->
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Thêm mới đơn vị</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
-            </div>
-            <div class="modal-body">
-                <form class>
-                  <div class="row">
-                      <span>
+                </div>
+                <div class="modal-body">
+                    <form class>
+                        <div class="row">
+                            <span>
                           <fieldset class="form-group" id="__BVID__272">
                               <legend class="col-form-label">Tên đơn vị *</legend>
                               <div>
@@ -70,31 +72,31 @@
                               </div>
                           </fieldset>
                       </span>
-                  </div>
-                </form>
-              </div>
-            <div class="modal-footer">
-            <button type="button" class="btn btn-primary" onclick="validateForm()">Lưu</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="validateForm()">Lưu</button>
+                </div>
             </div>
-        </div>
         </div>
     </div>
 
     <!-- Modal Chỉnh sửa -->
     <div class="modal fade" id="modal-chinh-sua" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-md" role="document">
-        <div class="modal-content">
-            <!-- Nội dung modal -->
-            <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Chỉnh sửa đơn vị</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <div class="modal-content">
+                <!-- Nội dung modal -->
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Chỉnh sửa đơn vị</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
-            </div>
-            <div class="modal-body">
-                <form class>
-                  <div class="row">
-                      <span>
+                </div>
+                <div class="modal-body">
+                    <form class>
+                        <div class="row">
+                            <span>
                           <fieldset class="form-group" id="__BVID__272">
                               <legend class="col-form-label">Tên đơn vị *</legend>
                               <div>
@@ -110,23 +112,23 @@
                               </div>
                           </fieldset>
                       </span>
-                  </div>
-                </form>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="validateForm()">Lưu</button>
+                </div>
             </div>
-            <div class="modal-footer">
-            <button type="button" class="btn btn-primary" onclick="validateForm()">Lưu</button>
-            </div>
-        </div>
         </div>
     </div>
-    
+
     <!--thanh dọc bên trái-->
     <div class="side-content-wrap">
         <!--Menu-->
         <section class="sidebar-left">
             <!--ảnh logo-->
             <div class="first">
-                <a href="#dashboar" >
+                <a href="#dashboar">
                     <img src="img/menu/logo.png" alt="logo" class="logo">
                 </a>
             </div>
@@ -134,42 +136,42 @@
                 <ul class="navigation-left">
                     <li class="nav-item" data-item="Dashboard">
                         <a href="#" class="nav-item-hold">
-                            <img src="img/menu/User.png" alt="dashboard-icon" class="nav-icon">
+                            <img src="asset/icon-svg/user.svg" alt="dashboard-icon" class="nav-icon">
                             <span class="nav-text">Dashboard</span>
                         </a>
                     </li>
-                    <li class="nav-item"  data-item="User" data-submenu="true">
+                    <li class="nav-item" data-item="User" data-submenu="true">
                         <a href="#" class="nav-item-hold">
-                            <img src="img/menu/User.png" alt="user-icon" class="nav-icon">
+                            <img src="asset/icon-svg/user.svg" alt="user-icon" class="nav-icon">
                             <span class="nav-text">Người dùng</span>
                         </a>
                     </li>
                     <li class="nav-item" data-item="Product" data-submenu="true">
                         <a href="#" class="nav-item-hold">
-                            <img src="img/menu/User.png" alt="product-ico" class="nav-icon">
+                            <img src="asset/icon-svg/user.svg" alt="product-ico" class="nav-icon">
                             <span class="nav-text">Nguyên liệu</span>
                         </a>
                     </li>
                     <li class="nav-item" data-item="Recept" data-submenu="true">
                         <a href="#" class="nav-item-hold">
-                            <img src="img/menu/User.png" alt="recept-icon" class="nav-icon">
+                            <img src="asset/icon-svg/user.svg" alt="recept-icon" class="nav-icon">
                             <span class="nav-text">Công thức</span>
                         </a>
                     </li>
                     <li class="nav-item" data-item="Warehouse" data-submenu="true">
                         <a href="#" class="nav-item-hold">
-                            <img src="img/menu/User.png" alt="warehouse-icon" class="nav-icon">
+                            <img src="asset/icon-svg/user.svg" alt="warehouse-icon" class="nav-icon">
                             <span class="nav-text">Kho</span>
                         </a>
                     </li>
                     <li class="nav-item" data-item="Report" data-submenu="true">
                         <a href="#" class="nav-item-hold">
-                            <img src="img/menu/User.png" alt="report-icon" class="nav-icon">
+                            <img src="asset/icon-svg/user.svg" alt="report-icon" class="nav-icon">
                             <span class="nav-text">Báo cáo</span>
                         </a>
-                    </li>                                    
+                    </li>
                 </ul>
-            </div>          
+            </div>
         </section>
         <!--Sidebar thứ 2-->
         <section class="sidebar-left-secondary">
@@ -217,7 +219,7 @@
             <div class="dropdown">
                 <!--Icon thông báo-->
                 <div class="notification-icon" onclick="toggleNotifi()">
-                    <img src="img/menu/bell.png" alt="notification">
+                    <img src="asset/icon-svg/bell.svg" alt="notification">
                     <span>1</span>
                 </div>
                 <!--Hộp thông báo-->
@@ -228,7 +230,7 @@
                     <!---Hiển thị thông báo-->
                     <div class="notifi-body">
                         <div class="notifi-item">
-                            <img src="img/menu/sua_tuoi_vinamilk.jpg" alt="notification1">
+                            <img src="asset/image/sua_tuoi_vinamilk.jpg" alt="notification1">
                             <div class="text">
                                 <h4>Thong bao</h4>
                                 <p> Lorem ipsum dolor sit amet.</p>
@@ -236,7 +238,7 @@
                             </div>
                         </div>
                         <div class="notifi-item">
-                            <img src="img/menu/sua_tuoi_vinamilk.jpg" alt="notification1">
+                            <img src="asset/image/sua_tuoi_vinamilk.jpg" alt="notification1">
                             <div class="text">
                                 <h4>Thong bao</h4>
                                 <p> Lorem ipsum dolor sit amet.</p>
@@ -244,7 +246,7 @@
                             </div>
                         </div>
                         <div class="notifi-item">
-                            <img src="img/menu/sua_tuoi_vinamilk.jpg" alt="notification1">
+                            <img src="asset/image/sua_tuoi_vinamilk.jpg" alt="notification1">
                             <div class="text">
                                 <h4>Thong bao</h4>
                                 <p> Lorem ipsum dolor sit amet.</p>
@@ -252,7 +254,7 @@
                             </div>
                         </div>
                         <div class="notifi-item">
-                            <img src="img/menu/sua_tuoi_vinamilk.jpg" alt="notification1">
+                            <img src="asset/image/sua_tuoi_vinamilk.jpg" alt="notification1">
                             <div class="text">
                                 <h4>Thong bao</h4>
                                 <p> Lorem ipsum dolor sit amet.</p>
@@ -270,10 +272,10 @@
             <div class="dropdown">
                 <div class="profile-dropdown-btn" onclick="toggle()">
                     <!-- anh profile-->
-                    <img src="img/menu/sua_tuoi_vinamilk.jpg" alt="profile" class="profile-img">
+                    <img src="asset/image/sua_tuoi_vinamilk.jpg" alt="profile" class="profile-img">
                 </div>
                 <div id="profile-box">
-                     <ul class="profile-dropdown-list">
+                    <ul class="profile-dropdown-list">
                         <div class="profile-dropdown-header">
                             <span>Hello Admin</span>
                         </div>
@@ -319,9 +321,8 @@
                         Nhập dữ liệu
                     </button>
                     <a href="QL_vaitro_themmoi.html " class="btn-custom btn-more" data-toggle="modal" data-target="#modal-them-moi">
-                        <i class="bi bi-plus"></i>
-                        Thêm mới    
-                    </a>                        
+                        <i class="bi bi-plus"></i> Thêm mới
+                    </a>
                     </button>
                 </div>
             </div>
@@ -402,13 +403,14 @@
                 </ul>
             </div>
         </div>
-        
+
     </div>
 
-<script src="menu.js"></script>
-<script src="QL_vaitro.js"></script>
-<script src="table2excel.js"></script>
-<!--JS riêng-->
-<script src="Danhmuc_Donvi.js"></script>
+    <script src="menu.js"></script>
+    <script src="QL_vaitro.js"></script>
+    <script src="table2excel.js"></script>
+    <!--JS riêng-->
+    <script src="Danhmuc_Donvi.js"></script>
 </body>
+
 </html>
