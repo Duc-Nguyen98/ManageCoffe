@@ -1,0 +1,292 @@
+/*thanh tiêu đề */
+.heading{
+    align-items: center;
+    margin: 0 0 1.25rem;
+    padding: 0;
+    border-bottom: 1px solid #9F6737;
+}
+
+.heading h1{
+    color: #663B16;
+    font-size: 24px;
+    line-height: 1;
+    margin: 10px 0;
+}   
+
+/*thanh search và buttons */
+/*search*/
+.global-search{
+    padding: 5px 0;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: stretch;
+}
+
+.global-search-input{
+    --padding: 4px;
+    width: 277px;
+    display: flex;
+    align-items: center;
+    padding: var(--padding);
+    border-radius: 28px;
+    box-shadow: 1px 3px rgb(159 103 55), 1px 5px 16px rgb(0 0 0 / 12%);
+}
+
+.global-search-input i{
+    background-color: #9F6737;
+    color: white;
+    border-radius: 50%;
+    font-size: 12px;
+    margin-right: 6px;
+    padding: 4px 8px;
+}
+
+.search-input{
+    font-size: 14px;
+    outline: none;
+    border: none;
+    margin-left: var(--padding);
+    background: transparent;
+    flex: 1;
+}
+
+/*button*/
+.global-search{
+    margin-bottom: 15px;
+}
+
+.global-search-btn{
+    display: flex;
+}
+
+.btn-export button{
+    font-size: 12px;
+    padding: 7px 0;
+    margin: 2px 3px;
+    width: 80px;
+}
+
+.btn-primary{
+    color: #fff !important;
+    background: #663B16 !important;
+    border-color: #663B16 !important;
+}
+
+.btn-primary:hover{
+    color: #fff !important;
+    background: #663B16 !important;
+    border-color: #663B16 !important;
+    box-shadow: 0 8px 25px -8px #663B16;
+}
+
+.btn-outline-primary:hover{
+    background: #2975e7 !important;
+    border-color: #2975e7!important;
+    box-shadow: 0 8px 25px -8px #2975e7;
+}
+
+.btn-outline-success:hover{
+    background: #10b981 !important;
+    border-color: #10b981!important;
+    box-shadow: 0 8px 25px -8px #10b981;
+}
+
+.btn-outline-danger:hover{
+    background: #ef4444 !important;
+    border-color: #ef4444 !important;
+    box-shadow: 0 8px 25px -8px #ef4444;
+}
+
+.btn-custom{
+    height: 34px;
+    font-size: 12px;
+    border-width: 1px;
+    border-radius: 5px;
+    padding: 0px 14px;
+    margin: 2px 5px;
+}
+
+.btn-import{
+    background: #FFDBBC;
+    border-color: #FFDBBC;
+    color: #663b16;
+}
+
+.btn-import:hover{
+    box-shadow: 0 8px 25px -8px #FFDBBC;
+}
+
+.btn-more{
+    padding-top: 8px;
+    text-decoration: none;
+    background: #9F6737;
+    color: #fff;
+    border: #9F6737;
+}
+
+.btn-more:hover{
+    box-shadow: 0 8px 25px -8px #9F6737;
+    color: #fff;
+}
+
+
+/*Page*/
+.header{
+    width: 90%;
+    height: 50px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+select{
+    padding: 2px;
+    margin: 0 10px;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    background: white;
+}
+
+.bottom-field{
+    width: 100%;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.pagination{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pagination li{
+    list-style: none;
+    padding: 2px;
+    margin: 10px;
+    flex-shrink: 0;
+    text-align: center;
+    border-radius: 5px;
+    border: 1px solid #663B16;
+    color: #663B16;
+}
+
+.pagination li.active{
+    background: #663B16;
+    color: white;
+    background-color: #663B16;
+}
+
+.pagination li a{
+    text-decoration: none;
+    color: inherit;
+    padding: 3px 8px;
+    display: block;
+    font-size: 13px;
+}
+
+.items-controller{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.space-middle{
+    margin: auto;
+}
+
+/*checkbox*/
+.mr-15{
+    margin-right: 15px !important;
+}
+
+.mtb-7-5 {
+    margin-top: 7.5px!important;
+    margin-bottom: 7.5px!important;
+}
+
+input[type=checkbox] {
+    position: relative;
+    border: 2px solid #663B16;
+    border-radius: 2px;
+    background: none;
+    cursor: pointer;
+    line-height: 0;
+    margin: 0 10px 0 0;
+    outline: 0;
+    padding: 0!important;
+    vertical-align: text-top;
+    height: 20px;
+    width: 20px;
+    -webkit-appearance: none;
+    opacity: .5;
+}
+
+input[type=checkbox]:before {
+    content: "";
+    position: absolute;
+    right: 50%;
+    top: 50%;
+    width: 4px;
+    height: 10px;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    margin: -1px -1px 0;
+    transform: rotate(45deg) translate(-50%,-50%);
+    z-index: 2;
+}
+
+input[type=checkbox]:checked {
+    background-color: #663B16;
+    opacity: 1;
+}
+
+/*Tiêu đề trang nhỏ*/
+.themmoi-header {
+    align-items: center;
+    background: transparent;
+    margin: 0 0 40px;
+    border-bottom: 1px solid #dcdcdc;
+    padding: 0px 0px 17px 0px;
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+}
+
+.themmoi-header h1{
+    color: #663B16;
+    font-size: 1.5rem;
+    line-height: 1;
+    margin: 0;
+}
+
+.themmoi-header ul {
+    list-style: none;
+    margin: 0;
+    padding: 0 10px;
+}
+
+.themmoi-header ul li {
+    color: #9F6737;
+    display: inline-block;
+    line-height: 1;
+    font-size: 14px;
+    padding: 0 10px;
+    position: relative;
+    vertical-align: bottom;
+}
+
+.themmoi-header ul li a{
+    color: #663B16;
+    text-decoration: none;
+}
+.themmoi-header ul li a:after {
+    background: #663B16;
+    border-radius: 5px;
+    content: "";
+    height: 16px;
+    position: absolute;
+    right: 0;
+    top: -1px;
+    width: 1px;
+}
