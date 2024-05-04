@@ -32,95 +32,7 @@
         </div>
     </div>
 
-    <!--thanh dọc bên trái-->
-    <div class="side-content-wrap">
-        <!--Menu-->
-        <section class="sidebar-left">
-            <!--ảnh logo-->
-            <div class="first">
-                <a href="#dashboar">
-                    <img src="img/menu/logo.png" alt="logo" class="logo">
-                </a>
-            </div>
-            <div class="second">
-                <ul class="navigation-left">
-                    <li class="nav-item" data-item="Dashboard">
-                        <a href="#" class="nav-item-hold">
-                            <img src="asset/icon-svg/user.svg" alt="dashboard-icon" class="nav-icon">
-                            <span class="nav-text">Dashboard</span>
-                        </a>
-                    </li>
-                    <li class="nav-item" data-item="User" data-submenu="true">
-                        <a href="#" class="nav-item-hold">
-                            <img src="asset/icon-svg/user.svg" alt="user-icon" class="nav-icon">
-                            <span class="nav-text">Người dùng</span>
-                        </a>
-                    </li>
-                    <li class="nav-item" data-item="Product" data-submenu="true">
-                        <a href="#" class="nav-item-hold">
-                            <img src="asset/icon-svg/user.svg" alt="product-ico" class="nav-icon">
-                            <span class="nav-text">Nguyên liệu</span>
-                        </a>
-                    </li>
-                    <li class="nav-item" data-item="Recept" data-submenu="true">
-                        <a href="#" class="nav-item-hold">
-                            <img src="asset/icon-svg/user.svg" alt="recept-icon" class="nav-icon">
-                            <span class="nav-text">Công thức</span>
-                        </a>
-                    </li>
-                    <li class="nav-item" data-item="Warehouse" data-submenu="true">
-                        <a href="#" class="nav-item-hold">
-                            <img src="asset/icon-svg/user.svg" alt="warehouse-icon" class="nav-icon">
-                            <span class="nav-text">Kho</span>
-                        </a>
-                    </li>
-                    <li class="nav-item" data-item="Report" data-submenu="true">
-                        <a href="#" class="nav-item-hold">
-                            <img src="asset/icon-svg/user.svg" alt="report-icon" class="nav-icon">
-                            <span class="nav-text">Báo cáo</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </section>
-        <!--Sidebar thứ 2-->
-        <section class="sidebar-left-secondary">
-            <ul class="childNav" data-parent="User">
-                <li class="nav-item-secondary">
-                    <a href="#" class="nav-text-secondary">
-                        <i class="bi bi-person-fill"></i>
-                        <span>Tài khoản</span>
-                    </a>
-                </li>
-                <li class="nav-item-secondary">
-                    <a href="#" class="nav-text-secondary">
-                        <i class="bi bi-person-lock"></i>
-                        <span>Vai trò</span>
-                    </a>
-                </li>
-            </ul>
-            <ul class="childNav" data-parent="Product">
-                <li class="nav-item-secondary">
-                    <a href="#" class="nav-text-secondary">
-                        <i class="bi bi-person-fill"></i>
-                        <span>Nguyên liệu</span>
-                    </a>
-                </li>
-                <li class="nav-item-secondary">
-                    <a href="#" class="nav-text-secondary">
-                        <i class="bi bi-person-lock"></i>
-                        <span>Danh mục</span>
-                    </a>
-                </li>
-                <li class="nav-item-secondary">
-                    <a href="#" class="nav-text-secondary">
-                        <i class="bi bi-person-lock"></i>
-                        <span>Thương hiệu</span>
-                    </a>
-                </li>
-            </ul>
-        </section>
-    </div>
+
 
     <!--thanh ngang bên trên-->
     <div class="main-header">
@@ -197,59 +109,165 @@
         </div>
     </div>
 
-    <div class="main">
-        <div class="main-content-wrap">
-            <!--Tiêu đề-->
-            <div class="themmoi-header">
-                <h1>Thông tin nguyên liệu</h1>
-                <ul>
-                    <li><a href="#">Nguyên liệu</a></li>
-                    <li>Thông tin nguyên liệu</li>
-                </ul>
+    <div class="container-fluid">
+        <div class="row">
+            <div class=" col-sm-2 col-md-2">
+                <!--thanh dọc bên trái-->
+                <div class="side-content-wrap">
+                    <!--Menu-->
+                    <section class="sidebar-left">
+                        <!--ảnh logo-->
+                        <div class="first">
+                            <a href="#dashboar">
+                                <img src="img/menu/logo.png" alt="logo" class="logo">
+                            </a>
+                        </div>
+                        <div class="second">
+                            <ul class="navigation-left">
+                                <li class="nav-item" data-item="Dashboard">
+                                    <a href="#" class="nav-item-hold">
+                                        <img src="asset/icon-svg/home.svg" alt="dashboard-icon" class="nav-icon">
+                                        <span class="nav-text">Dashboard</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item" data-item="User" data-submenu="true">
+                                    <a href="#" class="nav-item-hold">
+                                        <img src="asset/icon-svg/group.svg" alt="user-icon" class="nav-icon">
+                                        <span class="nav-text">Người dùng</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item" data-item="Product" data-submenu="true">
+                                    <a href="#" class="nav-item-hold">
+                                        <img src="asset/icon-svg/ingredient.svg" alt="product-ico" class="nav-icon">
+                                        <span class="nav-text">Nguyên liệu</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item" data-item="Recept" data-submenu="true">
+                                    <a href="#" class="nav-item-hold">
+                                        <img src="asset/icon-svg/recipe-book.svg" alt="recept-icon" class="nav-icon">
+                                        <span class="nav-text">Công thức</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item" data-item="Warehouse" data-submenu="true">
+                                    <a href="#" class="nav-item-hold">
+                                        <img src="asset/icon-svg/warehouse.svg" alt="warehouse-icon" class="nav-icon">
+                                        <span class="nav-text">Kho</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item" data-item="Report" data-submenu="true">
+                                    <a href="#" class="nav-item-hold">
+                                        <img src="asset/icon-svg/report.svg" alt="report-icon" class="nav-icon">
+                                        <span class="nav-text">Báo cáo</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </section>
+                    <!--Sidebar thứ 2-->
+                    <section class="sidebar-left-secondary">
+                        <ul class="childNav" data-parent="User">
+                            <li class="nav-item-secondary">
+                                <a href="#" class="nav-text-secondary">
+                                    <i class="bi bi-person-fill"></i>
+                                    <span>Tài khoản</span>
+                                </a>
+                            </li>
+                            <li class="nav-item-secondary">
+                                <a href="#" class="nav-text-secondary">
+                                    <i class="bi bi-person-lock"></i>
+                                    <span>Vai trò</span>
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="childNav" data-parent="Product">
+                            <li class="nav-item-secondary">
+                                <a href="#" class="nav-text-secondary">
+                                    <i class="bi bi-person-fill"></i>
+                                    <span>Nguyên liệu</span>
+                                </a>
+                            </li>
+                            <li class="nav-item-secondary">
+                                <a href="#" class="nav-text-secondary">
+                                    <i class="bi bi-person-lock"></i>
+                                    <span>Danh mục</span>
+                                </a>
+                            </li>
+                            <li class="nav-item-secondary">
+                                <a href="#" class="nav-text-secondary">
+                                    <i class="bi bi-person-lock"></i>
+                                    <span>Thương hiệu</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </section>
+                </div>
             </div>
-            <!--Hiển thị thông tin-->
-            <div class="card">
-                <div class="row">
-                    <div class="col-md-8">
-                        <table class="table table-hover table-bordered table-md">
-                            <tbody>
-                                <tr>
-                                    <td>Mã nguyên liệu</td>
-                                    <th>123</th>
-                                </tr>
-                                <tr>
-                                    <td>Tên nguyên liệu</td>
-                                    <th>Sữa không đường Vinamil</th>
-                                </tr>
-                                <tr>
-                                    <td>Danh mục</td>
-                                    <th>Sữa tươi</th>
-                                </tr>
-                                <tr>
-                                    <td>Thương hiệu</td>
-                                    <th>Vinamilk</th>
-                                </tr>
-                                <tr>
-                                    <td>Đơn vị</td>
-                                    <th>ML</th>
-                                </tr>
-                                <tr>
-                                    <td>Giá nhập</td>
-                                    <th>30.000</th>
-                                </tr>
-                                <tr>
-                                    <td>Mô tả</td>
-                                    <th></th>
-                                </tr>
-                            </tbody>
-                        </table>
+            <div class="col-sm-12 col-md-12">
+                <div class="main-content-wrap">
+                    <!--Tiêu đề-->
+                    <div class="themmoi-header">
+                        <h1>Thông tin nguyên liệu</h1>
+                        <ul>
+                            <li><a href="#">Nguyên liệu</a></li>
+                            <li>Thông tin nguyên liệu</li>
+                        </ul>
                     </div>
-                    <div class="mb-30 col-md-4">
-                        <img src="asset/image/sua_tuoi_vinamilk.jpg" alt="sua_tuoi_vinamilk" class="img-fluid w-100 d-block">
+                    <!--Hiển thị thông tin-->
+                    <div class="card">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <table class="table table-hover table-bordered table-md">
+                                    <tbody>
+                                        <tr>
+                                            <td>Mã nguyên liệu</td>
+                                            <th>123</th>
+                                        </tr>
+                                        <tr>
+                                            <td>Tên nguyên liệu</td>
+                                            <th>Sữa không đường Vinamil</th>
+                                        </tr>
+                                        <tr>
+                                            <td>Danh mục</td>
+                                            <th>Sữa tươi</th>
+                                        </tr>
+                                        <tr>
+                                            <td>Thương hiệu</td>
+                                            <th>Vinamilk</th>
+                                        </tr>
+                                        <tr>
+                                            <td>Đơn vị</td>
+                                            <th>ML</th>
+                                        </tr>
+                                        <tr>
+                                            <td>Giá nhập</td>
+                                            <th>30.000</th>
+                                        </tr>
+                                        <tr>
+                                            <td>Mô tả</td>
+                                            <th></th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="mb-30 col-md-4">
+                                <img src="asset/image/sua_tuoi_vinamilk.jpg" alt="sua_tuoi_vinamilk" class="img-fluid w-100 d-block">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+            <!-- Footer -->
+            <div class="col-12 my-3 ">
+
+                <blockquote class="blockquote ">
+                    <!-- <p class="mb-0 ">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> -->
+                    <footer class="blockquote-footer "><b>Copyright.</b> Developed by HNMU-D2020A</span>
+                        <cite class="float-right " title="Version 1.0.0 ">Version 1.0.0</cite>
+                    </footer>
+                </blockquote>
+            </div>
         </div>
+
     </div>
 
     <script src="menu.js"></script>
