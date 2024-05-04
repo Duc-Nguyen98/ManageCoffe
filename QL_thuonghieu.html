@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HNMU thương hiệu</title>
     <link rel="stylesheet" href="style_menu.css">
-    <link rel="stylesheet" href="heading&button.css">
+    <!-- <link rel="stylesheet" href="heading&button.css"> -->
     <link rel="stylesheet" href="QL_vaitro.css">
     <link rel="stylesheet" href="loading/load.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -135,97 +135,6 @@
         </div>
     </div>
 
-
-    <!--thanh dọc bên trái-->
-    <div class="side-content-wrap">
-        <!--Menu-->
-        <section class="sidebar-left">
-            <!--ảnh logo-->
-            <div class="first">
-                <a href="#dashboar">
-                    <img src="img/menu/logo.png" alt="logo" class="logo">
-                </a>
-            </div>
-            <div class="second">
-                <ul class="navigation-left">
-                    <li class="nav-item" data-item="Dashboard">
-                        <a href="#" class="nav-item-hold">
-                            <img src="asset/icon-svg/user.svg" alt="dashboard-icon" class="nav-icon">
-                            <span class="nav-text">Dashboard</span>
-                        </a>
-                    </li>
-                    <li class="nav-item" data-item="User" data-submenu="true">
-                        <a href="#" class="nav-item-hold">
-                            <img src="asset/icon-svg/user.svg" alt="user-icon" class="nav-icon">
-                            <span class="nav-text">Người dùng</span>
-                        </a>
-                    </li>
-                    <li class="nav-item" data-item="Product" data-submenu="true">
-                        <a href="#" class="nav-item-hold">
-                            <img src="asset/icon-svg/user.svg" alt="product-ico" class="nav-icon">
-                            <span class="nav-text">Nguyên liệu</span>
-                        </a>
-                    </li>
-                    <li class="nav-item" data-item="Recept" data-submenu="true">
-                        <a href="#" class="nav-item-hold">
-                            <img src="asset/icon-svg/user.svg" alt="recept-icon" class="nav-icon">
-                            <span class="nav-text">Công thức</span>
-                        </a>
-                    </li>
-                    <li class="nav-item" data-item="Warehouse" data-submenu="true">
-                        <a href="#" class="nav-item-hold">
-                            <img src="asset/icon-svg/user.svg" alt="warehouse-icon" class="nav-icon">
-                            <span class="nav-text">Kho</span>
-                        </a>
-                    </li>
-                    <li class="nav-item" data-item="Report" data-submenu="true">
-                        <a href="#" class="nav-item-hold">
-                            <img src="asset/icon-svg/user.svg" alt="report-icon" class="nav-icon">
-                            <span class="nav-text">Báo cáo</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </section>
-        <!--Sidebar thứ 2-->
-        <section class="sidebar-left-secondary">
-            <ul class="childNav" data-parent="User">
-                <li class="nav-item-secondary">
-                    <a href="#" class="nav-text-secondary">
-                        <i class="bi bi-person-fill"></i>
-                        <span>Tài khoản</span>
-                    </a>
-                </li>
-                <li class="nav-item-secondary">
-                    <a href="#" class="nav-text-secondary">
-                        <i class="bi bi-person-lock"></i>
-                        <span>Vai trò</span>
-                    </a>
-                </li>
-            </ul>
-            <ul class="childNav" data-parent="Product">
-                <li class="nav-item-secondary">
-                    <a href="#" class="nav-text-secondary">
-                        <i class="bi bi-person-fill"></i>
-                        <span>Nguyên liệu</span>
-                    </a>
-                </li>
-                <li class="nav-item-secondary">
-                    <a href="#" class="nav-text-secondary">
-                        <i class="bi bi-person-lock"></i>
-                        <span>Danh mục</span>
-                    </a>
-                </li>
-                <li class="nav-item-secondary">
-                    <a href="#" class="nav-text-secondary">
-                        <i class="bi bi-person-lock"></i>
-                        <span>Thương hiệu</span>
-                    </a>
-                </li>
-            </ul>
-        </section>
-    </div>
-
     <!--thanh ngang bên trên-->
     <div class="main-header">
         <div class="margin-auto"></div>
@@ -301,166 +210,249 @@
         </div>
     </div>
 
+
+
     <!--bắt đầu code ở đây-->
-    <div class="main">
-        <div class="main-content-wrap">
-            <div class="heading">
-                <h1>Quản Lý Thương Hiệu</h1>
+    <div class="container-fluid">
+        <div class="row">
+            <div class=" col-sm-2 col-md-1">
+                <!--thanh dọc bên trái-->
+                <div class="side-content-wrap">
+                    <!--Menu-->
+                    <section class="sidebar-left">
+                        <!--ảnh logo-->
+                        <div class="first">
+                            <a href="#dashboar">
+                                <img src="img/menu/logo.png" alt="logo" class="logo">
+                            </a>
+                        </div>
+                        <div class="second">
+                            <ul class="navigation-left">
+                                <li class="nav-item" data-item="Dashboard">
+                                    <a href="#" class="nav-item-hold">
+                                        <img src="asset/icon-svg/home.svg" alt="dashboard-icon" class="nav-icon">
+                                        <span class="nav-text">Dashboard</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item" data-item="User" data-submenu="true">
+                                    <a href="#" class="nav-item-hold">
+                                        <img src="asset/icon-svg/group.svg" alt="user-icon" class="nav-icon">
+                                        <span class="nav-text">Người dùng</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item" data-item="Product" data-submenu="true">
+                                    <a href="#" class="nav-item-hold">
+                                        <img src="asset/icon-svg/ingredient.svg" alt="product-ico" class="nav-icon">
+                                        <span class="nav-text">Nguyên liệu</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item" data-item="Recept" data-submenu="true">
+                                    <a href="#" class="nav-item-hold">
+                                        <img src="asset/icon-svg/recipe-book.svg" alt="recept-icon" class="nav-icon">
+                                        <span class="nav-text">Công thức</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item" data-item="Warehouse" data-submenu="true">
+                                    <a href="#" class="nav-item-hold">
+                                        <img src="asset/icon-svg/warehouse.svg" alt="warehouse-icon" class="nav-icon">
+                                        <span class="nav-text">Kho</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item" data-item="Report" data-submenu="true">
+                                    <a href="#" class="nav-item-hold">
+                                        <img src="asset/icon-svg/report.svg" alt="report-icon" class="nav-icon">
+                                        <span class="nav-text">Báo cáo</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </section>
+                    <!--Sidebar thứ 2-->
+                    <section class="sidebar-left-secondary">
+                        <ul class="childNav" data-parent="User">
+                            <li class="nav-item-secondary">
+                                <a href="#" class="nav-text-secondary">
+                                    <i class="bi bi-person-fill"></i>
+                                    <span>Tài khoản</span>
+                                </a>
+                            </li>
+                            <li class="nav-item-secondary">
+                                <a href="#" class="nav-text-secondary">
+                                    <i class="bi bi-person-lock"></i>
+                                    <span>Vai trò</span>
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="childNav" data-parent="Product">
+                            <li class="nav-item-secondary">
+                                <a href="#" class="nav-text-secondary">
+                                    <i class="bi bi-person-fill"></i>
+                                    <span>Nguyên liệu</span>
+                                </a>
+                            </li>
+                            <li class="nav-item-secondary">
+                                <a href="#" class="nav-text-secondary">
+                                    <i class="bi bi-person-lock"></i>
+                                    <span>Danh mục</span>
+                                </a>
+                            </li>
+                            <li class="nav-item-secondary">
+                                <a href="#" class="nav-text-secondary">
+                                    <i class="bi bi-person-lock"></i>
+                                    <span>Thương hiệu</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </section>
+                </div>
             </div>
-            <!--Thanh search & button -->
-            <div class="global-search">
-                <!--Thanh search -->
-                <form>
-                    <div class="global-search-input">
-                        <i class="bi bi-search"></i>
-                        <input class="search-input" type="search" placeholder="Tìm kiếm">
+            <div class="col-sm-10 col-md-11">
+                <div class="heading">
+                    <h1>Quản Lý Danh Mục</h1>
+                </div>
+                <div class="row my-2">
+                    <div class="row my-2">
+                        <div class="col-4">
+                            <div class="items-controller ">
+                                <span class="col-5">Hiển thị</span>
+                                <select class="custom-select col-2 " id="itemperpage ">
+                                                <option selected>10</option>
+                                                <option value="1 ">10</option>
+                                                <option value="2 ">50</option>
+                                                <option value="3 ">100</option>
+                                              </select>
+                                <span class="col-5">mỗi trang</span>
+                            </div>
+                        </div>
+                        <div class="col-8">
+                            <div class="btn-group float-right role=" group " aria-label="Basic example ">
+                            <button id="downloadexcel " type="button " class="btn btn-outline-success ">
+                                <i class="bi bi-file-earmark-excel "></i>
+                                Excel
+                            </button>                                    
+                            <button id="downloadpdf " type="button " class="btn btn-outline-danger ">
+                                <i class="bi bi-file-earmark-pdf "></i>
+                                PDF
+                            </button>             
+                            <button id="importfile " type="button " class="btn-outline-secondary btn-import ">
+                                <i class="bi bi-arrow-bar-down "></i>
+                                Nhập dữ liệu
+                            </button>                       
+                            <a href="QL_vaitro_themmoi.html " class="btn btn-outline-primary " data-toggle="modal " data-target="#modal-them-moi ">
+                                <i class="bi bi-plus "></i> Thêm mới
+                            </a>
                     </div>
-                </form>
-                <div class="space-middle">
-                </div>
-                <!--Thanh button -->
-                <div class="global-search-btn">
-                    <div class="btn-export">
-                        <button id="downloadexcel" type="button" class="btn btn-outline-success">
-                            <i class="bi bi-file-earmark-excel"></i>
-                            Excel
-                        </button>
-                        <button id="downloadpdf" type="button" class="btn btn-outline-danger">
-                            <i class="bi bi-file-earmark-pdf"></i>
-                            PDF
-                        </button>
                     </div>
-                    <button id="importfile" type="button" class="btn-custom btn-import">
-                        <i class="bi bi-arrow-bar-down"></i>
-                        Nhập dữ liệu
-                    </button>
-                    <a href="QL_vaitro_themmoi.html " class="btn-custom btn-more" data-toggle="modal" data-target="#modal-them-moi">
-                        <i class="bi bi-plus"></i> Thêm mới
-                    </a>
-
-                    </button>
                 </div>
-            </div>
-
-            <section class="header">
-                <div class="items-controller">
-                    <span>Hiển thị</span>
-                    <select name="" id="itemperpage">
-                        <option value="04">04</option>
-                        <option value="05" selected>05</option>
-                        <option value="08">08</option>
-                    </select>
-                    <span>mỗi trang</span>
-                </div>
-            </section>
             <!--Table-->
-            <div class="table-card">
-                <table id="table" class="vgt-table">
-                    <thead>
-                        <tr>
-                            <th scope="col">
+            <div class="row my-2 ">
+                    <table id="table " class="table table-sm-responsive table-hover ">
+                        <thead>
+                            <tr class="text-center font-weight-bold ">
+                            <th scope="col ">
+                                <span>#</span>
+                            </th>
+                            <th scope="col ">
+                                <span>ID Nguyên liệu</span>
+                            </th>
+                            <th scope="col ">
                                 <span>Hình ảnh</span>
                             </th>
-                            <th scope="col">
-                                <span>Tên thương hiệu</span>
+                            <th scope="col ">
+                                <span>Tên nguyên liệu</span>
                             </th>
-                            <th scope="col">
+                            <th scope="col ">
                                 <span>Mô tả</span>
                             </th>
-                            <th scope="col">
-                                <span>Hoạt động</span>
+                            <th scope="col ">
+                                <span>Lịch sử cập nhật</span>
                             </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <span>
-                                    <img src="asset/image/sua_tuoi_vinamilk.jpg" alt="img" class="img-thumbnail">
-                                </span>
-                            </td>
-                            <td>
-                                <span>Vinamil</span>
-                            </td>
-                            <td>
-                                <span>Chuyên sữa tươi</span>
-                            </td>
-                            <td>
-                                <span>
-                                    <a href="#" class="btn btn-outline-success" data-bs-toggle="tooltip" title="Chỉnh sửa" data-toggle="modal" data-target="#modal-chinh-sua">
-                                        <i class="bi bi-pencil-square"></i>
-                                    </a>
-                                    <a href="#" class="btn btn-outline-danger" data-bs-toggle="tooltip" title="Xóa" onclick="showAlert()">
-                                        <i class="bi bi-trash"></i>
-                                    </a>
-                                </span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span>
-                                    <img src="asset/image/sua_tuoi_vinamilk.jpg" alt="img" class="img-thumbnail">
-                                </span>
-                            </td>
-                            <td>
-                                <span>Vinamil</span>
-                            </td>
-                            <td>
-                                <span>Chuyên sữa tươi</span>
-                            </td>
-                            <td>
-                                <span>
-                                    <a href="#" class="btn btn-outline-success" data-bs-toggle="tooltip" title="Chỉnh sửa" data-toggle="modal" data-target="#modal-chinh-sua">
-                                        <i class="bi bi-pencil-square"></i>
-                                    </a>
-                                    <a href="#" class="btn btn-outline-danger" data-bs-toggle="tooltip" title="Xóa" onclick="showAlert()">
-                                        <i class="bi bi-trash"></i>
-                                    </a>
-                                </span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span>
-                                    <img src="asset/image/sua_tuoi_vinamilk.jpg" alt="img" class="img-thumbnail">
-                                </span>
-                            </td>
-                            <td>
-                                <span>Vinamil</span>
-                            </td>
-                            <td>
-                                <span>Chuyên sữa tươi</span>
-                            </td>
-                            <td>
-                                <span>
-                                    <a href="#" class="btn btn-outline-success" data-bs-toggle="tooltip" title="Chỉnh sửa" data-toggle="modal" data-target="#modal-chinh-sua">
-                                        <i class="bi bi-pencil-square"></i>
-                                    </a>
-                                    <a href="#" class="btn btn-outline-danger" data-bs-toggle="tooltip" title="Xóa" onclick="showAlert()">
-                                        <i class="bi bi-trash"></i>
-                                    </a>
-                                </span>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+                            <th scope="col ">
+                                <span>Trạng thái</span>
+                            </th>
+                            <th scope="col ">
+                                <span>Hành động</span>
+                            </th>
+                            </tr>
+                            </thead>
+                            <tbody class="text-center ">
+                                <tr>
+                                    <td >
+                                        <b class="text-muted ">1</b>
+                                    </td>
+                                    <td>
+                                        <b>HNMU01</b>
+                                    </td>
+                                    <td>
+                                        <img class="rounded-circle " src="asset/image/sua_tuoi_vinamilk.jpg " style="width: 30px; height: 30px; " alt="Circle image ">
 
-            <!--Page-->
-            <div class="bottom-field">
-                <ul class="pagination">
-                    <li class="prev"><a href="#" id="prev">&#139;</a></li>
-                    <li class="next"><a href="#" id="next">&#155;</a></li>
-                </ul>
+                                    </td>
+                                    <td>
+                                        <span>Vinamilk không đường</span>
+                                    </td>
+                                    <td>
+                                        <span><p class="font-italic text-muted " data-toggle="tooltip " data-placement="top " title="Sữa tươi của Vinamilk... ">Sữa tươi của Vinamilk...</p></span>
+                                    </td>
+                                    <td>
+                                        <span><p class="font-italic text-muted ">10:20:30 - 03/05/2024</p></span>
+                                       
+                                    </td>
+                                    <td>
+                                        <span><p class="font-italic text-success ">Đang hoạt động</p></span>
+                                       
+                                    </td>
+                                    <td>
+                                        <span>
+                                                <a href="# " class="btn btn-outline-primary " data-bs-toggle="tooltip " title="Chỉnh sửa " data-toggle="modal " data-target="#modal-chinh-sua ">
+                                                    <i class="bi bi-pencil-square "></i>
+                                                </a>
+                                                <a href="# " class="btn btn-outline-danger " data-bs-toggle="tooltip " title="Xóa " onclick="showAlert() ">
+                                                    <i class="bi bi-trash "></i>
+                                                </a>
+                                            </span>
+                                    </td>
+                                </tr>
+                       
+                               
+                            </tbody>
+                            </table>
+                        </div>
+                        <nav aria-label="... "> 
+                            <ul class="pagination float-right ">
+                                <li class="page-item disabled ">
+                                    <a class="page-link " href="#! " tabindex="-1 ">Previous</a>
+                                </li>
+                                <li class="page-item "><a class="page-link " href="#! ">1</a></li>
+                                <li class="page-item active ">
+                                    <a class="page-link " href="#! ">2 <span class="sr-only ">(current)</span></a>
+                                </li>
+                                <li class="page-item "><a class="page-link " href="#! ">3</a></li>
+                                <li class="page-item ">
+                                    <a class="page-link " href="#! ">Next</a>
+                                </li>
+                            </ul>
+                        </nav>
+
+                    <!--Pagination-->
+            <!-- Footer -->
+            <div class="col-12 my-3 ">
+      
+              <blockquote class="blockquote ">
+                <!-- <p class="mb-0 ">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> -->
+                <footer class="blockquote-footer "><b>Copyright.</b> Developed by HNMU-D2020A</span>
+                    <cite class="float-right " title="Version 1.0.0 ">Version 1.0.0</cite>
+                </footer>
+              </blockquote>
             </div>
         </div>
-
     </div>
+    
 
-    <script src="menu.js"></script>
-    <script src="QL_vaitro.js"></script>
-    <script src="table2excel.js"></script>
-    <script src="Danhmuc_Donvi.js"></script>
+
+    <script src="menu.js "></script>
+    <script src="QL_vaitro.js "></script>
+    <script src="table2excel.js "></script>
+    <script src="Danhmuc_Donvi.js "></script>
 </body>
 
 </html>
