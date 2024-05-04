@@ -122,174 +122,175 @@
         </div>
     </div>
 
-    <!--thanh dọc bên trái-->
-    <div class="side-content-wrap">
-        <!--Menu-->
-        <section class="sidebar-left">
-            <!--ảnh logo-->
-            <div class="first">
-                <a href="#dashboar">
-                    <img src="img/menu/logo.png" alt="logo" class="logo">
-                </a>
-            </div>
-            <div class="second">
-                <ul class="navigation-left">
-                    <li class="nav-item" data-item="Dashboard">
-                        <a href="#" class="nav-item-hold">
-                            <img src="asset/icon-svg/home.svg" alt="dashboard-icon" class="nav-icon">
-                            <span class="nav-text">Dashboard</span>
-                        </a>
-                    </li>
-                    <li class="nav-item" data-item="User" data-submenu="true">
-                        <a href="#" class="nav-item-hold">
-                            <img src="asset/icon-svg/group.svg" alt="user-icon" class="nav-icon">
-                            <span class="nav-text">Người dùng</span>
-                        </a>
-                    </li>
-                    <li class="nav-item" data-item="Product" data-submenu="true">
-                        <a href="#" class="nav-item-hold">
-                            <img src="asset/icon-svg/ingredient.svg" alt="product-ico" class="nav-icon">
-                            <span class="nav-text">Nguyên liệu</span>
-                        </a>
-                    </li>
-                    <li class="nav-item" data-item="Recept" data-submenu="true">
-                        <a href="#" class="nav-item-hold">
-                            <img src="asset/icon-svg/recipe-book.svg" alt="recept-icon" class="nav-icon">
-                            <span class="nav-text">Công thức</span>
-                        </a>
-                    </li>
-                    <li class="nav-item" data-item="Warehouse" data-submenu="true">
-                        <a href="#" class="nav-item-hold">
-                            <img src="asset/icon-svg/warehouse.svg" alt="warehouse-icon" class="nav-icon">
-                            <span class="nav-text">Kho</span>
-                        </a>
-                    </li>
-                    <li class="nav-item" data-item="Report" data-submenu="true">
-                        <a href="#" class="nav-item-hold">
-                            <img src="asset/icon-svg/report.svg" alt="report-icon" class="nav-icon">
-                            <span class="nav-text">Báo cáo</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </section>
-        <!--Sidebar thứ 2-->
-        <section class="sidebar-left-secondary">
-            <ul class="childNav" data-parent="User">
-                <li class="nav-item-secondary">
-                    <a href="#" class="nav-text-secondary">
-                        <i class="bi bi-person-fill"></i>
-                        <span>Tài khoản</span>
-                    </a>
-                </li>
-                <li class="nav-item-secondary">
-                    <a href="#" class="nav-text-secondary">
-                        <i class="bi bi-person-lock"></i>
-                        <span>Vai trò</span>
-                    </a>
-                </li>
-            </ul>
-            <ul class="childNav" data-parent="Product">
-                <li class="nav-item-secondary">
-                    <a href="#" class="nav-text-secondary">
-                        <i class="bi bi-person-fill"></i>
-                        <span>Nguyên liệu</span>
-                    </a>
-                </li>
-                <li class="nav-item-secondary">
-                    <a href="#" class="nav-text-secondary">
-                        <i class="bi bi-person-lock"></i>
-                        <span>Danh mục</span>
-                    </a>
-                </li>
-                <li class="nav-item-secondary">
-                    <a href="#" class="nav-text-secondary">
-                        <i class="bi bi-person-lock"></i>
-                        <span>Thương hiệu</span>
-                    </a>
-                </li>
-            </ul>
-        </section>
-    </div>
 
+
+    <!--thanh ngang bên trên-->
+    <div class="main-header">
+        <div class="margin-auto"></div>
+        <div class="header-part-right">
+            <div class="dropdown">
+                <!--Icon thông báo-->
+                <div class="notification-icon" onclick="toggleNotifi()">
+                    <img src="asset/icon-svg/bell.svg" alt="notification">
+                    <span>1</span>
+                </div>
+                <!--Hộp thông báo-->
+                <div class="notifi-box" id="box">
+                    <div class="notifi-head">
+                        <h2>Notification <span>1</span></h2>
+                    </div>
+                    <!---Hiển thị thông báo-->
+                    <div class="notifi-body">
+                        <div class="notifi-item">
+                            <img src="asset/image/sua_tuoi_vinamilk.jpg" alt="notification1">
+                            <div class="text">
+                                <h4>Thong bao</h4>
+                                <p> Lorem ipsum dolor sit amet.</p>
+                                <span class="time">10:20:30</span>
+                            </div>
+                        </div>
+                        <div class="notifi-item">
+                            <img src="asset/image/sua_tuoi_vinamilk.jpg" alt="notification1">
+                            <div class="text">
+                                <h4>Thong bao</h4>
+                                <p> Lorem ipsum dolor sit amet.</p>
+                                <span class="time">10:20:30</span>
+                            </div>
+                        </div>
+                        <div class="notifi-item">
+                            <img src="asset/image/sua_tuoi_vinamilk.jpg" alt="notification1">
+                            <div class="text">
+                                <h4>Thong bao</h4>
+                                <p> Lorem ipsum dolor sit amet.</p>
+                                <span class="time">10:20:30</span>
+                            </div>
+                        </div>
+                        <div class="notifi-item">
+                            <img src="asset/image/sua_tuoi_vinamilk.jpg" alt="notification1">
+                            <div class="text">
+                                <h4>Thong bao</h4>
+                                <p> Lorem ipsum dolor sit amet.</p>
+                                <span class="time">10:20:30</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="notifi-footer">
+                        <a href="#" class="notifi-showmore">Xem tất cả</a>
+                    </div>
+                </div>
+            </div>
+            <!--profile & logout-->
+            <div class="dropdown">
+                <div class="profile-dropdown-btn" onclick="toggle()">
+                    <!-- anh profile-->
+                    <img src="asset/image/sua_tuoi_vinamilk.jpg" alt="profile" class="profile-img">
+                </div>
+                <div id="profile-box">
+                    <ul class="profile-dropdown-list">
+                        <div class="profile-dropdown-header">
+                            <span>Hello Admin</span>
+                        </div>
+                        <a href="#" class="profile-dropdown-list-item">Support</a>
+                        <a href="#" class="profile-dropdown-list-item">Log out</a>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!--bắt đầu code ở đây-->
     <div class="container-fluid">
         <div class="row">
             <div class=" col-sm-2 col-md-1">
-                <!--thanh ngang bên trên-->
-                <div class="main-header">
-                    <div class="margin-auto"></div>
-                    <div class="header-part-right">
-                        <div class="dropdown">
-                            <!--Icon thông báo-->
-                            <div class="notification-icon" onclick="toggleNotifi()">
-                                <img src="asset/icon-svg/bell.svg" alt="notification">
-                                <span>1</span>
-                            </div>
-                            <!--Hộp thông báo-->
-                            <div class="notifi-box" id="box">
-                                <div class="notifi-head">
-                                    <h2>Notification <span>1</span></h2>
-                                </div>
-                                <!---Hiển thị thông báo-->
-                                <div class="notifi-body">
-                                    <div class="notifi-item">
-                                        <img src="asset/image/sua_tuoi_vinamilk.jpg" alt="notification1">
-                                        <div class="text">
-                                            <h4>Thong bao</h4>
-                                            <p> Lorem ipsum dolor sit amet.</p>
-                                            <span class="time">10:20:30</span>
-                                        </div>
-                                    </div>
-                                    <div class="notifi-item">
-                                        <img src="asset/image/sua_tuoi_vinamilk.jpg" alt="notification1">
-                                        <div class="text">
-                                            <h4>Thong bao</h4>
-                                            <p> Lorem ipsum dolor sit amet.</p>
-                                            <span class="time">10:20:30</span>
-                                        </div>
-                                    </div>
-                                    <div class="notifi-item">
-                                        <img src="asset/image/sua_tuoi_vinamilk.jpg" alt="notification1">
-                                        <div class="text">
-                                            <h4>Thong bao</h4>
-                                            <p> Lorem ipsum dolor sit amet.</p>
-                                            <span class="time">10:20:30</span>
-                                        </div>
-                                    </div>
-                                    <div class="notifi-item">
-                                        <img src="asset/image/sua_tuoi_vinamilk.jpg" alt="notification1">
-                                        <div class="text">
-                                            <h4>Thong bao</h4>
-                                            <p> Lorem ipsum dolor sit amet.</p>
-                                            <span class="time">10:20:30</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="notifi-footer">
-                                    <a href="#" class="notifi-showmore">Xem tất cả</a>
-                                </div>
-                            </div>
+                <!--thanh dọc bên trái-->
+                <div class="side-content-wrap">
+                    <!--Menu-->
+                    <section class="sidebar-left">
+                        <!--ảnh logo-->
+                        <div class="first">
+                            <a href="#dashboar">
+                                <img src="img/menu/logo.png" alt="logo" class="logo">
+                            </a>
                         </div>
-                        <!--profile & logout-->
-                        <div class="dropdown">
-                            <div class="profile-dropdown-btn" onclick="toggle()">
-                                <!-- anh profile-->
-                                <img src="asset/image/sua_tuoi_vinamilk.jpg" alt="profile" class="profile-img">
-                            </div>
-                            <div id="profile-box">
-                                <ul class="profile-dropdown-list">
-                                    <div class="profile-dropdown-header">
-                                        <span>Hello Admin</span>
-                                    </div>
-                                    <a href="#" class="profile-dropdown-list-item">Support</a>
-                                    <a href="#" class="profile-dropdown-list-item">Log out</a>
-                                </ul>
-                            </div>
+                        <div class="second">
+                            <ul class="navigation-left">
+                                <li class="nav-item" data-item="Dashboard">
+                                    <a href="#" class="nav-item-hold">
+                                        <img src="asset/icon-svg/home.svg" alt="dashboard-icon" class="nav-icon">
+                                        <span class="nav-text">Dashboard</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item" data-item="User" data-submenu="true">
+                                    <a href="#" class="nav-item-hold">
+                                        <img src="asset/icon-svg/group.svg" alt="user-icon" class="nav-icon">
+                                        <span class="nav-text">Người dùng</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item" data-item="Product" data-submenu="true">
+                                    <a href="#" class="nav-item-hold">
+                                        <img src="asset/icon-svg/ingredient.svg" alt="product-ico" class="nav-icon">
+                                        <span class="nav-text">Nguyên liệu</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item" data-item="Recept" data-submenu="true">
+                                    <a href="#" class="nav-item-hold">
+                                        <img src="asset/icon-svg/recipe-book.svg" alt="recept-icon" class="nav-icon">
+                                        <span class="nav-text">Công thức</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item" data-item="Warehouse" data-submenu="true">
+                                    <a href="#" class="nav-item-hold">
+                                        <img src="asset/icon-svg/warehouse.svg" alt="warehouse-icon" class="nav-icon">
+                                        <span class="nav-text">Kho</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item" data-item="Report" data-submenu="true">
+                                    <a href="#" class="nav-item-hold">
+                                        <img src="asset/icon-svg/report.svg" alt="report-icon" class="nav-icon">
+                                        <span class="nav-text">Báo cáo</span>
+                                    </a>
+                                </li>
+                            </ul>
                         </div>
-                    </div>
+                    </section>
+                    <!--Sidebar thứ 2-->
+                    <section class="sidebar-left-secondary">
+                        <ul class="childNav" data-parent="User">
+                            <li class="nav-item-secondary">
+                                <a href="#" class="nav-text-secondary">
+                                    <i class="bi bi-person-fill"></i>
+                                    <span>Tài khoản</span>
+                                </a>
+                            </li>
+                            <li class="nav-item-secondary">
+                                <a href="#" class="nav-text-secondary">
+                                    <i class="bi bi-person-lock"></i>
+                                    <span>Vai trò</span>
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="childNav" data-parent="Product">
+                            <li class="nav-item-secondary">
+                                <a href="#" class="nav-text-secondary">
+                                    <i class="bi bi-person-fill"></i>
+                                    <span>Nguyên liệu</span>
+                                </a>
+                            </li>
+                            <li class="nav-item-secondary">
+                                <a href="#" class="nav-text-secondary">
+                                    <i class="bi bi-person-lock"></i>
+                                    <span>Danh mục</span>
+                                </a>
+                            </li>
+                            <li class="nav-item-secondary">
+                                <a href="#" class="nav-text-secondary">
+                                    <i class="bi bi-person-lock"></i>
+                                    <span>Thương hiệu</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </section>
                 </div>
             </div>
             <div class="col-sm-10 col-md-11">
