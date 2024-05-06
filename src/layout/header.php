@@ -78,7 +78,7 @@
                     <!-- Collapsed content -->
                     <ul id="collapseExample1" class="collapse show  list-group list-group-flush">
                         <li class="list-group-item py-1">
-                            <a href="" class="text-reset"><i class="fas fa-caret-right me-2 fa-sm"></i>Tài Khoản #</a>
+                            <a href="account.php" class="text-reset"><i class="fas fa-caret-right me-2 fa-sm"></i>Tài Khoản</a>
                         </li>
                         <li class="list-group-item py-1">
                             <a href="permission.php" class="text-reset"><i class="fas fa-caret-right me-2 fa-sm"></i>Vai Trò & Quyền</a>
