@@ -78,7 +78,7 @@
                     <!-- Collapsed content -->
                     <ul id="collapseExample1" class="collapse show  list-group list-group-flush">
                         <li class="list-group-item py-1">
-                            <a href="" class="text-reset"><i class="fas fa-caret-right me-2 fa-sm"></i>Tài Khoản</a>
+                            <a href="" class="text-reset"><i class="fas fa-caret-right me-2 fa-sm"></i>Tài Khoản #</a>
                         </li>
                         <li class="list-group-item py-1">
                             <a href="permission.php" class="text-reset"><i class="fas fa-caret-right me-2 fa-sm"></i>Vai Trò & Quyền</a>
@@ -96,10 +96,10 @@
                     <!-- Collapsed content -->
                     <ul id="collapseExample2" class="collapse show list-group list-group-flush ms-1">
                         <li class="list-group-item py-1">
-                            <a href="" class="text-reset"><i class="fas fa-caret-right me-2 fa-sm"></i>Nguyên Liệu</a>
+                            <a href="" class="text-reset"><i class="fas fa-caret-right me-2 fa-sm"></i>Nguyên Liệu #</a>
                         </li>
                         <li class="list-group-item py-1">
-                            <a href="" class="text-reset"><i class="fas fa-caret-right me-2 fa-sm"></i>Công Thức</a>
+                            <a href="" class="text-reset"><i class="fas fa-caret-right me-2 fa-sm"></i>Công Thức #</a>
                         </li>
                         <li class="list-group-item py-1">
                             <a href="category.php" class="text-reset"><i class="fas fa-caret-right me-2 fa-sm"></i>Danh Mục</a>
@@ -128,16 +128,16 @@
                     <!-- Collapsed content -->
                     <ul id="collapseExample4" class="collapse show list-group list-group-flush">
                         <li class="list-group-item py-1">
-                            <a href="" class="text-reset"><i class="fas fa-caret-right me-2 fa-sm"></i>Nhập Kho</a>
+                            <a href="" class="text-reset"><i class="fas fa-caret-right me-2 fa-sm"></i>Nhập Kho #</a>
                         </li>
                         <li class="list-group-item py-1">
-                            <a href="" class="text-reset"><i class="fas fa-caret-right me-2 fa-sm"></i>Xuất Kho</a>
+                            <a href="" class="text-reset"><i class="fas fa-caret-right me-2 fa-sm"></i>Xuất Kho #</a>
                         </li>
                     </ul>
                     <!-- Collapse 5 -->
                     <!-- Collapse 6 -->
                     <a class="list-group-item list-group-item-action py-2 ripple" aria-current="true" data-mdb-collapse-init href="#collapseExample6" aria-expanded="true" aria-controls="collapseExample6">
-                        <i class="fas fa-chart-line fa-fw fa-lg me-2"></i><span>Báo Cáo</span>
+                        <i class="fas fa-chart-line fa-fw fa-lg me-2"></i><span>Báo Cáo #</span>
 
                     </a>
                     <!-- Collapsed content -->
