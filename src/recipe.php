@@ -373,9 +373,9 @@
                                     <thead class="bg-light">
                                         <tr>
                                             <th>#</th>
-                                            <th>ID NCC</th>
-                                            <th>Tên Nhà Cung Cấp</th>
-                                            <th>Phân Loại</th>
+                                            <th>ID Công Thức</th>
+                                            <th>Tên Công Thức</th>
+                                            <th>Thành Phần</th>
                                             <th>Mô Tả</th>
                                             <th>Lịch Sử Cập Nhật</th>
                                             <th>Hoạt Động</th>
@@ -390,8 +390,7 @@
                                                 <div class="d-flex align-items-center">
                                                     <img src="https://mdbootstrap.com/img/new/avatars/8.jpg" alt="" style="width: 45px; height: 45px" class="rounded-circle" />
                                                     <div class="ms-3">
-                                                        <p class="fw-bold mb-1">John Doe</p>
-                                                        <p class="text-muted mb-0">john.doe@gmail.com</p>
+                                                        <p class="fw-bold mb-1">Cà Phê Muối</p>
                                                     </div>
                                                 </div>
                                             </td>
@@ -424,8 +423,7 @@
                                                 <div class="d-flex align-items-center">
                                                     <img src="https://mdbootstrap.com/img/new/avatars/8.jpg" alt="" style="width: 45px; height: 45px" class="rounded-circle" />
                                                     <div class="ms-3">
-                                                        <p class="fw-bold mb-1">John Doe</p>
-                                                        <p class="text-muted mb-0">john.doe@gmail.com</p>
+                                                        <p class="fw-bold mb-1">Cà Phê Muối</p>
                                                     </div>
                                                 </div>
                                             </td>
@@ -458,8 +456,7 @@
                                                 <div class="d-flex align-items-center">
                                                     <img src="https://mdbootstrap.com/img/new/avatars/8.jpg" alt="" style="width: 45px; height: 45px" class="rounded-circle" />
                                                     <div class="ms-3">
-                                                        <p class="fw-bold mb-1">John Doe</p>
-                                                        <p class="text-muted mb-0">john.doe@gmail.com</p>
+                                                        <p class="fw-bold mb-1">Cà Phê Muối</p>
                                                     </div>
                                                 </div>
                                             </td>
@@ -492,8 +489,7 @@
                                                 <div class="d-flex align-items-center">
                                                     <img src="https://mdbootstrap.com/img/new/avatars/8.jpg" alt="" style="width: 45px; height: 45px" class="rounded-circle" />
                                                     <div class="ms-3">
-                                                        <p class="fw-bold mb-1">John Doe</p>
-                                                        <p class="text-muted mb-0">john.doe@gmail.com</p>
+                                                        <p class="fw-bold mb-1">Cà Phê Muối</p>
                                                     </div>
                                                 </div>
                                             </td>
@@ -526,8 +522,7 @@
                                                 <div class="d-flex align-items-center">
                                                     <img src="https://mdbootstrap.com/img/new/avatars/8.jpg" alt="" style="width: 45px; height: 45px" class="rounded-circle" />
                                                     <div class="ms-3">
-                                                        <p class="fw-bold mb-1">John Doe</p>
-                                                        <p class="text-muted mb-0">john.doe@gmail.com</p>
+                                                        <p class="fw-bold mb-1">Cà Phê Muối</p>
                                                     </div>
                                                 </div>
                                             </td>
@@ -560,8 +555,7 @@
                                                 <div class="d-flex align-items-center">
                                                     <img src="https://mdbootstrap.com/img/new/avatars/8.jpg" alt="" style="width: 45px; height: 45px" class="rounded-circle" />
                                                     <div class="ms-3">
-                                                        <p class="fw-bold mb-1">John Doe</p>
-                                                        <p class="text-muted mb-0">john.doe@gmail.com</p>
+                                                        <p class="fw-bold mb-1">Cà Phê Muối</p>
                                                     </div>
                                                 </div>
                                             </td>
