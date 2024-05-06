@@ -30,7 +30,7 @@
                 <!-- Collapsed content -->
                 <ul id="collapseExample2" class="collapse show list-group list-group-flush">
                     <li class="list-group-item py-1">
-                        <a href="" class="text-reset">Nguyên Liệu</a>
+                        <a href="" class="text-reset"><img src="../asset/" alt="">Nguyên Liệu</a>
                     </li>
                     <li class="list-group-item py-1">
                         <a href="" class="text-reset">Danh Mục</a>
