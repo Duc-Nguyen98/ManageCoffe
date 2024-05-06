@@ -1,12 +1,11 @@
-
-<footer class="text-center bg-body-tertiary fixed-bottom">
-        <!-- Copyright -->
-        <div class="text-center p-3" style="background-color: #ffff">
-            © 2020 Copyright:
-            <a class="text-body" href="#">Manager - HNMU Coffee</a>
-        </div>
-        <!-- Copyright -->
-    </footer>
+<footer class=" text-muted">
+    <!-- Copyright -->
+    <div class="p-3 d-flex flex-row justify-content-between ">
+        <div class="text-lef"></div>
+        <div class="text-right"><b>HNMU-Version Beta:</b> 1.0.0</div>
+    </div>
+    <!-- Copyright -->
+</footer>
 </body>
 
 <!-- MDB -->
