@@ -7,14 +7,14 @@
         <div class="position-sticky">
             <div class="list-group list-group-flush mx-3 mt-4">
                 <a href="#" class="list-group-item list-group-item-action py-2 ripple" aria-current="true">
-                    <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Bảng Điều Khiển</span>
+                    <i class="fas fa-tachometer-alt fa-fw fa-lg me-2"></i><span>Bảng Điều Khiển</span>
                 </a>
                 <!-- Collapse 1 -->
                 <a class="list-group-item list-group-item-action py-2 ripple" aria-current="true" data-mdb-collapse-init href="#collapseExample1" aria-expanded="true" aria-controls="collapseExample1">
-                    <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Người Dùng</span>
+                    <i class="fas fa-tachometer-alt fa-fw fa-lg me-2"></i><span>Người Dùng</span>
                 </a>
                 <!-- Collapsed content -->
-                <ul id="collapseExample1" class="collapse show list-group list-group-flush">
+                <ul id="collapseExample1" class="collapse show  list-group list-group-flush">
                     <li class="list-group-item py-1">
                         <a href="" class="text-reset">Tài Khoản</a>
                     </li>
@@ -25,35 +25,67 @@
                 <!-- Collapse 1 -->
                 <!-- Collapse 2 -->
                 <a class="list-group-item list-group-item-action py-2 ripple" aria-current="true" data-mdb-collapse-init href="#collapseExample2" aria-expanded="true" aria-controls="collapseExample2">
-                    <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Nguyên Liệu</span>
+                    <i class="fas fa-tachometer-alt fa-fw fa-lg me-2"></i>
+                    <span>Nguyên Liệu
+                        <i class="fas fa-circle-notch  float-end"></i>
+                    </span>
                 </a>
+
                 <!-- Collapsed content -->
-                <ul id="collapseExample2" class="collapse show list-group list-group-flush">
+                <ul id="collapseExample2" class="collapse show  list-group list-group-flush">
                     <li class="list-group-item py-1">
-                        <a href="" class="text-reset"><img src="../asset/" alt="">Nguyên Liệu</a>
+                        <a href="" class="text-reset"><i class="fas fa-angles-right me-2 fa-sm"></i>Nguyên Liệu</a>
                     </li>
                     <li class="list-group-item py-1">
-                        <a href="" class="text-reset">Danh Mục</a>
+                        <a href="" class="text-reset"><i class="fas fa-angles-right me-2 fa-sm"></i>Danh Mục</a>
                     </li>
                     <li class="list-group-item py-1">
-                        <a href="" class="text-reset">Thương Hiệu</a>
+                        <a href="" class="text-reset"><i class="fas fa-angles-right me-2 fa-sm"></i>Thương Hiệu</a>
                     </li>
                 </ul>
                 <!-- Collapse 2 -->
                 <!-- Collapse 3 -->
                 <a class="list-group-item list-group-item-action py-2 ripple" aria-current="true" data-mdb-collapse-init href="#collapseExample3" aria-expanded="true" aria-controls="collapseExample3">
-                    <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Công Thức</span>
+                    <i class="fas fa-tachometer-alt fa-fw fa-lg me-2"></i><span>Công Thức</span>
                 </a>
                 <!-- Collapsed content -->
-                <ul id="collapseExample3" class="collapse show list-group list-group-flush">
+                <!-- <ul id="collapseExample3" class="collapse  list-group list-group-flush">
                     <li class="list-group-item py-1">
                         <a href="" class="text-reset">Tài Khoản</a>
                     </li>
                     <li class="list-group-item py-1">
                         <a href="" class="text-reset">Vai Trò</a>
                     </li>
-                </ul>
+                </ul> -->
                 <!-- Collapse 3 -->
+                <!-- Collapse 4 -->
+                <a class="list-group-item list-group-item-action py-2 ripple" aria-current="true" data-mdb-collapse-init href="#collapseExample4" aria-expanded="true" aria-controls="collapseExample4">
+                    <i class="fas fa-tachometer-alt fa-fw fa-lg me-2"></i><span>Kho</span>
+                </a>
+                <!-- Collapsed content -->
+                <!-- <ul id="collapseExample4" class="collapse  list-group list-group-flush">
+                    <li class="list-group-item py-1">
+                        <a href="" class="text-reset">Tài Khoản</a>
+                    </li>
+                    <li class="list-group-item py-1">
+                        <a href="" class="text-reset">Vai Trò</a>
+                    </li>
+                </ul> -->
+                <!-- Collapse 4 -->
+                <!-- Collapse 5 -->
+                <a class="list-group-item list-group-item-action py-2 ripple" aria-current="true" data-mdb-collapse-init href="#collapseExample5" aria-expanded="true" aria-controls="collapseExample5">
+                    <i class="fas fa-tachometer-alt fa-fw fa-lg me-2"></i><span>Báo Cáo</span>
+                </a>
+                <!-- Collapsed content -->
+                <!-- <ul id="collapseExample4" class="collapse  list-group list-group-flush">
+                    <li class="list-group-item py-1">
+                        <a href="" class="text-reset">Tài Khoản</a>
+                    </li>
+                    <li class="list-group-item py-1">
+                        <a href="" class="text-reset">Vai Trò</a>
+                    </li>
+                </ul> -->
+                <!-- Collapse 5 -->
             </div>
         </div>
     </nav>
@@ -65,8 +97,8 @@
         <div class="container-fluid">
             <!-- Toggle button -->
             <button class="navbar-toggler" type="button" data-mdb-collapse-init data-mdb-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
-          <i class="fas fa-bars"></i>
-        </button>
+                <i class="fas fa-bars"></i>
+            </button>
 
             <!-- Brand -->
             <a class="navbar-brand" href="#">
@@ -102,8 +134,7 @@
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         <li>
                             <a class="dropdown-item" href="#"><i class="flag-united-kingdom flag"></i>English
-                  <i class="fa fa-check text-success ms-2"></i
-                ></a>
+                                <i class="fa fa-check text-success ms-2"></i></a>
                         </li>
                         <li>
                             <hr class="dropdown-divider" />
@@ -256,15 +287,15 @@
                                         <td>Senior</td>
                                         <td>
                                             <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-eye fa-lg"></i>
-                                  </button>
+                                                <i class="fas fa-eye fa-lg"></i>
+                                            </button>
                                             <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-primary bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-marker fa-lg"></i>
+                                                <i class="fas fa-marker fa-lg"></i>
 
-                                  </button>
+                                            </button>
                                             <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-danger bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-recycle fa-lg"></i>
-                                  </button>
+                                                <i class="fas fa-recycle fa-lg"></i>
+                                            </button>
                                         </td>
                                     </tr>
                                     <tr>
@@ -283,58 +314,52 @@
                                             <p class="text-muted mb-0">Finance</p>
                                         </td>
                                         <td>
-                                            <span class="badge badge-primary rounded-pill d-inline">Onboarding</span
-                                    >
-                                </td>
-                                <td>Junior</td>
-                                <td>
-                                        <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-eye fa-lg"></i>
-                                  </button>
-                                        <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-primary bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-marker fa-lg"></i>
+                                            <span class="badge badge-primary rounded-pill d-inline">Onboarding</span>
+                                        </td>
+                                        <td>Junior</td>
+                                        <td>
+                                            <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
+                                                <i class="fas fa-eye fa-lg"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-primary bg-gradient text-white" data-mdb-ripple-color="dark">
+                                                <i class="fas fa-marker fa-lg"></i>
 
-                                  </button>
-                                        <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-danger bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-recycle fa-lg"></i>
-                                  </button>
-                                    </td>
-                              </tr>
-                              <tr>
-                                <td>3</td>
-                                <td>
-                                  <div class="d-flex align-items-center">
-                                    <img
-                                        src="https://mdbootstrap.com/img/new/avatars/7.jpg"
-                                        class="rounded-circle"
-                                        alt=""
-                                        style="width: 45px; height: 45px"
-                                        />
-                                    <div class="ms-3">
-                                      <p class="fw-bold mb-1">Kate Hunington</p>
-                                      <p class="text-muted mb-0">kate.hunington@gmail.com</p>
-                                    </div>
-                                  </div>
-                                </td>
-                                <td>
-                                  <p class="fw-normal mb-1">Designer</p>
-                                  <p class="text-muted mb-0">UI/UX</p>
-                                </td>
-                                <td>
-                                  <span class="badge badge-warning rounded-pill d-inline">Awaiting</span>
+                                            </button>
+                                            <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-danger bg-gradient text-white" data-mdb-ripple-color="dark">
+                                                <i class="fas fa-recycle fa-lg"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img src="https://mdbootstrap.com/img/new/avatars/7.jpg" class="rounded-circle" alt="" style="width: 45px; height: 45px" />
+                                                <div class="ms-3">
+                                                    <p class="fw-bold mb-1">Kate Hunington</p>
+                                                    <p class="text-muted mb-0">kate.hunington@gmail.com</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <p class="fw-normal mb-1">Designer</p>
+                                            <p class="text-muted mb-0">UI/UX</p>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-warning rounded-pill d-inline">Awaiting</span>
                                         </td>
                                         <td>Senior</td>
                                         <td>
                                             <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-eye fa-lg"></i>
-                                  </button>
+                                                <i class="fas fa-eye fa-lg"></i>
+                                            </button>
                                             <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-primary bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-marker fa-lg"></i>
+                                                <i class="fas fa-marker fa-lg"></i>
 
-                                  </button>
+                                            </button>
                                             <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-danger bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-recycle fa-lg"></i>
-                                  </button>
+                                                <i class="fas fa-recycle fa-lg"></i>
+                                            </button>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -376,15 +401,15 @@
                                         <td>Senior</td>
                                         <td>
                                             <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-eye fa-lg"></i>
-                                  </button>
+                                                <i class="fas fa-eye fa-lg"></i>
+                                            </button>
                                             <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-primary bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-marker fa-lg"></i>
+                                                <i class="fas fa-marker fa-lg"></i>
 
-                                  </button>
+                                            </button>
                                             <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-danger bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-recycle fa-lg"></i>
-                                  </button>
+                                                <i class="fas fa-recycle fa-lg"></i>
+                                            </button>
                                         </td>
                                     </tr>
                                     <tr>
@@ -403,58 +428,52 @@
                                             <p class="text-muted mb-0">Finance</p>
                                         </td>
                                         <td>
-                                            <span class="badge badge-primary rounded-pill d-inline">Onboarding</span
-                                    >
-                                </td>
-                                <td>Junior</td>
-                                <td>
-                                        <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-eye fa-lg"></i>
-                                  </button>
-                                        <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-primary bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-marker fa-lg"></i>
+                                            <span class="badge badge-primary rounded-pill d-inline">Onboarding</span>
+                                        </td>
+                                        <td>Junior</td>
+                                        <td>
+                                            <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
+                                                <i class="fas fa-eye fa-lg"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-primary bg-gradient text-white" data-mdb-ripple-color="dark">
+                                                <i class="fas fa-marker fa-lg"></i>
 
-                                  </button>
-                                        <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-danger bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-recycle fa-lg"></i>
-                                  </button>
-                                    </td>
-                              </tr>
-                              <tr>
-                                <td>3</td>
-                                <td>
-                                  <div class="d-flex align-items-center">
-                                    <img
-                                        src="https://mdbootstrap.com/img/new/avatars/7.jpg"
-                                        class="rounded-circle"
-                                        alt=""
-                                        style="width: 45px; height: 45px"
-                                        />
-                                    <div class="ms-3">
-                                      <p class="fw-bold mb-1">Kate Hunington</p>
-                                      <p class="text-muted mb-0">kate.hunington@gmail.com</p>
-                                    </div>
-                                  </div>
-                                </td>
-                                <td>
-                                  <p class="fw-normal mb-1">Designer</p>
-                                  <p class="text-muted mb-0">UI/UX</p>
-                                </td>
-                                <td>
-                                  <span class="badge badge-warning rounded-pill d-inline">Awaiting</span>
+                                            </button>
+                                            <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-danger bg-gradient text-white" data-mdb-ripple-color="dark">
+                                                <i class="fas fa-recycle fa-lg"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img src="https://mdbootstrap.com/img/new/avatars/7.jpg" class="rounded-circle" alt="" style="width: 45px; height: 45px" />
+                                                <div class="ms-3">
+                                                    <p class="fw-bold mb-1">Kate Hunington</p>
+                                                    <p class="text-muted mb-0">kate.hunington@gmail.com</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <p class="fw-normal mb-1">Designer</p>
+                                            <p class="text-muted mb-0">UI/UX</p>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-warning rounded-pill d-inline">Awaiting</span>
                                         </td>
                                         <td>Senior</td>
                                         <td>
                                             <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-eye fa-lg"></i>
-                                  </button>
+                                                <i class="fas fa-eye fa-lg"></i>
+                                            </button>
                                             <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-primary bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-marker fa-lg"></i>
+                                                <i class="fas fa-marker fa-lg"></i>
 
-                                  </button>
+                                            </button>
                                             <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-danger bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-recycle fa-lg"></i>
-                                  </button>
+                                                <i class="fas fa-recycle fa-lg"></i>
+                                            </button>
                                         </td>
                                         </td>
                                     </tr>
@@ -497,15 +516,15 @@
                                         <td>Senior</td>
                                         <td>
                                             <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-eye fa-lg"></i>
-                                  </button>
+                                                <i class="fas fa-eye fa-lg"></i>
+                                            </button>
                                             <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-primary bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-marker fa-lg"></i>
+                                                <i class="fas fa-marker fa-lg"></i>
 
-                                  </button>
+                                            </button>
                                             <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-danger bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-recycle fa-lg"></i>
-                                  </button>
+                                                <i class="fas fa-recycle fa-lg"></i>
+                                            </button>
                                         </td>
                                     </tr>
                                     <tr>
@@ -524,58 +543,52 @@
                                             <p class="text-muted mb-0">Finance</p>
                                         </td>
                                         <td>
-                                            <span class="badge badge-primary rounded-pill d-inline">Onboarding</span
-                                            >
+                                            <span class="badge badge-primary rounded-pill d-inline">Onboarding</span>
                                         </td>
                                         <td>Junior</td>
                                         <td>
                                             <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
                                                 <i class="fas fa-eye fa-lg"></i>
-                                      </button>
+                                            </button>
                                             <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-primary bg-gradient text-white" data-mdb-ripple-color="dark">
                                                 <i class="fas fa-marker fa-lg"></i>
-    
-                                      </button>
+
+                                            </button>
                                             <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-danger bg-gradient text-white" data-mdb-ripple-color="dark">
                                                 <i class="fas fa-recycle fa-lg"></i>
-                                      </button>
+                                            </button>
                                         </td>
-                                      </tr>
-                                      <tr>
+                                    </tr>
+                                    <tr>
                                         <td>3</td>
                                         <td>
-                                          <div class="d-flex align-items-center">
-                                            <img
-                                                src="https://mdbootstrap.com/img/new/avatars/7.jpg"
-                                                class="rounded-circle"
-                                                alt=""
-                                                style="width: 45px; height: 45px"
-                                                />
-                                            <div class="ms-3">
-                                              <p class="fw-bold mb-1">Kate Hunington</p>
-                                              <p class="text-muted mb-0">kate.hunington@gmail.com</p>
+                                            <div class="d-flex align-items-center">
+                                                <img src="https://mdbootstrap.com/img/new/avatars/7.jpg" class="rounded-circle" alt="" style="width: 45px; height: 45px" />
+                                                <div class="ms-3">
+                                                    <p class="fw-bold mb-1">Kate Hunington</p>
+                                                    <p class="text-muted mb-0">kate.hunington@gmail.com</p>
+                                                </div>
                                             </div>
-                                          </div>
                                         </td>
                                         <td>
-                                          <p class="fw-normal mb-1">Designer</p>
-                                          <p class="text-muted mb-0">UI/UX</p>
+                                            <p class="fw-normal mb-1">Designer</p>
+                                            <p class="text-muted mb-0">UI/UX</p>
                                         </td>
                                         <td>
-                                          <span class="badge badge-warning rounded-pill d-inline">Awaiting</span>
+                                            <span class="badge badge-warning rounded-pill d-inline">Awaiting</span>
                                         </td>
                                         <td>Senior</td>
                                         <td>
                                             <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-eye fa-lg"></i>
-                                  </button>
+                                                <i class="fas fa-eye fa-lg"></i>
+                                            </button>
                                             <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-primary bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-marker fa-lg"></i>
+                                                <i class="fas fa-marker fa-lg"></i>
 
-                                  </button>
+                                            </button>
                                             <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-danger bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-recycle fa-lg"></i>
-                                  </button>
+                                                <i class="fas fa-recycle fa-lg"></i>
+                                            </button>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -616,7 +629,7 @@
                                     <td>1</td>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <img src="https://lh3.googleusercontent.com/proxy/U7w8VgMHEasmslYJJ4n064SnMoueSg2AeMLiS25GVl1_eRTIk98apyEyc28dG-kWlxy7XAmfAKOWShAXoPnLeYM9gx4i0DJJWk1mZKszQrEnsxk8" alt="" style="width: 45px; height: 45px" class="rounded-circle" />
+                                            <img src="https://mdbootstrap.com/img/new/avatars/6.jpg" alt="" style="width: 45px; height: 45px" class="rounded-circle" />
                                             <div class="ms-3">
                                                 <p class="fw-bold mb-1">Cà phê chồn</p>
                                                 <p class="text-muted mb-0">Cà phê</p>
@@ -632,7 +645,7 @@
                                     <td>1</td>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <img src="https://lh3.googleusercontent.com/proxy/U7w8VgMHEasmslYJJ4n064SnMoueSg2AeMLiS25GVl1_eRTIk98apyEyc28dG-kWlxy7XAmfAKOWShAXoPnLeYM9gx4i0DJJWk1mZKszQrEnsxk8" alt="" style="width: 45px; height: 45px" class="rounded-circle" />
+                                            <img src="https://mdbootstrap.com/img/new/avatars/6.jpg" alt="" style="width: 45px; height: 45px" class="rounded-circle" />
                                             <div class="ms-3">
                                                 <p class="fw-bold mb-1">Cà phê chồn</p>
                                                 <p class="text-muted mb-0">Cà phê</p>
@@ -648,7 +661,7 @@
                                     <td>1</td>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <img src="https://lh3.googleusercontent.com/proxy/U7w8VgMHEasmslYJJ4n064SnMoueSg2AeMLiS25GVl1_eRTIk98apyEyc28dG-kWlxy7XAmfAKOWShAXoPnLeYM9gx4i0DJJWk1mZKszQrEnsxk8" alt="" style="width: 45px; height: 45px" class="rounded-circle" />
+                                            <img src="https://mdbootstrap.com/img/new/avatars/6.jpg" alt="" style="width: 45px; height: 45px" class="rounded-circle" />
                                             <div class="ms-3">
                                                 <p class="fw-bold mb-1">Cà phê chồn</p>
                                                 <p class="text-muted mb-0">Cà phê</p>
@@ -664,7 +677,7 @@
                                     <td>1</td>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <img src="https://lh3.googleusercontent.com/proxy/U7w8VgMHEasmslYJJ4n064SnMoueSg2AeMLiS25GVl1_eRTIk98apyEyc28dG-kWlxy7XAmfAKOWShAXoPnLeYM9gx4i0DJJWk1mZKszQrEnsxk8" alt="" style="width: 45px; height: 45px" class="rounded-circle" />
+                                            <img src="https://mdbootstrap.com/img/new/avatars/6.jpg" alt="" style="width: 45px; height: 45px" class="rounded-circle" />
                                             <div class="ms-3">
                                                 <p class="fw-bold mb-1">Cà phê chồn</p>
                                                 <p class="text-muted mb-0">Cà phê</p>
@@ -680,7 +693,7 @@
                                     <td>1</td>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <img src="https://lh3.googleusercontent.com/proxy/U7w8VgMHEasmslYJJ4n064SnMoueSg2AeMLiS25GVl1_eRTIk98apyEyc28dG-kWlxy7XAmfAKOWShAXoPnLeYM9gx4i0DJJWk1mZKszQrEnsxk8" alt="" style="width: 45px; height: 45px" class="rounded-circle" />
+                                            <img src="https://mdbootstrap.com/img/new/avatars/6.jpg" alt="" style="width: 45px; height: 45px" class="rounded-circle" />
                                             <div class="ms-3">
                                                 <p class="fw-bold mb-1">Cà phê chồn</p>
                                                 <p class="text-muted mb-0">Cà phê</p>
