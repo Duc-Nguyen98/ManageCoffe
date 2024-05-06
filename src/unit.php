@@ -4,8 +4,18 @@
     <div class="container-fluid py-4 my-5">
         <div class="row">
             <div class="col-12">
-                <!-- table 1 -->
-                <table class="table align-middle mb-0 bg-white table-hover">
+                <div class="card text-center">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="card-title text-left mb-0">Bảng Đơn Vị Tính - Ký Hiệu</h5>
+                        <div class="exportAction">
+                            <button type="button" class="btn btn-success" data-mdb-ripple-init><i class="fas fa-file-excel fa-lg"></i> Excel</button>
+                            <button type="button" class="btn btn-danger" data-mdb-ripple-init><i class="far fa-file-pdf fa-lg"></i> PDF</button>
+                            <button type="button" class="btn btn-info" data-mdb-ripple-init> <i class="fas fa-file-arrow-up fa-lg"></i> Import</button>
+                            <button type="button" class="btn btn-primary" data-mdb-ripple-init><i class="fas fa-folder-plus fa-lg"></i> Thêm Mới</button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <     <table class="table align-middle mb-0 bg-white table-hover">
                     <thead class="bg-light">
                         <tr>
                             <th>#</th>
@@ -216,12 +226,13 @@
                     </nav>
                     <!-- pagination -->
                 </div>
-                <!-- end table 1 -->
+                    </div>
+                </div>
+
             </div>
         </div>
-
+    </div>
 </main>
 <!--Main layout-->
-
 
 <?php include 'layout/footer.php'; ?>
