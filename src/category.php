@@ -22,7 +22,6 @@
                                     <th>ID Danh Mục</th>
                                     <th>Hình Ảnh</th>
                                     <th>Tên Danh Mục</th>
-                                    <th>Phân Loại</th>
                                     <th>Mô Tả </th>
                                     <th>Trạng Thái</th>
                                     <th>Lịch Sử Cập Nhật</th>
@@ -44,9 +43,6 @@
                                         <div>
                                             <p class="fw-bold mb-1">Trái cây tươi</p>
                                         </div>
-                                    </td>
-                                    <td>
-                                        Thực phẩm
                                     </td>
                                     <td>
                                         <p class="text-muted mb-0">Trái cây tươi thường có màu sắc tươi sáng và hấp dẫn...</p>
