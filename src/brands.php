@@ -6,7 +6,7 @@
             <div class="col-12">
                 <div class="card text-center">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="card-title text-left mb-0">Bảng NCC - Đối Tác</h5>
+                        <h5 class="card-title text-left mb-0">Bảng Phân Loại - Thương Hiệu Sản Phẩm</h5>
                         <div class="exportAction">
                             <button type="button" class="btn btn-success" data-mdb-ripple-init><i class="fas fa-file-excel fa-lg"></i> Excel</button>
                             <button type="button" class="btn btn-danger" data-mdb-ripple-init><i class="far fa-file-pdf fa-lg"></i> PDF</button>
@@ -19,12 +19,10 @@
                             <thead class="bg-light">
                                 <tr>
                                     <th>#</th>
-                                    <th>ID NCC</th>
-                                    <th>Hình Ảnh</th>
-                                    <th>Tên Nhà Cung Cấp</th>
-                                    <th>Số Điện Thoại</th>
-                                    <th>Email</th>
-                                    <th>Tên Công Ty</th>
+                                    <th>ID Thương Hiệu</th>
+                                    <th>Tên Thương Hiệu</th>
+                                    <th>Viết Tắt</th>
+                                    <th>Mô Tả</th>
                                     <th>Trạng Thái</th>
                                     <th>Lịch Sử Cập Nhật</th>
                                     <th>Hoạt Động</th>
@@ -34,26 +32,16 @@
                                 <tr>
                                     <td>1</td>
                                     <td><b>NCC1</b></td>
-
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <img src="https://mdbootstrap.com/img/new/avatars/8.jpg" alt="" style="width: 45px; height: 45px" class="rounded-circle" />
-
-                                        </div>
-                                    </td>
                                     <td>
                                         <div class="ms-3">
                                             <p class="fw-bold mb-1">John Doe</p>
                                         </div>
                                     </td>
                                     <td>
-                                        0391121485
+                                        VNM
                                     </td>
                                     <td>
-                                        <p class="text-muted mb-0">john.doe@gmail.com</p>
-                                    </td>
-                                    <td>
-                                        Công Ty Vinamilk
+                                        Công Ty Vinamilk là một thương hiệu...
                                     </td>
                                     <td>
                                         <span class="badge badge-success rounded-pill d-inline">Đang Hoạt Động</span>
