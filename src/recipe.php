@@ -39,8 +39,10 @@
                                                 </a>
                                             </div>
                                             <div class="card-body">
-                                                <h5 class="card-title text-capitalize"><b class="text-primary">EST:</b> Cà phê muối</h5>
-                                                <p class="card-text">Một loại thức uống được làm từ những nguyên liệu và gia vị cơ bản như cà phê...</p>
+                                                <h5 class="card-title text-capitalize"><b class="text-primary"><i class="text-muted">#IDR01</i>- CT:</b> Cà phê muối</h5>
+                                                <p class="card-text text-start"><i class="far fa-circle-dot fa-sm"></i> Một loại thức uống được làm từ những nguyên liệu và gia vị cơ bản như cà phê...</p>
+
+
                                                 <div class="exportAction">
                                                     <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-init data-mdb-tooltip-init data-mdb-placement="top" title="Xem thêm" data-mdb-ripple-color="dark">
                                                         <i class="fas fa-eye fa-lg"></i>
@@ -67,8 +69,9 @@
                                                 </a>
                                             </div>
                                             <div class="card-body">
-                                                <h5 class="card-title text-capitalize"><b class="text-primary">EST:</b> Cà phê muối</h5>
-                                                <p class="card-text">Một loại thức uống được làm từ những nguyên liệu và gia vị cơ bản như cà phê...</p>
+                                                <h5 class="card-title text-capitalize"><b class="text-primary"><i class="text-muted">#IDR01</i>- CT:</b> Cà phê muối</h5>
+                                                <p class="card-text text-start"><i class="far fa-circle-dot fa-sm"></i> Một loại thức uống được làm từ những nguyên liệu và gia vị cơ bản như cà phê...</p>
+
                                                 <div class="exportAction">
                                                     <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-init data-mdb-tooltip-init data-mdb-placement="top" title="Xem thêm" data-mdb-ripple-color="dark">
                                                         <i class="fas fa-eye fa-lg"></i>
@@ -95,8 +98,9 @@
                                                 </a>
                                             </div>
                                             <div class="card-body">
-                                                <h5 class="card-title text-capitalize"><b class="text-primary">EST:</b> Cà phê muối</h5>
-                                                <p class="card-text">Một loại thức uống được làm từ những nguyên liệu và gia vị cơ bản như cà phê...</p>
+                                                <h5 class="card-title text-capitalize"><b class="text-primary"><i class="text-muted">#IDR01</i>- CT:</b> Cà phê muối</h5>
+                                                <p class="card-text text-start"><i class="far fa-circle-dot fa-sm"></i> Một loại thức uống được làm từ những nguyên liệu và gia vị cơ bản như cà phê...</p>
+
                                                 <div class="exportAction">
                                                     <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-init data-mdb-tooltip-init data-mdb-placement="top" title="Xem thêm" data-mdb-ripple-color="dark">
                                                         <i class="fas fa-eye fa-lg"></i>
@@ -123,8 +127,9 @@
                                                 </a>
                                             </div>
                                             <div class="card-body">
-                                                <h5 class="card-title text-capitalize"><b class="text-primary">EST:</b> Cà phê muối</h5>
-                                                <p class="card-text">Một loại thức uống được làm từ những nguyên liệu và gia vị cơ bản như cà phê...</p>
+                                                <h5 class="card-title text-capitalize"><b class="text-primary"><i class="text-muted">#IDR01</i>- CT:</b> Cà phê muối</h5>
+                                                <p class="card-text text-start"><i class="far fa-circle-dot fa-sm"></i> Một loại thức uống được làm từ những nguyên liệu và gia vị cơ bản như cà phê...</p>
+
                                                 <div class="exportAction">
                                                     <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-init data-mdb-tooltip-init data-mdb-placement="top" title="Xem thêm" data-mdb-ripple-color="dark">
                                                         <i class="fas fa-eye fa-lg"></i>
@@ -151,8 +156,9 @@
                                                 </a>
                                             </div>
                                             <div class="card-body">
-                                                <h5 class="card-title text-capitalize"><b class="text-primary">EST:</b> Cà phê muối</h5>
-                                                <p class="card-text">Một loại thức uống được làm từ những nguyên liệu và gia vị cơ bản như cà phê...</p>
+                                                <h5 class="card-title text-capitalize"><b class="text-primary"><i class="text-muted">#IDR01</i>- CT:</b> Cà phê muối</h5>
+                                                <p class="card-text text-start"><i class="far fa-circle-dot fa-sm"></i> Một loại thức uống được làm từ những nguyên liệu và gia vị cơ bản như cà phê...</p>
+
                                                 <div class="exportAction">
                                                     <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-init data-mdb-tooltip-init data-mdb-placement="top" title="Xem thêm" data-mdb-ripple-color="dark">
                                                         <i class="fas fa-eye fa-lg"></i>
@@ -179,8 +185,9 @@
                                                 </a>
                                             </div>
                                             <div class="card-body">
-                                                <h5 class="card-title text-capitalize"><b class="text-primary">EST:</b> Cà phê muối</h5>
-                                                <p class="card-text">Một loại thức uống được làm từ những nguyên liệu và gia vị cơ bản như cà phê...</p>
+                                                <h5 class="card-title text-capitalize"><b class="text-primary"><i class="text-muted">#IDR01</i>- CT:</b> Cà phê muối</h5>
+                                                <p class="card-text text-start"><i class="far fa-circle-dot fa-sm"></i> Một loại thức uống được làm từ những nguyên liệu và gia vị cơ bản như cà phê...</p>
+
                                                 <div class="exportAction">
                                                     <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-init data-mdb-tooltip-init data-mdb-placement="top" title="Xem thêm" data-mdb-ripple-color="dark">
                                                         <i class="fas fa-eye fa-lg"></i>
@@ -207,8 +214,9 @@
                                                 </a>
                                             </div>
                                             <div class="card-body">
-                                                <h5 class="card-title text-capitalize"><b class="text-primary">EST:</b> Cà phê muối</h5>
-                                                <p class="card-text">Một loại thức uống được làm từ những nguyên liệu và gia vị cơ bản như cà phê...</p>
+                                                <h5 class="card-title text-capitalize"><b class="text-primary"><i class="text-muted">#IDR01</i>- CT:</b> Cà phê muối</h5>
+                                                <p class="card-text text-start"><i class="far fa-circle-dot fa-sm"></i> Một loại thức uống được làm từ những nguyên liệu và gia vị cơ bản như cà phê...</p>
+
                                                 <div class="exportAction">
                                                     <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-init data-mdb-tooltip-init data-mdb-placement="top" title="Xem thêm" data-mdb-ripple-color="dark">
                                                         <i class="fas fa-eye fa-lg"></i>
@@ -235,8 +243,9 @@
                                                 </a>
                                             </div>
                                             <div class="card-body">
-                                                <h5 class="card-title text-capitalize"><b class="text-primary">EST:</b> Cà phê muối</h5>
-                                                <p class="card-text">Một loại thức uống được làm từ những nguyên liệu và gia vị cơ bản như cà phê...</p>
+                                                <h5 class="card-title text-capitalize"><b class="text-primary"><i class="text-muted">#IDR01</i>- CT:</b> Cà phê muối</h5>
+                                                <p class="card-text text-start"><i class="far fa-circle-dot fa-sm"></i> Một loại thức uống được làm từ những nguyên liệu và gia vị cơ bản như cà phê...</p>
+
                                                 <div class="exportAction">
                                                     <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-init data-mdb-tooltip-init data-mdb-placement="top" title="Xem thêm" data-mdb-ripple-color="dark">
                                                         <i class="fas fa-eye fa-lg"></i>
@@ -263,8 +272,9 @@
                                                 </a>
                                             </div>
                                             <div class="card-body">
-                                                <h5 class="card-title text-capitalize"><b class="text-primary">EST:</b> Cà phê muối</h5>
-                                                <p class="card-text">Một loại thức uống được làm từ những nguyên liệu và gia vị cơ bản như cà phê...</p>
+                                                <h5 class="card-title text-capitalize"><b class="text-primary"><i class="text-muted">#IDR01</i>- CT:</b> Cà phê muối</h5>
+                                                <p class="card-text text-start"><i class="far fa-circle-dot fa-sm"></i> Một loại thức uống được làm từ những nguyên liệu và gia vị cơ bản như cà phê...</p>
+
                                                 <div class="exportAction">
                                                     <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-init data-mdb-tooltip-init data-mdb-placement="top" title="Xem thêm" data-mdb-ripple-color="dark">
                                                         <i class="fas fa-eye fa-lg"></i>
@@ -291,8 +301,9 @@
                                                 </a>
                                             </div>
                                             <div class="card-body">
-                                                <h5 class="card-title text-capitalize"><b class="text-primary">EST:</b> Cà phê muối</h5>
-                                                <p class="card-text">Một loại thức uống được làm từ những nguyên liệu và gia vị cơ bản như cà phê...</p>
+                                                <h5 class="card-title text-capitalize"><b class="text-primary"><i class="text-muted">#IDR01</i>- CT:</b> Cà phê muối</h5>
+                                                <p class="card-text text-start"><i class="far fa-circle-dot fa-sm"></i> Một loại thức uống được làm từ những nguyên liệu và gia vị cơ bản như cà phê...</p>
+
                                                 <div class="exportAction">
                                                     <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-init data-mdb-tooltip-init data-mdb-placement="top" title="Xem thêm" data-mdb-ripple-color="dark">
                                                         <i class="fas fa-eye fa-lg"></i>
@@ -319,8 +330,9 @@
                                                 </a>
                                             </div>
                                             <div class="card-body">
-                                                <h5 class="card-title text-capitalize"><b class="text-primary">EST:</b> Cà phê muối</h5>
-                                                <p class="card-text">Một loại thức uống được làm từ những nguyên liệu và gia vị cơ bản như cà phê...</p>
+                                                <h5 class="card-title text-capitalize"><b class="text-primary"><i class="text-muted">#IDR01</i>- CT:</b> Cà phê muối</h5>
+                                                <p class="card-text text-start"><i class="far fa-circle-dot fa-sm"></i> Một loại thức uống được làm từ những nguyên liệu và gia vị cơ bản như cà phê...</p>
+
                                                 <div class="exportAction">
                                                     <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-init data-mdb-tooltip-init data-mdb-placement="top" title="Xem thêm" data-mdb-ripple-color="dark">
                                                         <i class="fas fa-eye fa-lg"></i>
@@ -347,8 +359,9 @@
                                                 </a>
                                             </div>
                                             <div class="card-body">
-                                                <h5 class="card-title text-capitalize"><b class="text-primary">EST:</b> Cà phê muối</h5>
-                                                <p class="card-text">Một loại thức uống được làm từ những nguyên liệu và gia vị cơ bản như cà phê...</p>
+                                                <h5 class="card-title text-capitalize"><b class="text-primary"><i class="text-muted">#IDR01</i>- CT:</b> Cà phê muối</h5>
+                                                <p class="card-text text-start"><i class="far fa-circle-dot fa-sm"></i> Một loại thức uống được làm từ những nguyên liệu và gia vị cơ bản như cà phê...</p>
+
                                                 <div class="exportAction">
                                                     <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-init data-mdb-tooltip-init data-mdb-placement="top" title="Xem thêm" data-mdb-ripple-color="dark">
                                                         <i class="fas fa-eye fa-lg"></i>
@@ -384,11 +397,11 @@
                                     <tbody>
                                         <tr>
                                             <td>1</td>
-                                            <td><b>NCC1</b></td>
+                                            <td><b>IDR01</b></td>
 
                                             <td>
                                                 <div class="d-flex align-items-center">
-                                                    <img src="https://mdbootstrap.com/img/new/avatars/8.jpg" alt="" style="width: 45px; height: 45px" class="rounded-circle" />
+                                                    <img src="https://images.unsplash.com/photo-1551499779-ee50f1aa4d25?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" style="width: 45px; height: 45px" class="rounded-circle" />
                                                     <div class="ms-3">
                                                         <p class="fw-bold mb-1">Cà Phê Muối</p>
                                                     </div>
@@ -417,11 +430,11 @@
                                         </tr>
                                         <tr>
                                             <td>1</td>
-                                            <td><b>NCC1</b></td>
+                                            <td><b>IDR01</b></td>
 
                                             <td>
                                                 <div class="d-flex align-items-center">
-                                                    <img src="https://mdbootstrap.com/img/new/avatars/8.jpg" alt="" style="width: 45px; height: 45px" class="rounded-circle" />
+                                                    <img src="https://images.unsplash.com/photo-1551499779-ee50f1aa4d25?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" style="width: 45px; height: 45px" class="rounded-circle" />
                                                     <div class="ms-3">
                                                         <p class="fw-bold mb-1">Cà Phê Muối</p>
                                                     </div>
@@ -450,11 +463,11 @@
                                         </tr>
                                         <tr>
                                             <td>1</td>
-                                            <td><b>NCC1</b></td>
+                                            <td><b>IDR01</b></td>
 
                                             <td>
                                                 <div class="d-flex align-items-center">
-                                                    <img src="https://mdbootstrap.com/img/new/avatars/8.jpg" alt="" style="width: 45px; height: 45px" class="rounded-circle" />
+                                                    <img src="https://images.unsplash.com/photo-1551499779-ee50f1aa4d25?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" style="width: 45px; height: 45px" class="rounded-circle" />
                                                     <div class="ms-3">
                                                         <p class="fw-bold mb-1">Cà Phê Muối</p>
                                                     </div>
@@ -483,11 +496,11 @@
                                         </tr>
                                         <tr>
                                             <td>1</td>
-                                            <td><b>NCC1</b></td>
+                                            <td><b>IDR01</b></td>
 
                                             <td>
                                                 <div class="d-flex align-items-center">
-                                                    <img src="https://mdbootstrap.com/img/new/avatars/8.jpg" alt="" style="width: 45px; height: 45px" class="rounded-circle" />
+                                                    <img src="https://images.unsplash.com/photo-1551499779-ee50f1aa4d25?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" style="width: 45px; height: 45px" class="rounded-circle" />
                                                     <div class="ms-3">
                                                         <p class="fw-bold mb-1">Cà Phê Muối</p>
                                                     </div>
@@ -516,11 +529,11 @@
                                         </tr>
                                         <tr>
                                             <td>1</td>
-                                            <td><b>NCC1</b></td>
+                                            <td><b>IDR01</b></td>
 
                                             <td>
                                                 <div class="d-flex align-items-center">
-                                                    <img src="https://mdbootstrap.com/img/new/avatars/8.jpg" alt="" style="width: 45px; height: 45px" class="rounded-circle" />
+                                                    <img src="https://images.unsplash.com/photo-1551499779-ee50f1aa4d25?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" style="width: 45px; height: 45px" class="rounded-circle" />
                                                     <div class="ms-3">
                                                         <p class="fw-bold mb-1">Cà Phê Muối</p>
                                                     </div>
@@ -549,11 +562,11 @@
                                         </tr>
                                         <tr>
                                             <td>1</td>
-                                            <td><b>NCC1</b></td>
+                                            <td><b>IDR01</b></td>
 
                                             <td>
                                                 <div class="d-flex align-items-center">
-                                                    <img src="https://mdbootstrap.com/img/new/avatars/8.jpg" alt="" style="width: 45px; height: 45px" class="rounded-circle" />
+                                                    <img src="https://images.unsplash.com/photo-1551499779-ee50f1aa4d25?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" style="width: 45px; height: 45px" class="rounded-circle" />
                                                     <div class="ms-3">
                                                         <p class="fw-bold mb-1">Cà Phê Muối</p>
                                                     </div>

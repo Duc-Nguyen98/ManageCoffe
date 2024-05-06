@@ -96,10 +96,10 @@
                     <!-- Collapsed content -->
                     <ul id="collapseExample2" class="collapse show list-group list-group-flush ms-1">
                         <li class="list-group-item py-1">
-                            <a href="" class="text-reset"><i class="fas fa-caret-right me-2 fa-sm"></i>Nguyên Liệu #</a>
+                            <a href="product.php" class="text-reset"><i class="fas fa-caret-right me-2 fa-sm"></i>Nguyên Liệu</a>
                         </li>
                         <li class="list-group-item py-1">
-                            <a href="" class="text-reset"><i class="fas fa-caret-right me-2 fa-sm"></i>Công Thức #</a>
+                            <a href="recipe.php" class="text-reset"><i class="fas fa-caret-right me-2 fa-sm"></i>Công Thức</a>
                         </li>
                         <li class="list-group-item py-1">
                             <a href="category.php" class="text-reset"><i class="fas fa-caret-right me-2 fa-sm"></i>Danh Mục</a>
