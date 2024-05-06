@@ -104,12 +104,15 @@
                         <li class="list-group-item py-1">
                             <a href="" class="text-reset"><i class="fas fa-caret-right me-2 fa-sm"></i>Thương Hiệu</a>
                         </li>
+                        <li class="list-group-item py-1">
+                            <a href="" class="text-reset"><i class="fas fa-caret-right me-2 fa-sm"></i>Đơn Vị Tính</a>
+                        </li>
                     </ul>
 
                     <!-- Collapse 2 -->
                     <!-- Collapse 3 -->
                     <a class="list-group-item list-group-item-action py-2 ripple" aria-current="true" data-mdb-collapse-init href="#collapseExample3" aria-expanded="true" aria-controls="collapseExample3">
-                        <i class="fab fa-envira fa-fw fa-lg me-2"></i><span>Công Thức</span>
+                        <i class="fas fa-people-arrows fa-fw fa-lg me-2"></i><span>Nhà Cung Cấp</span>
                     </a>
                     <!-- Collapsed content -->
                     <!-- <ul id="collapseExample3" class="collapse  list-group list-group-flush">
@@ -123,7 +126,8 @@
                     <!-- Collapse 3 -->
                     <!-- Collapse 4 -->
                     <a class="list-group-item list-group-item-action py-2 ripple" aria-current="true" data-mdb-collapse-init href="#collapseExample4" aria-expanded="true" aria-controls="collapseExample4">
-                        <i class="fas fa-truck-ramp-box fa-fw fa-lg me-2"></i><span>Quản Lý Kho</span>
+                        <i class="fab fa-envira fa-fw fa-lg me-2"></i><span>Công Thức</span>
+
                     </a>
                     <!-- Collapsed content -->
                     <!-- <ul id="collapseExample4" class="collapse  list-group list-group-flush">
@@ -137,7 +141,23 @@
                     <!-- Collapse 4 -->
                     <!-- Collapse 5 -->
                     <a class="list-group-item list-group-item-action py-2 ripple" aria-current="true" data-mdb-collapse-init href="#collapseExample5" aria-expanded="true" aria-controls="collapseExample5">
+                        <i class="fas fa-truck-ramp-box fa-fw fa-lg me-2"></i><span>Quản Lý Kho</span>
+
+                    </a>
+                    <!-- Collapsed content -->
+                    <ul id="collapseExample4" class="collapse show list-group list-group-flush">
+                        <li class="list-group-item py-1">
+                            <a href="" class="text-reset"><i class="fas fa-caret-right me-2 fa-sm"></i>Nhập Kho</a>
+                        </li>
+                        <li class="list-group-item py-1">
+                            <a href="" class="text-reset"><i class="fas fa-caret-right me-2 fa-sm"></i>Xuất Kho</a>
+                        </li>
+                    </ul>
+                    <!-- Collapse 5 -->
+                    <!-- Collapse 6 -->
+                    <a class="list-group-item list-group-item-action py-2 ripple" aria-current="true" data-mdb-collapse-init href="#collapseExample6" aria-expanded="true" aria-controls="collapseExample6">
                         <i class="fas fa-chart-line fa-fw fa-lg me-2"></i><span>Báo Cáo</span>
+
                     </a>
                     <!-- Collapsed content -->
                     <!-- <ul id="collapseExample4" class="collapse  list-group list-group-flush">
@@ -148,7 +168,7 @@
                         <a href="" class="text-reset">Vai Trò</a>
                     </li>
                 </ul> -->
-                    <!-- Collapse 5 -->
+                    <!-- Collapse 6 -->
                 </div>
             </div>
         </nav>
@@ -169,16 +189,11 @@
                     <h4 class="text-muted mb-0 ms-2"><b>HNMU Coffee</b></h4>
                 </a>
 
-                <!-- Search form -->
-                <!-- <form class="d-none d-md-flex input-group w-auto my-auto">
-                <input autocomplete="off" type="search" class="form-control rounded" placeholder='Search (ctrl + "/" to focus)' style="min-width: 225px;" />
-                <span class="input-group-text border-0"><i class="fas fa-search"></i></span>
-            </form> -->
 
                 <!-- Right links -->
                 <ul class="navbar-nav ms-auto d-flex flex-row">
                     <!-- Notification dropdown -->
-                    <li class="nav-item dropdown">  
+                    <li class="nav-item dropdown">
                         <a data-mdb-dropdown-init class="nav-link me-3 me-lg-0 dropdown-toggle hidden-arrow" href="#" id="navbarDropdownMenuLink" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
                             <i class="fas fa-bell"></i>
                             <span class="badge rounded-pill badge-notification bg-danger">1</span>
@@ -191,46 +206,6 @@
                             </li>
                         </ul>
                     </li>
-                    <!-- Icon dropdown -->
-                    <li class="nav-item dropdown">
-                        <a data-mdb-dropdown-init class="nav-link me-3 me-lg-0 dropdown-toggle hidden-arrow" href="#" id="navbarDropdown" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
-                            <i class="flag-united-kingdom flag m-0"></i>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <li>
-                                <a class="dropdown-item" href="#"><i class="flag-united-kingdom flag"></i>English
-                                    <i class="fa fa-check text-success ms-2"></i></a>
-                            </li>
-                            <li>
-                                <hr class="dropdown-divider" />
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="#"><i class="flag-poland flag"></i>Polski</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="#"><i class="flag-china flag"></i>中文</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="#"><i class="flag-japan flag"></i>日本語</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="#"><i class="flag-germany flag"></i>Deutsch</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="#"><i class="flag-france flag"></i>Français</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="#"><i class="flag-spain flag"></i>Español</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="#"><i class="flag-russia flag"></i>Русский</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="#"><i class="flag-portugal flag"></i>Português</a>
-                            </li>
-                        </ul>
-                    </li>
-
                     <!-- Avatar -->
                     <li class="nav-item dropdown">
                         <a data-mdb-dropdown-init class="nav-link dropdown-toggle hidden-arrow d-flex align-items-center" href="#" id="navbarDropdownMenuLink" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
