@@ -102,7 +102,7 @@
                             <a href="" class="text-reset"><i class="fas fa-caret-right me-2 fa-sm"></i>Công Thức</a>
                         </li>
                         <li class="list-group-item py-1">
-                            <a href="" class="text-reset"><i class="fas fa-caret-right me-2 fa-sm"></i>Danh Mục</a>
+                            <a href="category.php" class="text-reset"><i class="fas fa-caret-right me-2 fa-sm"></i>Danh Mục</a>
                         </li>
                         <li class="list-group-item py-1">
                             <a href="brands.php" class="text-reset"><i class="fas fa-caret-right me-2 fa-sm"></i>Thương Hiệu</a>
