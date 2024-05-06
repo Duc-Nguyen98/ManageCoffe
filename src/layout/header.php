@@ -99,6 +99,9 @@
                             <a href="" class="text-reset"><i class="fas fa-caret-right me-2 fa-sm"></i>Nguyên Liệu</a>
                         </li>
                         <li class="list-group-item py-1">
+                            <a href="" class="text-reset"><i class="fas fa-caret-right me-2 fa-sm"></i>Công Thức</a>
+                        </li>
+                        <li class="list-group-item py-1">
                             <a href="" class="text-reset"><i class="fas fa-caret-right me-2 fa-sm"></i>Danh Mục</a>
                         </li>
                         <li class="list-group-item py-1">
@@ -124,21 +127,6 @@
                     </li>
                 </ul> -->
                     <!-- Collapse 3 -->
-                    <!-- Collapse 4 -->
-                    <a class="list-group-item list-group-item-action py-2 ripple" aria-current="true" data-mdb-collapse-init href="#collapseExample4" aria-expanded="true" aria-controls="collapseExample4">
-                        <i class="fab fa-envira fa-fw fa-lg me-2"></i><span>Công Thức</span>
-
-                    </a>
-                    <!-- Collapsed content -->
-                    <!-- <ul id="collapseExample4" class="collapse  list-group list-group-flush">
-                    <li class="list-group-item py-1">
-                        <a href="" class="text-reset">Tài Khoản</a>
-                    </li>
-                    <li class="list-group-item py-1">
-                        <a href="" class="text-reset">Vai Trò</a>
-                    </li>
-                </ul> -->
-                    <!-- Collapse 4 -->
                     <!-- Collapse 5 -->
                     <a class="list-group-item list-group-item-action py-2 ripple" aria-current="true" data-mdb-collapse-init href="#collapseExample5" aria-expanded="true" aria-controls="collapseExample5">
                         <i class="fas fa-truck-ramp-box fa-fw fa-lg me-2"></i><span>Quản Lý Kho</span>
