@@ -267,10 +267,6 @@
 
             </div>
         </div>
-
-        <div class="row my-4">
-
-        </div>
     </div>
 </main>
 <!--Main layout-->
