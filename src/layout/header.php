@@ -68,7 +68,7 @@
         <nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-white">
             <div class="position-sticky">
                 <div class="list-group list-group-flush mx-3 mt-4">
-                    <a href="#" class="list-group-item list-group-item-action py-2 ripple" aria-current="true">
+                    <a href="index.php" class="list-group-item list-group-item-action py-2 ripple" aria-current="true">
                         <i class="fas fa-tachometer-alt fa-fw fa-lg me-2"></i><span>Bảng Điều Khiển</span>
                     </a>
                     <!-- Collapse 1 -->
@@ -108,24 +108,17 @@
                             <a href="" class="text-reset"><i class="fas fa-caret-right me-2 fa-sm"></i>Thương Hiệu</a>
                         </li>
                         <li class="list-group-item py-1">
-                            <a href="" class="text-reset"><i class="fas fa-caret-right me-2 fa-sm"></i>Đơn Vị Tính</a>
+                            <a href="unit.php" class="text-reset"><i class="fas fa-caret-right me-2 fa-sm"></i>Đơn Vị Tính</a>
                         </li>
                     </ul>
 
                     <!-- Collapse 2 -->
                     <!-- Collapse 3 -->
-                    <a class="list-group-item list-group-item-action py-2 ripple" aria-current="true" data-mdb-collapse-init href="#collapseExample3" aria-expanded="true" aria-controls="collapseExample3">
+
+                    <a href="supplier.php" class="list-group-item list-group-item-action py-2 ripple" aria-current="true">
                         <i class="fas fa-people-arrows fa-fw fa-lg me-2"></i><span>Nhà Cung Cấp</span>
                     </a>
-                    <!-- Collapsed content -->
-                    <!-- <ul id="collapseExample3" class="collapse  list-group list-group-flush">
-                    <li class="list-group-item py-1">
-                        <a href="" class="text-reset">Tài Khoản</a>
-                    </li>
-                    <li class="list-group-item py-1">
-                        <a href="" class="text-reset">Vai Trò</a>
-                    </li>
-                </ul> -->
+                
                     <!-- Collapse 3 -->
                     <!-- Collapse 5 -->
                     <a class="list-group-item list-group-item-action py-2 ripple" aria-current="true" data-mdb-collapse-init href="#collapseExample5" aria-expanded="true" aria-controls="collapseExample5">
