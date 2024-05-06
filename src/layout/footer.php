@@ -9,8 +9,8 @@
 </body>
 
 <!-- MDB -->
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.2.0/mdb.umd.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script type="text/javascript" src="./asset/vendor/mdBootstrap/js/mdb.umd.min.js"></script>
+<script src="./asset/vendor/chart/js/chart.js"></script>
 <script>
     // chart 1
     const ctx = document.getElementById('myChart');
