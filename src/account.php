@@ -20,7 +20,7 @@
                                 <tr>
                                     <th>#</th>
                                     <th>ID Tài Khoản</th>
-                                    <th>Thành Phần</th>
+                                    <th>Vai Trò</th>
                                     <th>Email Đăng Nhập</th>
                                     <th>Trạng Thái</th>
                                     <th>Ngày Tạo</th>
