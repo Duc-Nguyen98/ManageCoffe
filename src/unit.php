@@ -11,7 +11,7 @@
                             <button type="button" class="btn btn-success" data-mdb-ripple-init><i class="fas fa-file-excel fa-lg"></i> Excel</button>
                             <button type="button" class="btn btn-danger" data-mdb-ripple-init><i class="far fa-file-pdf fa-lg"></i> PDF</button>
                             <button type="button" class="btn btn-info" data-mdb-ripple-init> <i class="fas fa-file-arrow-up fa-lg"></i> Import</button>
-                            <button type="button" class="btn btn-primary" data-mdb-ripple-init><i class="fas fa-folder-plus fa-lg"></i> Thêm Mới</button>
+                            <a href="<?php echo $base_url; ?>controllers/unit/create.php" class="btn btn-primary" data-mdb-ripple-init><i class="fas fa-folder-plus fa-lg"></i> Thêm Mới</a>
                         </div>
                     </div>
                     <div class="card-body">
@@ -44,158 +44,19 @@
                                     </td>
                                     <td class="text-muted">10:20:30 - 03/05/2024</td>
                                     <td>
-                                        <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
+                                        <a href="<?php echo $base_url; ?>controllers/unit/view.php" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
                                             <i class="fas fa-eye fa-lg"></i>
-                                        </button>
-                                        <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-primary bg-gradient text-white" data-mdb-ripple-color="dark">
+                                        </a>
+                                        <a href="<?php echo $base_url; ?>controllers/unit/edit.php" class="btn btn-link btn-rounded btn-sm fw-bold bg-primary bg-gradient text-white" data-mdb-ripple-color="dark">
                                             <i class="fas fa-marker fa-lg"></i>
 
-                                        </button>
+                                        </a>
                                         <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-danger bg-gradient text-white" data-mdb-ripple-color="dark">
                                             <i class="fas fa-recycle fa-lg"></i>
                                         </button>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>
-                                        <p class="fw-normal mb-1"><b>DVT1</b></p>
-                                    </td>
-                                    <td>
-                                        <p class="fw-normal mb-1"><b>Kilogram</b></p>
-                                    </td>
-                                    <td>
-                                        <span class="badge badge-primary rounded-pill d-inline">kg</span>
-                                    </td>
-                                    <td>
-                                        Một loại thức uống được làm từ những nguyên liệu và gia vị cơ bản như cà phê...
-                                    </td>
-                                    <td class="text-muted">10:20:30 - 03/05/2024</td>
-                                    <td>
-                                        <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-eye fa-lg"></i>
-                                        </button>
-                                        <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-primary bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-marker fa-lg"></i>
 
-                                        </button>
-                                        <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-danger bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-recycle fa-lg"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>
-                                        <p class="fw-normal mb-1"><b>DVT1</b></p>
-                                    </td>
-                                    <td>
-                                        <p class="fw-normal mb-1"><b>Kilogram</b></p>
-                                    </td>
-                                    <td>
-                                        <span class="badge badge-primary rounded-pill d-inline">kg</span>
-                                    </td>
-                                    <td>
-                                        Một loại thức uống được làm từ những nguyên liệu và gia vị cơ bản như cà phê...
-                                    </td>
-                                    <td class="text-muted">10:20:30 - 03/05/2024</td>
-                                    <td>
-                                        <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-eye fa-lg"></i>
-                                        </button>
-                                        <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-primary bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-marker fa-lg"></i>
-
-                                        </button>
-                                        <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-danger bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-recycle fa-lg"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>
-                                        <p class="fw-normal mb-1"><b>DVT1</b></p>
-                                    </td>
-                                    <td>
-                                        <p class="fw-normal mb-1"><b>Kilogram</b></p>
-                                    </td>
-                                    <td>
-                                        <span class="badge badge-primary rounded-pill d-inline">kg</span>
-                                    </td>
-                                    <td>
-                                        Một loại thức uống được làm từ những nguyên liệu và gia vị cơ bản như cà phê...
-                                    </td>
-                                    <td class="text-muted">10:20:30 - 03/05/2024</td>
-                                    <td>
-                                        <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-eye fa-lg"></i>
-                                        </button>
-                                        <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-primary bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-marker fa-lg"></i>
-
-                                        </button>
-                                        <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-danger bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-recycle fa-lg"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>
-                                        <p class="fw-normal mb-1"><b>DVT1</b></p>
-                                    </td>
-                                    <td>
-                                        <p class="fw-normal mb-1"><b>Kilogram</b></p>
-                                    </td>
-                                    <td>
-                                        <span class="badge badge-primary rounded-pill d-inline">kg</span>
-                                    </td>
-                                    <td>
-                                        Một loại thức uống được làm từ những nguyên liệu và gia vị cơ bản như cà phê...
-                                    </td>
-                                    <td class="text-muted">10:20:30 - 03/05/2024</td>
-                                    <td>
-                                        <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-eye fa-lg"></i>
-                                        </button>
-                                        <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-primary bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-marker fa-lg"></i>
-
-                                        </button>
-                                        <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-danger bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-recycle fa-lg"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>
-                                        <p class="fw-normal mb-1"><b>DVT1</b></p>
-                                    </td>
-                                    <td>
-                                        <p class="fw-normal mb-1"><b>Kilogram</b></p>
-                                    </td>
-                                    <td>
-                                        <span class="badge badge-primary rounded-pill d-inline">kg</span>
-                                    </td>
-                                    <td>
-                                        Một loại thức uống được làm từ những nguyên liệu và gia vị cơ bản như cà phê...
-                                    </td>
-                                    <td class="text-muted">10:20:30 - 03/05/2024</td>
-                                    <td>
-                                        <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-eye fa-lg"></i>
-                                        </button>
-                                        <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-primary bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-marker fa-lg"></i>
-
-                                        </button>
-                                        <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-danger bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-recycle fa-lg"></i>
-                                        </button>
-                                    </td>
-                                </tr>
                             </tbody>
                         </table>
                         <div class="my-3 d-flex justify-content-between align-items-center">
