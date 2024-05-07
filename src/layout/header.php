@@ -62,13 +62,16 @@
 
 
 <body>
+
+    <?php $base_url = '/ManageCoffe/src/'; ?>
+
     <!--Main Navigation-->
     <header>
         <!-- Sidebar -->
         <nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-white">
             <div class="position-sticky">
                 <div class="list-group list-group-flush mx-3 mt-4">
-                    <a href="index.php" class="list-group-item list-group-item-action py-2 ripple" aria-current="true">
+                    <a href="<?php echo $base_url; ?>index.php" class="list-group-item list-group-item-action py-2 ripple" aria-current="true">
                         <i class="fas fa-tachometer-alt fa-fw fa-lg me-2"></i><span>Bảng Điều Khiển</span>
                     </a>
                     <!-- Collapse 1 -->
@@ -78,10 +81,10 @@
                     <!-- Collapsed content -->
                     <ul id="collapseExample1" class="collapse show  list-group list-group-flush">
                         <li class="list-group-item py-1">
-                            <a href="account.php" class="text-reset"><i class="fas fa-caret-right me-2 fa-sm"></i>Tài Khoản</a>
+                            <a href="<?php echo $base_url; ?>account.php" class="text-reset"><i class="fas fa-caret-right me-2 fa-sm"></i>Tài Khoản</a>
                         </li>
                         <li class="list-group-item py-1">
-                            <a href="permission.php" class="text-reset"><i class="fas fa-caret-right me-2 fa-sm"></i>Vai Trò & Quyền</a>
+                            <a href="<?php echo $base_url; ?>permission.php" class="text-reset"><i class="fas fa-caret-right me-2 fa-sm"></i>Vai Trò & Quyền</a>
                         </li>
                     </ul>
                     <!-- Collapse 1 -->
@@ -96,19 +99,19 @@
                     <!-- Collapsed content -->
                     <ul id="collapseExample2" class="collapse show list-group list-group-flush ms-1">
                         <li class="list-group-item py-1">
-                            <a href="product.php" class="text-reset"><i class="fas fa-caret-right me-2 fa-sm"></i>Nguyên Liệu</a>
+                            <a href="<?php echo $base_url; ?>product.php" class="text-reset"><i class="fas fa-caret-right me-2 fa-sm"></i>Nguyên Liệu</a>
                         </li>
                         <li class="list-group-item py-1">
-                            <a href="recipe.php" class="text-reset"><i class="fas fa-caret-right me-2 fa-sm"></i>Công Thức</a>
+                            <a href="<?php echo $base_url; ?>recipe.php" class="text-reset"><i class="fas fa-caret-right me-2 fa-sm"></i>Công Thức</a>
                         </li>
                         <li class="list-group-item py-1">
-                            <a href="category.php" class="text-reset"><i class="fas fa-caret-right me-2 fa-sm"></i>Danh Mục</a>
+                            <a href="<?php echo $base_url; ?>category.php" class="text-reset"><i class="fas fa-caret-right me-2 fa-sm"></i>Danh Mục</a>
                         </li>
                         <li class="list-group-item py-1">
-                            <a href="brands.php" class="text-reset"><i class="fas fa-caret-right me-2 fa-sm"></i>Thương Hiệu</a>
+                            <a href="<?php echo $base_url; ?>brands.php" class="text-reset"><i class="fas fa-caret-right me-2 fa-sm"></i>Thương Hiệu</a>
                         </li>
                         <li class="list-group-item py-1">
-                            <a href="unit.php" class="text-reset"><i class="fas fa-caret-right me-2 fa-sm"></i>Đơn Vị Tính</a>
+                            <a href="<?php echo $base_url; ?>unit.php" class="text-reset"><i class="fas fa-caret-right me-2 fa-sm"></i>Đơn Vị Tính</a>
                         </li>
                     </ul>
 
@@ -118,7 +121,7 @@
                     <a href="supplier.php" class="list-group-item list-group-item-action py-2 ripple" aria-current="true">
                         <i class="fas fa-people-arrows fa-fw fa-lg me-2"></i><span>Nhà Cung Cấp</span>
                     </a>
-                
+
                     <!-- Collapse 3 -->
                     <!-- Collapse 5 -->
                     <a class="list-group-item list-group-item-action py-2 ripple" aria-current="true" data-mdb-collapse-init href="#collapseExample5" aria-expanded="true" aria-controls="collapseExample5">
@@ -128,10 +131,10 @@
                     <!-- Collapsed content -->
                     <ul id="collapseExample4" class="collapse show list-group list-group-flush">
                         <li class="list-group-item py-1">
-                            <a href="" class="text-reset"><i class="fas fa-caret-right me-2 fa-sm"></i>Nhập Kho #</a>
+                            <a href="<?php echo $base_url; ?>" class="text-reset"><i class="fas fa-caret-right me-2 fa-sm"></i>Nhập Kho #</a>
                         </li>
                         <li class="list-group-item py-1">
-                            <a href="" class="text-reset"><i class="fas fa-caret-right me-2 fa-sm"></i>Xuất Kho #</a>
+                            <a href="<?php echo $base_url; ?>" class="text-reset"><i class="fas fa-caret-right me-2 fa-sm"></i>Xuất Kho #</a>
                         </li>
                     </ul>
                     <!-- Collapse 5 -->
