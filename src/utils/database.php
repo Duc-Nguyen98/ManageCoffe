@@ -14,11 +14,13 @@ function connectDB() {
     // Kiểm tra kết nối
     if ($conn->connect_error) {
         die("Kết nối tới CSDL thất bại: " . $conn->connect_error);
-    } 
+    }
     return $conn;
 }
 
 connectDB();
+
+
 
 
 ?>
