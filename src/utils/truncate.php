@@ -24,7 +24,7 @@ function truncateText($text, $maxLength = 100)
 }
 
 // Sử dụng hàm
-$text = "Sữa tươi được vắt trực tiếp từ các chú bò tại nông trại lớn nhất Châu Á. Xử lý qua hệ thống tiệt trùng tự động khép kín, đảm bảo chất lượng";
-echo truncateText($text);
+// $text = "Sữa tươi được vắt trực tiếp từ các chú bò tại nông trại lớn nhất Châu Á. Xử lý qua hệ thống tiệt trùng tự động khép kín, đảm bảo chất lượng";
+// echo truncateText($text);
 
 ?>
