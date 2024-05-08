@@ -64,6 +64,8 @@
 <body>
 
     <?php $base_url = '/ManageCoffe/src/'; ?>
+    <?php include $_SERVER['DOCUMENT_ROOT'] . $base_url . 'utils/database.php'; ?>
+
 
     <!--Main Navigation-->
     <header>
