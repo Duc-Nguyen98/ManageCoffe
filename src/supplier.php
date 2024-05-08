@@ -17,62 +17,70 @@
                     <div class="card-body">
                         <table class="table align-middle mb-0 bg-white table-hover">
                             <thead class="bg-light">
-                                <tr>
+                                <tr class="text-start">
                                     <th>#</th>
-                                    <th>ID NCC</th>
-                                    <th>Hình Ảnh</th>
-                                    <th>Tên Nhà Cung Cấp</th>
+                                    <th>INC</th>
+                                    <th>Nhà Cung Cấp</th>
                                     <th>Số Điện Thoại</th>
-                                    <th>Email</th>
-                                    <th>Tên Công Ty</th>
+                                    <th>Công Ty</th>
+                                    <th>Địa Chỉ</th>
                                     <th>Trạng Thái</th>
                                     <th>Lịch Sử Cập Nhật</th>
                                     <th>Hoạt Động</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td><b>NCC1</b></td>
+                                <?php
+                                //! Handle Data Query Table
+                                $rows = mysqli_query($conn, "SELECT * FROM suppliers WHERE soft_delete = 0");
+                                $i = 1;
 
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <img src="https://mdbootstrap.com/img/new/avatars/8.jpg" alt="" style="width: 45px; height: 45px" class="rounded-circle" />
+                                while ($row = mysqli_fetch_assoc($rows)) {
+                                ?>
+                                    <tr id="<?= $row['id']; ?>" class="text-start fw-bold">
+                                        <td><?= $row['id']; ?></td>
+                                        <td><b>NCC<?= $row['id']; ?></b></td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img src="<?= $row['image']; ?>" alt="" style="width: 45px; height: 45px" class="rounded-circle">
+                                                <div class="ms-3">
+                                                    <p class="fw-bold mb-1 text-capitalize"><?= $row['name']; ?></p>
+                                                    <p class="text-muted mb-0">*-<?= $row['email']; ?></p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <?= $row['phone']; ?>
+                                        </td>
+                                        <td>
+                                            <?= $row['company_name']; ?>
+                                        </td>
+                                        <td>
+                                            <?= truncateText($row['address']); ?>
+                                        </td>
+                                        <td>
+                                            <span class="badge <?= $row['status'] == 0 ? 'badge-primary' : 'badge-danger'; ?> rounded-pill d-inline">
+                                                <?= $row['status'] == 0 ? 'Đang hợp tác' : 'Tạm dừng hợp tác'; ?>
+                                            </span>
 
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="ms-3">
-                                            <p class="fw-bold mb-1">John Doe</p>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        0391121485
-                                    </td>
-                                    <td>
-                                        <p class="text-muted mb-0">john.doe@gmail.com</p>
-                                    </td>
-                                    <td>
-                                        Công Ty Vinamilk
-                                    </td>
-                                    <td>
-                                        <span class="badge badge-success rounded-pill d-inline">Đang Hoạt Động</span>
-                                    </td>
-                                    <td class="text-muted">10:20:30 - 03/05/2024</td>
-                                    <td>
-                                        <a href="<?php echo $base_url; ?>controllers/supplier/view.php" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-eye fa-lg"></i>
-                                        </a>
-                                        <a href="<?php echo $base_url; ?>controllers/supplier/Edit.php" class="btn btn-link btn-rounded btn-sm fw-bold bg-primary bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-marker fa-lg"></i>
+                                        </td>
+                                        <td class="text-muted"><?= $row['update_at']; ?></td>
+                                        <td>
+                                            <a href="<?php echo $base_url; ?>controllers/supplier/view.php" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
+                                                <i class="fas fa-eye fa-lg"></i>
+                                            </a>
+                                            <a href="<?php echo $base_url; ?>controllers/supplier/Edit.php" class="btn btn-link btn-rounded btn-sm fw-bold bg-primary bg-gradient text-white" data-mdb-ripple-color="dark">
+                                                <i class="fas fa-marker fa-lg"></i>
 
-                                        </a>
-                                        <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-danger bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-recycle fa-lg"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-
+                                            </a>
+                                            <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-danger bg-gradient text-white" data-mdb-ripple-color="dark">
+                                                <i class="fas fa-recycle fa-lg"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                <?php };
+                                //! Handle Data Query Table
+                                ?>
                             </tbody>
                         </table>
                         <div class="my-3 d-flex justify-content-between align-items-center">
