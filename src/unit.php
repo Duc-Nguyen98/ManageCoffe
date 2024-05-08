@@ -17,7 +17,7 @@
                     <div class="card-body">
                         <table class="table align-middle mb-0 bg-white table-hover">
                             <thead class="bg-light">
-                                <tr>
+                                <tr class="text-start">
                                     <th>#</th>
                                     <th>ID Đơn vị</th>
                                     <th>Đơn vị tính</th>
@@ -28,35 +28,44 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>
-                                        <p class="fw-normal mb-1"><b>DVT1</b></p>
-                                    </td>
-                                    <td>
-                                        <p class="fw-normal mb-1"><b>Kilogram</b></p>
-                                    </td>
-                                    <td>
-                                        <span class="badge badge-primary rounded-pill d-inline">kg</span>
-                                    </td>
-                                    <td>
-                                        Một loại thức uống được làm từ những nguyên liệu và gia vị cơ bản như cà phê...
-                                    </td>
-                                    <td class="text-muted">10:20:30 - 03/05/2024</td>
-                                    <td>
-                                        <a href="<?php echo $base_url; ?>controllers/unit/view.php" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-eye fa-lg"></i>
-                                        </a>
-                                        <a href="<?php echo $base_url; ?>controllers/unit/edit.php" class="btn btn-link btn-rounded btn-sm fw-bold bg-primary bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-marker fa-lg"></i>
+                                <?php
+                                //! Handle Data Query Table
+                                $rows = mysqli_query($conn, "SELECT * FROM units WHERE soft_delete = 0");
+                                $i = 1;
 
-                                        </a>
-                                        <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-danger bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-recycle fa-lg"></i>
-                                        </button>
-                                    </td>
-                                </tr>
+                                while ($row = mysqli_fetch_assoc($rows)) {
+                                ?>
+                                    <tr id="<?= $row['id']; ?>" class="text-start fw-bold">
+                                        <td><?= $row['id']; ?></td>
+                                        <td>
+                                            <p class="fw-normal mb-1"><b>IDV<?= $row['id']; ?></b></p>
+                                        </td>
+                                        <td>
+                                            <p class="fw-normal mb-1"><b><?= $row['name']; ?></b></p>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-primary rounded-pill d-inline"><?= $row['symbol']; ?></span>
+                                        </td>
+                                        <td>
+                                        <?= truncateText($row['note']); ?>
+                                        </td>
+                                        <td class="text-muted"><?= $row['updated_at']; ?></td>
+                                        <td>
+                                            <a href="<?php echo $base_url; ?>controllers/unit/view.php" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
+                                                <i class="fas fa-eye fa-lg"></i>
+                                            </a>
+                                            <a href="<?php echo $base_url; ?>controllers/unit/edit.php" class="btn btn-link btn-rounded btn-sm fw-bold bg-primary bg-gradient text-white" data-mdb-ripple-color="dark">
+                                                <i class="fas fa-marker fa-lg"></i>
 
+                                            </a>
+                                            <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-danger bg-gradient text-white" data-mdb-ripple-color="dark">
+                                                <i class="fas fa-recycle fa-lg"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                <?php };
+                                //! Handle Data Query Table
+                                ?>
                             </tbody>
                         </table>
                         <div class="my-3 d-flex justify-content-between align-items-center">
