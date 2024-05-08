@@ -37,7 +37,7 @@
                                 ?>
                                     <tr id="<?= $row['id']; ?>" class="text-start fw-bold">
                                         <td><?= $row['id']; ?></td>
-                                        <td><b>ICAT<?= $row['id']; ?></b></td>
+                                        <td><b>ICT<?= $row['id']; ?></b></td>
                                         <td>
                                             <div class="d-flex align-items-center">
                                                 <img src="<?= $row['image']; ?>" alt="" style="width: 45px; height: 45px" class="rounded-circle">
