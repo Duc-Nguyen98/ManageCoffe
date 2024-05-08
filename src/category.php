@@ -17,54 +17,62 @@
                     <div class="card-body">
                         <table class="table align-middle mb-0 bg-white table-hover">
                             <thead class="bg-light">
-                                <tr>
+                                <tr class="text-start">
                                     <th>#</th>
                                     <th>ID Danh Mục</th>
-                                    <th>Hình Ảnh</th>
-                                    <th>Tên Danh Mục</th>
-                                    <th>Mô Tả </th>
+                                    <th>Danh Mục</th>
+                                    <th>Mô Tả</th>
                                     <th>Trạng Thái</th>
                                     <th>Lịch Sử Cập Nhật</th>
                                     <th>Hoạt Động</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td><b>NCC1</b></td>
+                                <?php
+                                //! Handle Data Query Table
+                                $rows = mysqli_query($conn, "SELECT * FROM product_categories WHERE soft_delete = 0");
+                                $i = 1;
 
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <img src="https://mdbootstrap.com/img/new/avatars/8.jpg" alt="" style="width: 45px; height: 45px" class="rounded-circle" />
+                                while ($row = mysqli_fetch_assoc($rows)) {
+                                ?>
+                                    <tr id="<?= $row['id']; ?>" class="text-start fw-bold">
+                                        <td><?= $row['id']; ?></td>
+                                        <td><b>ICAT<?= $row['id']; ?></b></td>
 
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div>
-                                            <p class="fw-bold mb-1">Trái cây tươi</p>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p class="text-muted mb-0">Trái cây tươi thường có màu sắc tươi sáng và hấp dẫn...</p>
-                                    </td>
-                                    <td>
-                                        <span class="badge badge-success rounded-pill d-inline">Đang Hoạt Động</span>
-                                    </td>
-                                    <td class="text-muted">10:20:30 - 03/05/2024</td>
-                                    <td>
-                                        <a href="<?php echo $base_url; ?>controllers/category/view.php" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-eye fa-lg"></i>
-                                        </a>
-                                        <a href="<?php echo $base_url; ?>controllers/category/edit.php" class="btn btn-link btn-rounded btn-sm fw-bold bg-primary bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-marker fa-lg"></i>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img src="<?= $row['image']; ?>" alt="" style="width: 45px; height: 45px" class="rounded-circle">
+                                                <div class="ms-3">
+                                                    <p class="fw-bold mb-1 text-capitalize"><?= $row['name']; ?></p>
+                                                    <p class="text-muted mb-0">*-<?= $row['slug']; ?></p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <?= truncateText($row['note']); ?>
+                                        </td>
+                                        <td>
+                                            <span class="badge <?= $row['status'] == 0 ? 'badge-success' : 'badge-danger'; ?> rounded-pill d-inline">
+                                                <?= $row['status'] == 0 ? 'Hoạt động' : 'Tạm đóng'; ?>
+                                            </span>
+                                        </td>
+                                        <td class="text-muted"><?= $row['updated_at']; ?></td>
+                                        <td>
+                                            <a href="<?php echo $base_url; ?>controllers/category/view.php" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
+                                                <i class="fas fa-eye fa-lg"></i>
+                                            </a>
+                                            <a href="<?php echo $base_url; ?>controllers/category/edit.php" class="btn btn-link btn-rounded btn-sm fw-bold bg-primary bg-gradient text-white" data-mdb-ripple-color="dark">
+                                                <i class="fas fa-marker fa-lg"></i>
 
-                                        </a>
-                                        <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-danger bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-recycle fa-lg"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-
+                                            </a>
+                                            <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-danger bg-gradient text-white" data-mdb-ripple-color="dark">
+                                                <i class="fas fa-recycle fa-lg"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                <?php };
+                                //! Handle Data Query Table
+                                ?>
                             </tbody>
                         </table>
                         <div class="my-3 d-flex justify-content-between align-items-center">
