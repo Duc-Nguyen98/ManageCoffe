@@ -38,7 +38,6 @@
                                     <tr id="<?= $row['id']; ?>" class="text-start fw-bold">
                                         <td><?= $row['id']; ?></td>
                                         <td><b>ICAT<?= $row['id']; ?></b></td>
-
                                         <td>
                                             <div class="d-flex align-items-center">
                                                 <img src="<?= $row['image']; ?>" alt="" style="width: 45px; height: 45px" class="rounded-circle">
@@ -49,7 +48,9 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <?= truncateText($row['note']); ?>
+                                            <span data-mdb-ripple-init data-mdb-tooltip-init data-mdb-placement="bottom" title="<?= $row['note'] ?>">
+                                                <?= truncateText($row['note']); ?>
+                                            </span>
                                         </td>
                                         <td>
                                             <span class="badge <?= $row['status'] == 0 ? 'badge-success' : 'badge-danger'; ?> rounded-pill d-inline">

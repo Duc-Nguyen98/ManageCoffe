@@ -47,7 +47,9 @@
                                             <span class="badge badge-primary rounded-pill d-inline"><?= $row['symbol']; ?></span>
                                         </td>
                                         <td>
-                                        <?= truncateText($row['note']); ?>
+                                            <span data-mdb-ripple-init data-mdb-tooltip-init data-mdb-placement="bottom" title="<?= $row['note'] ?>">
+                                                <?= truncateText($row['note']); ?>
+                                            </span>
                                         </td>
                                         <td class="text-muted"><?= $row['updated_at']; ?></td>
                                         <td>

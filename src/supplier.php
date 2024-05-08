@@ -56,7 +56,9 @@
                                             <?= $row['company_name']; ?>
                                         </td>
                                         <td>
-                                            <?= truncateText($row['address']); ?>
+                                            <span data-mdb-ripple-init data-mdb-tooltip-init data-mdb-placement="bottom" title="<?= $row['address'] ?>">
+                                                <?= truncateText($row['address']); ?>
+                                            </span>
                                         </td>
                                         <td>
                                             <span class="badge <?= $row['status'] == 0 ? 'badge-primary' : 'badge-danger'; ?> rounded-pill d-inline">

@@ -52,7 +52,9 @@
                                             </div>
                                         </td>
                                         <td>
-                                        <?= truncateText($row['note']); ?>
+                                            <span data-mdb-ripple-init data-mdb-tooltip-init data-mdb-placement="bottom" title="<?= $row['note'] ?>">
+                                                <?= truncateText($row['note']); ?>
+                                            </span>
                                         </td>
                                         <td>
                                             <span class="badge <?= $row['status'] == 0 ? 'badge-success' : 'badge-danger'; ?> rounded-pill d-inline">

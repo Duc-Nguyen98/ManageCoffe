@@ -1,4 +1,6 @@
 <?php include 'layout/header.php'; ?>
+<?php include 'utils/client/getAccountRoleBadgeClass.php'; ?>
+<?php include 'utils/client/getAccountRoleDescription.php'; ?>
 <!--Main layout-->
 <main style="margin-top: 58px;">
     <div class="container-fluid py-4 my-5">
@@ -38,20 +40,23 @@
                                         <td><?= $row['id']; ?></td>
                                         <td><b>ACCT<?= $row['id']; ?></b></td>
                                         <td>
-                                            <span class="badge badge-success rounded-pill d-inline">Quản trị viên</span>
+                                            <span class="badge <?= getAccountRoleBadgeClass($row['account_role']); ?> rounded-pill d-inline">
+                                                <?= getAccountRoleDescription($row['account_role']); ?>
+                                            </span>
                                         </td>
                                         <td>
-                                            <p class="fw-bold mb-1">alexcenter@gmail.com</p>
+                                            <p class="fw-bold mb-1"><?= $row['email']; ?></p>
                                         </td>
                                         <td>
                                             <!-- Checked switch -->
                                             <div class="form-check form-switch">
-                                                <input class="form-check-input mx-auto" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked />
+                                                <input class="form-check-input mx-auto" type="checkbox" role="switch" id="flexSwitchCheckChecked" <?= $row['is_active'] == 0 ? 'checked disabled' : '' ?> />
                                             </div>
+
                                         </td>
 
 
-                                        <td class="text-muted">10:20:30 - 03/05/2024</td>
+                                        <td class="text-muted"><?= $row['created_at']; ?></td>
                                         <td>
                                             <a href="<?php echo $base_url; ?>controllers/client/view.php" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
                                                 <i class="fas fa-eye fa-lg"></i>

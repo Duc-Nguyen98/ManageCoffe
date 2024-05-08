@@ -83,7 +83,7 @@
                     <!-- Collapsed content -->
                     <ul id="collapseExample1" class="collapse show  list-group list-group-flush">
                         <li class="list-group-item py-1">
-                            <a href="<?php echo $base_url; ?>account.php" class="text-reset"><i class="fas fa-caret-right me-2 fa-sm"></i>Tài Khoản</a>
+                            <a href="<?php echo $base_url; ?>client.php" class="text-reset"><i class="fas fa-caret-right me-2 fa-sm"></i>Tài Khoản - Client</a>
                         </li>
                         <li class="list-group-item py-1">
                             <a href="<?php echo $base_url; ?>permission.php" class="text-reset"><i class="fas fa-caret-right me-2 fa-sm"></i>Vai Trò & Quyền</a>

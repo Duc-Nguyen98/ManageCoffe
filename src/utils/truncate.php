@@ -1,6 +1,6 @@
 <?php
 
-function truncateText($text, $maxLength = 100)
+function truncateText($text, $maxLength = 70)
 {
     if (strlen($text) > $maxLength) {
         // Cắt văn bản đến chiều dài tối đa
