@@ -1,6 +1,5 @@
 <?php include 'layout/header.php'; ?>
 <?php include 'utils/client/getAccountRoleBadgeClass.php'; ?>
-<?php include 'utils/client/getAccountRoleDescription.php'; ?>
 <!--Main layout-->
 <main style="margin-top: 58px;">
     <div class="container-fluid py-4 my-5">
