@@ -50,8 +50,7 @@
                                                     <p class="text-muted mb-0">*-<?= $row['slug']; ?></p>
                                                 </div>
                                             </div>
-                                        </td>
-                                        <td><?= $row['note']; ?></td>
+                                        </td>     
                                         <td>
                                             <span class="badge <?= $row['status'] == 0 ? 'badge-success' : 'badge-danger'; ?> rounded-pill d-inline">
                                                 <?= $row['status'] == 0 ? 'Đang hợp tác' : 'Tạm ngừng hợp tác'; ?>
