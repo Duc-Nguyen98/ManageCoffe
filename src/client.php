@@ -32,7 +32,11 @@
                             <tbody>
                                 <?php
                                 //! Handle Data Query Table
-                                $rows = mysqli_query($conn, "SELECT * FROM client WHERE soft_delete = 0");
+                                $rows = mysqli_query($conn, "SELECT client.*, role.name AS role_name 
+                                FROM client 
+                                JOIN role ON client.account_role = role.id
+                                WHERE client.soft_delete = 0;
+                                ");
                                 $i = 1;
                                 while ($row = mysqli_fetch_assoc($rows)) {
                                 ?>
@@ -41,7 +45,7 @@
                                         <td><b>ACCT<?= $row['id']; ?></b></td>
                                         <td>
                                             <span class="badge <?= getAccountRoleBadgeClass($row['account_role']); ?> rounded-pill d-inline">
-                                                <?= getAccountRoleDescription($row['account_role']); ?>
+                                                <?= $row['role_name'] ?>
                                             </span>
                                         </td>
                                         <td>
