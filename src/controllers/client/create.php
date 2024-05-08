@@ -5,7 +5,7 @@
     <div class="container-fluid py-4 my-5">
         <div class="card text-center">
             <div class="card-header text-start">
-                <h5>Chỉnh sửa Thông tin</h5>
+                <h5>Tạo mới dữ liệu</h5>
             </div>
             <form action="">
                 <div class="card-body">
@@ -54,7 +54,7 @@
 
                 </div>
                 <div class="card-footer text-muted d-flex justify-content-between">
-                    <a href="<?php echo $base_url; ?>account.php" type="button" class="btn btn-secondary me-2" data-mdb-ripple-init>Quay về</a>
+                    <a href="<?php echo $base_url; ?>client.php" type="button" class="btn btn-secondary me-2" data-mdb-ripple-init>Quay về</a>
                     <div class="d-flex">
                         <button type="button" class="btn btn-primary me-2" data-mdb-ripple-init>Lưu thay đổi</button>
                         <button type="button" class="btn btn-secondary" data-mdb-ripple-init onclick="resetInputs()">Đặt lại</button>

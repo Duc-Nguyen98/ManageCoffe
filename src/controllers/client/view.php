@@ -51,7 +51,7 @@
                     </div>
                 </div>
                 <div class="card-footer text-muted d-flex justify-content-between">
-                    <a href="<?php echo $base_url; ?>account.php" type="button" class="btn btn-secondary me-2" data-mdb-ripple-init>Quay về</a>
+                    <a href="<?php echo $base_url; ?>client.php" type="button" class="btn btn-secondary me-2" data-mdb-ripple-init>Quay về</a>
                 </div>
             </form>
 

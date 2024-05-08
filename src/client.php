@@ -6,18 +6,18 @@
             <div class="col-12">
                 <div class="card text-center">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="card-title text-left mb-0">Bảng Quản Lý Tài Khoản - Account</h5>
+                        <h5 class="card-title text-left mb-0">Bảng Quản Lý Tài Khoản - client</h5>
                         <div class="exportAction">
                             <button type="button" class="btn btn-success" data-mdb-ripple-init><i class="fas fa-file-excel fa-lg"></i> Excel</button>
                             <button type="button" class="btn btn-danger" data-mdb-ripple-init><i class="far fa-file-pdf fa-lg"></i> PDF</button>
                             <button type="button" class="btn btn-info" data-mdb-ripple-init> <i class="fas fa-file-arrow-up fa-lg"></i> Import</button>
-                            <a href="<?php echo $base_url; ?>controllers/account/create.php" class="btn btn-primary" data-mdb-ripple-init><i class="fas fa-folder-plus fa-lg"></i> Thêm Mới</a>
+                            <a href="<?php echo $base_url; ?>controllers/client/create.php" class="btn btn-primary" data-mdb-ripple-init><i class="fas fa-folder-plus fa-lg"></i> Thêm Mới</a>
                         </div>
                     </div>
                     <div class="card-body">
                         <table class="table align-middle mb-0 bg-white table-hover">
                             <thead class="bg-light">
-                                <tr>
+                                <tr class="text-start">
                                     <th>#</th>
                                     <th>ID Tài Khoản</th>
                                     <th>Vai Trò</th>
@@ -28,38 +28,47 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td><b>ACCT2</b></td>
-                                    <td>
-                                        <span class="badge badge-success rounded-pill d-inline">Quản trị viên</span>
-                                    </td>
-                                    <td>
-                                        <p class="fw-bold mb-1">alexcenter@gmail.com</p>
-                                    </td>
-                                    <td>
-                                        <!-- Checked switch -->
-                                        <div class="form-check form-switch">
-                                            <input class="form-check-input mx-auto" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked />
-                                        </div>
-                                    </td>
+                                <?php
+                                //! Handle Data Query Table
+                                $rows = mysqli_query($conn, "SELECT * FROM client WHERE soft_delete = 0");
+                                $i = 1;
+                                while ($row = mysqli_fetch_assoc($rows)) {
+                                ?>
+                                    <tr id="<?= $row['id']; ?>" class="text-start fw-bold">
+                                        <td><?= $row['id']; ?></td>
+                                        <td><b>ACCT<?= $row['id']; ?></b></td>
+                                        <td>
+                                            <span class="badge badge-success rounded-pill d-inline">Quản trị viên</span>
+                                        </td>
+                                        <td>
+                                            <p class="fw-bold mb-1">alexcenter@gmail.com</p>
+                                        </td>
+                                        <td>
+                                            <!-- Checked switch -->
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input mx-auto" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked />
+                                            </div>
+                                        </td>
 
 
-                                    <td class="text-muted">10:20:30 - 03/05/2024</td>
-                                    <td>
-                                        <a href="<?php echo $base_url; ?>controllers/account/view.php" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-eye fa-lg"></i>
-                                        </a>
+                                        <td class="text-muted">10:20:30 - 03/05/2024</td>
+                                        <td>
+                                            <a href="<?php echo $base_url; ?>controllers/client/view.php" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
+                                                <i class="fas fa-eye fa-lg"></i>
+                                            </a>
 
-                                        <a href="<?php echo $base_url; ?>controllers/account/edit.php" class="btn btn-link btn-rounded btn-sm fw-bold bg-primary bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-marker fa-lg"></i>
+                                            <a href="<?php echo $base_url; ?>controllers/client/edit.php" class="btn btn-link btn-rounded btn-sm fw-bold bg-primary bg-gradient text-white" data-mdb-ripple-color="dark">
+                                                <i class="fas fa-marker fa-lg"></i>
 
-                                        </a>
-                                        <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-danger bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-recycle fa-lg"></i>
-                                        </button>
-                                    </td>
-                                </tr>
+                                            </a>
+                                            <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-danger bg-gradient text-white" data-mdb-ripple-color="dark">
+                                                <i class="fas fa-recycle fa-lg"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                <?php };
+                                //! Handle Data Query Table
+                                ?>
                             </tbody>
                         </table>
                         <div class="my-3 d-flex justify-content-between align-items-center">
