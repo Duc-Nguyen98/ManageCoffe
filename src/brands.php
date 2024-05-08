@@ -44,13 +44,16 @@
                                         <td>IDB<?= $row['id']; ?></td>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <img src="https://mdbootstrap.com/img/new/avatars/8.jpg" alt="" style="width: 45px; height: 45px" class="rounded-circle">
+                                                <img src="<?= $row['image']; ?>" alt="" style="width: 45px; height: 45px" class="rounded-circle">
                                                 <div class="ms-3">
                                                     <p class="fw-bold mb-1 text-capitalize"><?= $row['name']; ?></p>
                                                     <p class="text-muted mb-0">*-<?= $row['slug']; ?></p>
                                                 </div>
                                             </div>
-                                        </td>     
+                                        </td>
+                                        <td>
+                                        <?= truncateText($row['note']); ?>
+                                        </td>
                                         <td>
                                             <span class="badge <?= $row['status'] == 0 ? 'badge-success' : 'badge-danger'; ?> rounded-pill d-inline">
                                                 <?= $row['status'] == 0 ? 'Đang hợp tác' : 'Tạm ngừng hợp tác'; ?>
