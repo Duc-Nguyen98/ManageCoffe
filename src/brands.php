@@ -1,6 +1,8 @@
 <?php include 'layout/header.php'; ?>
 
 
+
+
 <!--Main layout-->
 <main style="margin-top: 58px;">
     <div class="container-fluid py-4 my-5">
@@ -19,11 +21,10 @@
                     <div class="card-body">
                         <table class="table align-middle mb-0 bg-white table-hover">
                             <thead class="bg-light">
-                                <tr>
+                                <tr class="text-start">
                                     <th>#</th>
                                     <th>ID Thương Hiệu</th>
                                     <th>Tên Thương Hiệu</th>
-                                    <th>Viết Tắt</th>
                                     <th>Mô Tả</th>
                                     <th>Trạng Thái</th>
                                     <th>Lịch Sử Cập Nhật</th>
@@ -32,25 +33,30 @@
                             </thead>
                             <tbody>
                                 <?php
-                                $rows = mysqli_query($conn, "SELECT * FROM brands");
+                                //! Handle Data Query Table
+                                $rows = mysqli_query($conn, "SELECT * FROM brands WHERE soft_delete = 0");
                                 $i = 1;
 
                                 while ($row = mysqli_fetch_assoc($rows)) {
                                 ?>
-                                    <tr id="<?= $row['id']; ?>">
+                                    <tr id="<?= $row['id']; ?>" class="text-start fw-bold">
                                         <td><?= $row['id']; ?></td>
-                                        <td><b><?= $row['name']; ?></b></td>
+                                        <td>IDB<?= $row['id']; ?></td>
                                         <td>
-                                            <div class="ms-3">
-                                                <p class="fw-bold mb-1"><?= $row['image']; ?></p>
+                                            <div class="d-flex align-items-center">
+                                                <img src="https://mdbootstrap.com/img/new/avatars/8.jpg" alt="" style="width: 45px; height: 45px" class="rounded-circle">
+                                                <div class="ms-3">
+                                                    <p class="fw-bold mb-1 text-capitalize"><?= $row['name']; ?></p>
+                                                    <p class="text-muted mb-0">*-<?= $row['slug']; ?></p>
+                                                </div>
                                             </div>
-                                        </td>
-                                        <td>
-                                            VNM
                                         </td>
                                         <td><?= $row['note']; ?></td>
                                         <td>
-                                            <span class="badge badge-success rounded-pill d-inline"><?= $row['status']; ?></span>
+                                            <span class="badge <?= $row['status'] == 0 ? 'badge-success' : 'badge-danger'; ?> rounded-pill d-inline">
+                                                <?= $row['status'] == 0 ? 'Đang hợp tác' : 'Tạm ngừng hợp tác'; ?>
+                                            </span>
+
                                         </td>
                                         <td class="text-muted"><?= $row['update_at']; ?></td>
                                         <td>
@@ -65,10 +71,9 @@
                                             </button>
                                         </td>
                                     </tr>
-                                <?php }; ?>
-
-
-
+                                <?php };
+                                //! Handle Data Query Table
+                                ?>
                             </tbody>
                         </table>
                         <div class="my-3 d-flex justify-content-between align-items-center">
