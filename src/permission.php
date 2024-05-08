@@ -1,4 +1,6 @@
 <?php include 'layout/header.php'; ?>
+<?php include 'utils/client/getAccountRoleBadgeClass.php'; ?>
+
 <!--Main layout-->
 <main style="margin-top: 58px;">
     <div class="container-fluid py-4 my-5">
@@ -14,73 +16,55 @@
                     <div class="card-body">
                         <table class="table align-middle mb-0 bg-white table-hover">
                             <thead class="bg-light">
-                                <tr>
+                                <tr class="text-start">
                                     <th>#</th>
                                     <th>Tên Vai Trò</th>
-                                    <th>Mô Tả</th>
+                                    <th>Mô Tả Quyền & Vai Trò</th>
                                     <th>Trạng Thái</th>
+                                    <th>Ngày Tạo</th>
                                     <th>Lịch Sử Cập Nhật</th>
                                     <th>Hoạt Động</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>
-                                        <div class="ms-3">
-                                            <p class="fw-bold mb-1">Quản trị viên cấp cao</p>
-                                        </div>
-                                    </td>
+                                <?php
+                                //! Handle Data Query Table
+                                $rows = mysqli_query($conn, "SELECT * FROM role WHERE soft_delete = 0");
+                                $i = 1;
 
-                                    <td>
-                                        Super admin có thể gán quyền cho người khác với các vai trò khác nhau để quản lý công ty và nhân sự...
-                                    </td>
-                                    <td>
-                                        <span class="badge badge-success rounded-pill d-inline">Đang Hoạt Động</span>
-                                    </td>
-                                    <td class="text-muted">10:20:30 - 03/05/2024</td>
-                                    <td>
-                                        <a href="<?php echo $base_url; ?>controllers/permission/view.php" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-eye fa-lg"></i>
-                                        </a>
-                                        <a href="<?php echo $base_url; ?>controllers/permission/edit.php" class="btn btn-link btn-rounded btn-sm fw-bold bg-primary bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-marker fa-lg"></i>
+                                while ($row = mysqli_fetch_assoc($rows)) {
+                                ?>
+                                    <tr id="<?= $row['id']; ?>" class="text-start fw-bold">
+                                        <td><?= $row['id']; ?></td>
+                                        <td><b>IRP<?= $row['id']; ?></b></td>
+                                        <td>
+                                            <span class="badge <?= getAccountRoleBadgeClass($row['id']); ?> rounded-pill d-inline">
+                                                <?= $row['name'] ?>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span data-mdb-ripple-init data-mdb-tooltip-init data-mdb-placement="bottom" title="<?= $row['note'] ?>">
+                                                <?= truncateText($row['note']); ?>
+                                            </span>
+                                        </td>
+                                        <td class="text-muted"><?= $row['created_at']; ?></td>
+                                        <td class="text-muted"><?= $row['updated_at']; ?></td>
+                                        <td>
+                                            <a href="<?php echo $base_url; ?>controllers/permission/view.php" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
+                                                <i class="fas fa-eye fa-lg"></i>
+                                            </a>
+                                            <a href="<?php echo $base_url; ?>controllers/permission/edit.php" class="btn btn-link btn-rounded btn-sm fw-bold bg-primary bg-gradient text-white" data-mdb-ripple-color="dark">
+                                                <i class="fas fa-marker fa-lg"></i>
 
-</a>
-                                        <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-danger bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-recycle fa-lg"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>
-                                        <div class="ms-3">
-                                            <p class="fw-bold mb-1">Quản trị viên cấp cao</p>
-                                        </div>
-                                    </td>
-
-                                    <td>
-                                        Super admin có thể gán quyền cho người khác với các vai trò khác nhau để quản lý công ty và nhân sự...
-                                    </td>
-                                    <td>
-                                        <span class="badge badge-success rounded-pill d-inline">Đang Hoạt Động</span>
-                                    </td>
-                                    <td class="text-muted">10:20:30 - 03/05/2024</td>
-                                    <td>
-                                        <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-eye fa-lg"></i>
-                                        </button>
-                                        <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-primary bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-marker fa-lg"></i>
-
-                                        </button>
-                                        <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-danger bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-recycle fa-lg"></i>
-                                        </button>
-                                    </td>
-
-
+                                            </a>
+                                            <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-danger bg-gradient text-white" data-mdb-ripple-color="dark">
+                                                <i class="fas fa-recycle fa-lg"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                <?php };
+                                //! Handle Data Query Table
+                                ?>
                             </tbody>
                         </table>
 
