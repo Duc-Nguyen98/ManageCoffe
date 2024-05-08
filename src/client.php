@@ -9,9 +9,6 @@
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h5 class="card-title text-left mb-0">Bảng Quản Lý Tài Khoản - client</h5>
                         <div class="exportAction">
-                            <button type="button" class="btn btn-success" data-mdb-ripple-init><i class="fas fa-file-excel fa-lg"></i> Excel</button>
-                            <button type="button" class="btn btn-danger" data-mdb-ripple-init><i class="far fa-file-pdf fa-lg"></i> PDF</button>
-                            <button type="button" class="btn btn-info" data-mdb-ripple-init> <i class="fas fa-file-arrow-up fa-lg"></i> Import</button>
                             <a href="<?php echo $base_url; ?>controllers/client/create.php" class="btn btn-primary" data-mdb-ripple-init><i class="fas fa-folder-plus fa-lg"></i> Thêm Mới</a>
                         </div>
                     </div>
@@ -41,7 +38,7 @@
                                 ?>
                                     <tr id="<?= $row['id']; ?>" class="text-start fw-bold">
                                         <td><?= $row['id']; ?></td>
-                                        <td><b>ACCT<?= $row['id']; ?></b></td>
+                                        <td><b>IAC<?= $row['id']; ?></b></td>
                                         <td>
                                             <span class="badge <?= getAccountRoleBadgeClass($row['account_role']); ?> rounded-pill d-inline">
                                                 <?= $row['role_name'] ?>
