@@ -77,6 +77,5 @@
 <!-- resetInputs -->
 
 
-<script type="text/javascript" src="../../js/mdb.umd.min.js"></script>
-
+<script src="https://cdn.jsdelivr.net/gh/Duc-Nguyen98/ManageCoffe/src/js/mdb.umd.min.js"></script>
 <?php include '../../layout/footer.php'; ?>
