@@ -84,7 +84,7 @@
 
                                         <td class="text-muted"><?= $row['created_at']; ?></td>
                                         <td>
-                                            <a href="<?php echo $base_url; ?>controllers/client/view.php" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
+                                            <a href="<?php echo $base_url; ?>controllers/client/view.php?id=<?= $row['id']; ?>" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
                                                 <i class="fas fa-eye fa-lg"></i>
                                             </a>
 
@@ -92,7 +92,7 @@
                                                 <i class="fas fa-marker fa-lg"></i>
 
                                             </a>
-                                            <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-danger bg-gradient text-white" data-mdb-ripple-color="dark">
+                                            <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-danger bg-gradient text-white" data-mdb-ripple-color="dark" value="<?= $row['id']; ?>">
                                                 <i class="fas fa-recycle fa-lg"></i>
                                             </button>
                                         </td>
@@ -149,5 +149,5 @@
 
 <!-- cdnChart -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
-<script type="text/javascript" src="js/mdb.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/Duc-Nguyen98/ManageCoffe/src/js/mdb.umd.min.js"></script>
 <?php include 'layout/footer.php'; ?>
