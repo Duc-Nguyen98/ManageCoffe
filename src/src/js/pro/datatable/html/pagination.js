@@ -30,18 +30,18 @@ const pagination = (
   <div class="datatable-pagination-buttons">
     ${
       fullPagination
-        ? '<button data-mdb-ripple-color="dark" class="btn btn-link datatable-pagination-button datatable-pagination-start"><i class="fa fa-angle-double-left"></i></button>'
+        ? '<button data-mdb-ripple-color="dark" data-mdb-ripple-init class="btn btn-link datatable-pagination-button datatable-pagination-start"><i class="fa fa-angle-double-left"></i></button>'
         : ''
     }
-    <button data-mdb-ripple-color="dark" class="btn btn-link datatable-pagination-button datatable-pagination-left"><i class="fa fa-chevron-${
+    <button data-mdb-ripple-color="dark" data-mdb-ripple-init class="btn btn-link datatable-pagination-button datatable-pagination-left"><i class="fa fa-chevron-${
       isRTL ? 'right' : 'left'
     }"></i></button>
-    <button data-mdb-ripple-color="dark" class="btn btn-link datatable-pagination-button datatable-pagination-right"><i class="fa fa-chevron-${
+    <button data-mdb-ripple-color="dark" data-mdb-ripple-init class="btn btn-link datatable-pagination-button datatable-pagination-right"><i class="fa fa-chevron-${
       isRTL ? 'left' : 'right'
     }"></i></button>
     ${
       fullPagination
-        ? '<button data-mdb-ripple-color="dark" class="btn btn-link datatable-pagination-button datatable-pagination-end"><i class="fa fa-angle-double-right"></i></button>'
+        ? '<button data-mdb-ripple-color="dark" data-mdb-ripple-init class="btn btn-link datatable-pagination-button datatable-pagination-end"><i class="fa fa-angle-double-right"></i></button>'
         : ''
     }
   </div>

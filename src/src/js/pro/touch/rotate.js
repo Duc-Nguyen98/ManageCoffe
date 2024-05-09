@@ -87,7 +87,7 @@ class Rotate extends TouchUtil {
       change: this._origin.change,
     };
 
-    EventHandler.trigger(this._element, NAME, this.rotate);
+    EventHandler.trigger(this._element, NAME, { ...this.rotate, touch: e });
   }
 
   handleTouchEnd(e) {

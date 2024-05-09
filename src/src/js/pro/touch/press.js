@@ -31,7 +31,7 @@ class Press extends TouchUtil {
 
     if (e.touches.length === pointers) {
       this._timer = setTimeout(() => {
-        EventHandler.trigger(this._element, NAME, { time });
+        EventHandler.trigger(this._element, NAME, { touch: e, time });
         EventHandler.trigger(this._element, EVENT_UP, { touch: e });
       }, time);
     }

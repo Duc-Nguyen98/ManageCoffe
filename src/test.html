@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>Material Design for Bootstrap</title>
+    <!-- MDB icon -->
+    <link rel="icon" href="img/mdb-favicon.ico" type="image/x-icon" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <!-- Google Fonts Roboto -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" />
+    <!-- MDB -->
+    <link rel="stylesheet" href="css/mdb.min.css" />
+</head>
+
+<body>
+    <!-- Start your project here-->
+    <div class="container">
+        <div class="d-flex justify-content-center align-items-center" style="height: 100vh">
+            <select data-mdb-select-init>
+          <option value="1">One</option>
+          <option value="2">Two</option>
+          <option value="3">Three</option>
+          <option value="4">Four</option>
+          <option value="5">Five</option>
+        </select>
+            <label class="form-label select-label">Example label</label>
+        </div>
+
+        <canvas data-mdb-chart-init data-mdb-chart="bar" data-mdb-dataset-label="Traffic" data-mdb-labels="['Monday', 'Tuesday' , 'Wednesday' , 'Thursday' , 'Friday' , 'Saturday' , 'Sunday ']" data-mdb-dataset-data="[2112, 2343, 2545, 3423, 2365, 1985, 987]"></canvas>
+        <canvas id="chart-bar-double-datasets-example"></canvas>
+    </div>
+    <!-- End your project here-->
+
+    <!-- MDB -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <script type="text/javascript" src="js/mdb.umd.min.js"></script>
+    <!-- Custom scripts -->
+    <script type="text/javascript">
+        // Data
+        const dataChartBarDoubleDatasetsExample = {
+            type: "bar",
+            data: {
+                labels: ["Desktop", "Mobile", "Tablet"],
+                datasets: [{
+                    label: "Users",
+                    data: [510, 653, 255],
+                }, {
+                    label: "Page views",
+                    data: [1251, 1553, 1355],
+                    backgroundColor: "#94DFD7",
+                    borderColor: "#94DFD7",
+                }, ],
+            },
+        };
+
+        // Options
+        const optionsChartBarDoubleDatasetsExample = {
+            options: {
+                scales: {
+                    y: {
+                        stacked: false,
+                        ticks: {
+                            beginAtZero: true,
+                        },
+                    },
+                    x: {
+                        stacked: false,
+                    },
+                },
+            },
+        };
+
+        new Chart(
+            document.getElementById("chart-bar-double-datasets-example"),
+            dataChartBarDoubleDatasetsExample,
+            optionsChartBarDoubleDatasetsExample
+        );
+    </script>
+</body>
+
+</html>

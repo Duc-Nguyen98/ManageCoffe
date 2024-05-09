@@ -1,16 +1,16 @@
-import { getjQuery, typeCheckConfig, onDOMContentLoaded } from '../../mdb/util/index';
+import { typeCheckConfig } from '../../mdb/util/index';
 import Data from '../../mdb/dom/data';
 import Manipulator from '../../mdb/dom/manipulator';
 import SelectorEngine from '../../mdb/dom/selector-engine';
 import EventHandler from '../../mdb/dom/event-handler';
 import { getBackdropTemplate } from './templates';
+import BaseComponent from '../../free/base-component';
+import { bindCallbackEventsIfNeeded } from '../../autoinit/init';
 
 const NAME = 'loading';
 const CLASS_SPINNER = 'loading-spinner';
 const DATA_KEY = 'mdb.loading';
-const CLASS_NAME_SHOW = 'show';
 
-const SELECTOR_LOADING = '.loading';
 const SELECTOR_LOADING_ICON = '.loading-icon';
 const SELECTOR_LOADING_TEXT = '.loading-text';
 
@@ -40,14 +40,11 @@ const Default = {
   loadingIcon: true,
 };
 
-class Loading {
+class Loading extends BaseComponent {
   constructor(element, options = {}) {
-    this._element = element;
-    this._options = this._getConfig(options);
+    super(element);
 
-    if (this._element) {
-      Data.setData(element, DATA_KEY, this);
-    }
+    this._options = this._getConfig(options);
 
     this._backdropElement = null;
     this._parentElement = SelectorEngine.findOne(this._options.parentSelector);
@@ -56,6 +53,8 @@ class Loading {
     this._loadingText = SelectorEngine.findOne(SELECTOR_LOADING_TEXT, this._element);
 
     this.init();
+    Manipulator.setDataAttribute(this._element, `${this.constructor.NAME}-initialized`, true);
+    bindCallbackEventsIfNeeded(this.constructor);
   }
   // Getters
 
@@ -64,14 +63,6 @@ class Loading {
   }
 
   // Public
-
-  toggle() {
-    const isActive = Manipulator.hasClass(this._element, CLASS_NAME_SHOW);
-
-    if (isActive) return;
-
-    this.init();
-  }
 
   init() {
     const spinnerCloned = this._loadingIcon.cloneNode(true);
@@ -92,11 +83,18 @@ class Loading {
   }
 
   dispose() {
-    Data.removeData(this._element, DATA_KEY);
-    this._backdropElement = null;
+    Manipulator.removeClass(this._element, CLASS_SPINNER);
 
-    this._element = null;
-    this._options = null;
+    const delay = this._options.delay;
+    Manipulator.removeDataAttribute(this._element, `${this.constructor.NAME}-initialized`);
+
+    setTimeout(() => {
+      this._removeBackdrop();
+
+      setTimeout(() => {
+        super.dispose();
+      }, delay);
+    }, delay);
   }
 
   // Private
@@ -119,6 +117,22 @@ class Loading {
 
       document.body.appendChild(this._backdropElement);
       document.body.appendChild(this._element);
+    }
+  }
+
+  _removeBackdrop() {
+    const { backdrop } = this._options;
+
+    if (!backdrop) return;
+
+    if (this._parentElement !== null) {
+      Manipulator.removeClass(this._element, 'position-absolute');
+      Manipulator.removeClass(this._parentElement, 'position-relative');
+
+      this._backdropElement.remove();
+    } else {
+      this._backdropElement.remove();
+      this._element.remove();
     }
   }
 
@@ -177,16 +191,6 @@ class Loading {
 
   // Static
 
-  static getInstance(element) {
-    return Data.getData(element, DATA_KEY);
-  }
-
-  static getOrCreateInstance(element, config = {}) {
-    return (
-      this.getInstance(element) || new this(element, typeof config === 'object' ? config : null)
-    );
-  }
-
   static jQueryInterface(config) {
     return this.each(function () {
       let data = Data.getData(this, DATA_KEY);
@@ -203,39 +207,5 @@ class Loading {
     });
   }
 }
-
-/**
- * ------------------------------------------------------------------------
- * Data Api implementation - auto initialization
- * ------------------------------------------------------------------------
- */
-
-SelectorEngine.find(SELECTOR_LOADING).forEach((loading) => {
-  let instance = Loading.getInstance(loading);
-  if (!instance) {
-    instance = new Loading(loading);
-  }
-  return instance;
-});
-
-/**
- * ------------------------------------------------------------------------
- * jQuery
- * ------------------------------------------------------------------------
- */
-
-onDOMContentLoaded(() => {
-  const $ = getjQuery();
-
-  if ($) {
-    const JQUERY_NO_CONFLICT = $.fn[NAME];
-    $.fn[NAME] = Loading.jQueryInterface;
-    $.fn[NAME].Constructor = Loading;
-    $.fn[NAME].noConflict = () => {
-      $.fn[NAME] = JQUERY_NO_CONFLICT;
-      return Loading.jQueryInterface;
-    };
-  }
-});
 
 export default Loading;

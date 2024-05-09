@@ -1,8 +1,10 @@
-import { typeCheckConfig, getjQuery, element, onDOMContentLoaded } from '../mdb/util/index';
+import { typeCheckConfig, element } from '../mdb/util/index';
 import Data from '../mdb/dom/data';
 import EventHandler from '../mdb/dom/event-handler';
 import Manipulator from '../mdb/dom/manipulator';
 import SelectorEngine from '../mdb/dom/selector-engine';
+import BaseComponent from '../free/base-component';
+import { bindCallbackEventsIfNeeded } from '../autoinit/init';
 
 /**
  * ------------------------------------------------------------------------
@@ -13,7 +15,6 @@ import SelectorEngine from '../mdb/dom/selector-engine';
 const NAME = 'clipboard';
 const DATA_KEY = 'mdb.clipboard';
 const EVENT_KEY = `.${DATA_KEY}`;
-const SELECTOR_COMPONENT = '.clipboard';
 
 const DEFAULT_OPTIONS = {
   clipboardTarget: null,
@@ -23,7 +24,7 @@ const OPTIONS_TYPE = {
   clipboardTarget: 'null|string',
 };
 
-const EVENT_COPY = `copy${EVENT_KEY}`;
+const EVENT_COPIED = `copied${EVENT_KEY}`;
 
 /**
  * ------------------------------------------------------------------------
@@ -31,17 +32,18 @@ const EVENT_COPY = `copy${EVENT_KEY}`;
  * ------------------------------------------------------------------------
  */
 
-class Clipboard {
+class Clipboard extends BaseComponent {
   constructor(element, options = {}) {
-    this._element = element;
+    super(element);
+
     this._options = options;
 
     if (this._element) {
-      Data.setData(element, DATA_KEY, this);
-
       this._initCopy = this._initCopy.bind(this);
 
       this._setup();
+      Manipulator.setDataAttribute(this._element, `${this.constructor.NAME}-initialized`, true);
+      bindCallbackEventsIfNeeded(this.constructor);
     }
   }
 
@@ -87,9 +89,9 @@ class Clipboard {
 
   dispose() {
     EventHandler.off(this._element, 'click', this._initCopy);
+    Manipulator.removeDataAttribute(this._element, `${this.constructor.NAME}-initialized`);
 
-    Data.removeData(this._element, DATA_KEY);
-    this._element = null;
+    super.dispose();
   }
 
   // Private
@@ -101,13 +103,14 @@ class Clipboard {
     const inputToCopy = this._createNewInput();
     document.body.appendChild(inputToCopy);
     this._selectInput(inputToCopy);
-    EventHandler.trigger(this._element, EVENT_COPY, { copyText: this.copyText });
+    EventHandler.trigger(this._element, EVENT_COPIED, { copyText: this.copyText });
 
     inputToCopy.remove();
   }
 
   _createNewInput() {
-    const newInput = element('input');
+    const tag = this.clipboardTarget.tagName === 'TEXTAREA' ? 'textarea' : 'input';
+    const newInput = element(tag);
     newInput.value = this.copyText;
     Manipulator.style(newInput, { left: '-9999px', position: 'absolute' });
 
@@ -141,51 +144,6 @@ class Clipboard {
       }
     });
   }
-
-  static getInstance(element) {
-    return Data.getData(element, DATA_KEY);
-  }
-
-  static getOrCreateInstance(element, config = {}) {
-    return (
-      this.getInstance(element) || new this(element, typeof config === 'object' ? config : null)
-    );
-  }
 }
-
-/**
- * ------------------------------------------------------------------------
- * Data Api implementation - auto initialization
- * ------------------------------------------------------------------------
- */
-
-SelectorEngine.find(SELECTOR_COMPONENT).forEach((el) => {
-  let instance = Clipboard.getInstance(el);
-  if (!instance) {
-    instance = new Clipboard(el);
-  }
-  return instance;
-});
-
-/**
- * ------------------------------------------------------------------------
- * jQuery
- * ------------------------------------------------------------------------
- * add .treeview to jQuery only if jQuery is present
- */
-
-onDOMContentLoaded(() => {
-  const $ = getjQuery();
-
-  if ($) {
-    const JQUERY_NO_CONFLICT = $.fn[NAME];
-    $.fn[NAME] = Clipboard.jQueryInterface;
-    $.fn[NAME].Constructor = Clipboard;
-    $.fn[NAME].noConflict = () => {
-      $.fn[NAME] = JQUERY_NO_CONFLICT;
-      return Clipboard.jQueryInterface;
-    };
-  }
-});
 
 export default Clipboard;

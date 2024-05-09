@@ -1,9 +1,11 @@
-import { element, getjQuery, typeCheckConfig, onDOMContentLoaded } from '../../mdb/util/index';
+import { element, typeCheckConfig } from '../../mdb/util/index';
 import Manipulator from '../../mdb/dom/manipulator';
 import SelectorEngine from '../../mdb/dom/selector-engine';
 import Data from '../../mdb/dom/data';
 import EventHandler from '../../mdb/dom/event-handler';
 import { getChip } from './templates';
+import BaseComponent from '../../free/base-component';
+import { bindCallbackEventsIfNeeded } from '../../autoinit/init';
 
 /**
  *
@@ -22,10 +24,17 @@ const DefaultType = { text: 'string', closeIcon: 'boolean', img: 'object' };
 
 const Default = { text: '', closeIcon: false, img: { path: '', alt: '' } };
 
-class Chip {
+class Chip extends BaseComponent {
   constructor(element, data = {}) {
-    this._element = element;
+    super(element, data);
     this._options = this._getConfig(data);
+
+    if (this._element) {
+      Data.setData(element, DATA_KEY, this);
+    }
+
+    Manipulator.setDataAttribute(this._element, `${this.constructor.NAME}-initialized`, true);
+    bindCallbackEventsIfNeeded(this.constructor);
   }
 
   // Getters
@@ -44,9 +53,10 @@ class Chip {
   }
 
   dispose() {
-    this._element = null;
-    this._options = null;
     EventHandler.off(this._element, 'click');
+    Manipulator.removeDataAttribute(this._element, `${this.constructor.NAME}-initialized`);
+
+    super.dispose();
   }
 
   appendChip() {
@@ -128,50 +138,6 @@ class Chip {
       }
     });
   }
-
-  static getInstance(element) {
-    return Data.getData(element, DATA_KEY);
-  }
-
-  static getOrCreateInstance(element, config = {}) {
-    return (
-      this.getInstance(element) || new this(element, typeof config === 'object' ? config : null)
-    );
-  }
 }
-
-/**
- * ------------------------------------------------------------------------
- * Data Api implementation - auto initialization
- * ------------------------------------------------------------------------
- */
-
-SelectorEngine.find(`.${NAME}`).forEach((chip) => {
-  let instance = Chip.getInstance(chip);
-  if (!instance) {
-    instance = new Chip(chip);
-  }
-  return instance.init();
-});
-
-/**
- * ------------------------------------------------------------------------
- * jQuery
- * ------------------------------------------------------------------------
- */
-
-onDOMContentLoaded(() => {
-  const $ = getjQuery();
-
-  if ($) {
-    const JQUERY_NO_CONFLICT = $.fn[NAME];
-    $.fn[NAME] = Chip.jQueryInterface;
-    $.fn[NAME].Constructor = Chip;
-    $.fn[NAME].noConflict = () => {
-      $.fn[NAME] = JQUERY_NO_CONFLICT;
-      return Chip.jQueryInterface;
-    };
-  }
-});
 
 export default Chip;

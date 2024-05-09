@@ -50,7 +50,7 @@ export function getDatepickerTemplate(
         )}
     `;
   const modalContent = `
-      ${createHeader(day, dayNumber, month, options)}
+      ${createHeader(day, dayNumber, month, options, date)}
       ${createMainContent(
         date,
         month,
@@ -94,15 +94,34 @@ export function createContainer() {
   return container;
 }
 
-function createHeader(day, dayNumber, month, options) {
+export function createCustomHeader(day, dayNumber, month, selected, options) {
+  const { weekdaysShort, weekdaysFull, monthsShort, headerTemplateModifier, headerTemplate } =
+    options;
+
+  const selectedDate = headerTemplateModifier ? headerTemplateModifier(selected) : selected;
+  return headerTemplate
+    .replaceAll('[day]', day)
+    .replaceAll('[weekday]', weekdaysShort[dayNumber])
+    .replaceAll('[weekdayFull]', weekdaysFull[dayNumber])
+    .replaceAll('[month]', monthsShort[month])
+    .replaceAll('[selected]', selectedDate);
+}
+
+function createHeader(day, dayNumber, month, options, selected) {
   return `
       <div class="datepicker-header">
+      ${
+        options.headerTemplate
+          ? createCustomHeader(day, dayNumber, month, selected, options)
+          : `
         <div class="datepicker-title">
           <span class="datepicker-title-text">${options.title}</span>
         </div>
         <div class="datepicker-date">
           <span class="datepicker-date-text">${options.weekdaysShort[dayNumber]}, ${options.monthsShort[month]} ${day}</span>
         </div>
+        `
+      }
       </div>
     `;
 }
@@ -202,11 +221,15 @@ function createControls(month, year, options) {
 }
 
 function createFooter(options) {
+  const okBtn = `<button class="datepicker-footer-btn datepicker-ok-btn" aria-label="${options.okBtnLabel}">${options.okBtnText}</button>`;
+  const cancelButton = `<button class="datepicker-footer-btn datepicker-cancel-btn" aria-label="${options.cancelBtnLabel}">${options.cancelBtnText}</button>`;
+  const clearButton = `<button class="datepicker-footer-btn datepicker-clear-btn" aria-label="${options.clearBtnLabel}">${options.clearBtnText}</button>`;
+
   return `
         <div class="datepicker-footer">
-          <button class="datepicker-footer-btn datepicker-clear-btn" aria-label="${options.clearBtnLabel}">${options.clearBtnText}</button>
-          <button class="datepicker-footer-btn datepicker-cancel-btn" aria-label="${options.cancelBtnLabel}">${options.cancelBtnText}</button>
-          <button class="datepicker-footer-btn datepicker-ok-btn" aria-label="${options.okBtnLabel}">${options.okBtnText}</button>
+          ${options.removeClearBtn ? '' : clearButton}
+          ${options.removeCancelBtn ? '' : cancelButton}
+          ${options.removeOkBtn ? '' : okBtn}
         </div>
       `;
 }
@@ -231,14 +254,16 @@ export function createDayViewTemplate(date, headerDate, options) {
         <tr>
           ${week
             .map((day) => {
+              const dayLabel = `${options.weekdaysFull[getDayNumber(day.date)]}, ${
+                options.monthsFull[getMonth(day.date)]
+              } ${getDate(day.date)}, ${getYear(day.date)}`;
               return `
               <td
               class="datepicker-cell datepicker-small-cell datepicker-day-cell
               ${day.currentMonth ? '' : 'disabled'} ${day.disabled ? 'disabled' : ''}
               ${day.isToday && 'current'} ${day.isSelected && 'selected'}"
               data-mdb-date="${getYear(day.date)}-${getMonth(day.date)}-${getDate(day.date)}"
-              aria-label="${day.date}"
-              aria-selected="${day.isSelected}">
+              aria-label="${dayLabel}" aria-selected="${day.isSelected}" ${day.disabled ? 'aria-disabled=true' : ''}>
                 <div
                   class="datepicker-cell-content datepicker-small-cell-content"
                   style="${day.currentMonth ? 'display: block' : 'display: none'}">
@@ -295,7 +320,14 @@ function getDatesArray(activeDate, headerDate, options) {
           isSelected: headerDate && isSameDate(date, headerDate),
           isToday: isSameDate(date, getToday()),
           dayNumber: getDate(date),
-          disabled: isDateDisabled(date, options.min, options.max, options.filter),
+          disabled: isDateDisabled(
+            date,
+            options.min,
+            options.max,
+            options.filter,
+            options.disablePast,
+            options.disableFuture
+          ),
         });
       }
 
@@ -311,7 +343,14 @@ function getDatesArray(activeDate, headerDate, options) {
           isSelected: headerDate && isSameDate(date, headerDate),
           isToday: isSameDate(date, getToday()),
           dayNumber: getDate(date),
-          disabled: isDateDisabled(date, options.min, options.max, options.filter),
+          disabled: isDateDisabled(
+            date,
+            options.min,
+            options.max,
+            options.filter,
+            options.disablePast,
+            options.disableFuture
+          ),
         });
         dayNumber++;
       }
@@ -331,7 +370,14 @@ function getDatesArray(activeDate, headerDate, options) {
           isSelected: headerDate && isSameDate(date, headerDate),
           isToday: isSameDate(date, getToday()),
           dayNumber: getDate(date),
-          disabled: isDateDisabled(date, options.min, options.max, options.filter),
+          disabled: isDateDisabled(
+            date,
+            options.min,
+            options.max,
+            options.filter,
+            options.disablePast,
+            options.disableFuture
+          ),
         });
         dayNumber++;
       }
@@ -352,20 +398,31 @@ export function createMonthViewTemplate(year, selectedYear, selectedMonth, optio
         .map((row) => {
           return `
           <tr>
-            ${row
-              .map((month) => {
-                const monthIndex = options.monthsShort.indexOf(month);
-                return `
-                <td class="datepicker-cell datepicker-large-cell datepicker-month-cell ${
-                  isMonthDisabled(monthIndex, year, options.min, options.max) ? 'disabled' : ''
-                } ${monthIndex === selectedMonth && year === selectedYear ? 'selected' : ''} ${
-                  monthIndex === currentMonth && year === currentYear ? 'current' : ''
-                }" data-mdb-month="${monthIndex}" data-mdb-year="${year}" aria-label="${month}, ${year}">
+          ${row
+            .map((month) => {
+              const monthIndex = options.monthsShort.indexOf(month);
+              const isDisabled = isMonthDisabled(
+                monthIndex,
+                year,
+                options.min,
+                options.max,
+                options.disablePast,
+                options.disableFuture
+              );
+              return `
+                <td class="datepicker-cell datepicker-large-cell datepicker-month-cell 
+                ${isDisabled ? 'disabled' : ''} ${
+                monthIndex === selectedMonth && year === selectedYear ? 'selected' : ''
+              } ${
+                monthIndex === currentMonth && year === currentYear ? 'current' : ''
+              }" data-mdb-month="${monthIndex}" data-mdb-year="${year}" aria-label="${month}, ${year}"  ${
+                isDisabled ? 'aria-disabled=true' : ''
+              }>
                   <div class="datepicker-cell-content datepicker-large-cell-content">${month}</div>
                 </td>
               `;
-              })
-              .join('')}
+            })
+            .join('')}
           </tr>
         `;
         })
@@ -410,12 +467,20 @@ export function createYearViewTemplate(date, selectedYear, options, yearsInView,
         <tr>
           ${row
             .map((year) => {
+              const isDisabled = isYearDisabled(
+                year,
+                options.min,
+                options.max,
+                options.disablePast,
+                options.disableFuture
+              );
               return `
-              <td class="datepicker-cell datepicker-large-cell datepicker-year-cell ${
-                isYearDisabled(year, options.min, options.max) ? 'disabled' : ''
-              } ${year === selectedYear ? 'selected' : ''} ${
+              <td class="datepicker-cell datepicker-large-cell datepicker-year-cell 
+              ${isDisabled ? 'disabled' : ''} ${year === selectedYear ? 'selected' : ''} ${
                 year === currentYear ? 'current' : ''
-              }" aria-label="${year}" data-mdb-year="${year}">
+              }" aria-label="${year}" data-mdb-year="${year}" ${
+                isDisabled ? 'aria-disabled="true"' : ''
+              }>
                 <div class="datepicker-cell-content datepicker-large-cell-content">${year}</div>
               </td>
             `;

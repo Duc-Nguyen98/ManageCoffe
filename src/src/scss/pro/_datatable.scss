@@ -1,34 +1,74 @@
 .datatable {
-  --datatable-color: rgb(33, 37, 41);
-  --datatable-border-color: rgb(224, 224, 224);
-  --datatable-striped-color: rgb(33, 37, 41);
-  --datatable-accent-bg: rgba(0, 0, 0, 0.02);
-  --datatable-hover-color: rgb(19, 19, 19);
-  --datatable-hover-bg: rgba(0, 0, 0, 0.048);
-  --datatable-muted-color: grey;
-  --datatable-active-color: rgba(19, 19, 19, 0.05);
+  // scss-docs-start datatable-css-vars
+  --#{$prefix}datatable-color: #{$datatable-color};
+  --#{$prefix}datatable-border-color: #{$datatable-border-color};
+  --#{$prefix}datatable-striped-color: #{$datatable-striped-color};
+  --#{$prefix}datatable-accent-bg: #{$datatable-accent-bg};
+  --#{$prefix}datatable-hover-color: #{$datatable-hover-color};
+  --#{$prefix}datatable-hover-bg: #{$datatable-hover-bg};
+  --#{$prefix}datatable-muted-color: #{$datatable-muted-color};
+  --#{$prefix}datatable-active-color: #{$datatable-active-color};
+  --#{$prefix}datatable-font-size: #{$datatable-font-size};
+  --#{$prefix}datatable-background-color: #{$datatable-background-color};
+  --#{$prefix}datatable-table-th-td-max-width: #{$datatable-table-th-td-max-width};
+  --#{$prefix}datatable-table-th-td-padding-y: #{$datatable-table-th-td-padding-y};
+  --#{$prefix}datatable-table-th-td-padding-x: #{$datatable-table-th-td-padding-x};
+  --#{$prefix}datatable-thead-tr-border-width: #{$datatable-thead-tr-border-width};
+  --#{$prefix}datatable-thead-th-font-weight: #{$datatable-thead-th-font-weight};
+  --#{$prefix}datatable-thead-fixed-cell-background-color: #{$datatable-thead-fixed-cell-background-color};
+  --#{$prefix}datatable-tbody-font-weight: #{$datatable-tbody-font-weight};
+  --#{$prefix}datatable-tbody-tr-transition: #{$datatable-tbody-tr-transition};
+  --#{$prefix}datatable-tbody-tr-last-child-height: #{$datatable-tbody-tr-last-child-height};
+  --#{$prefix}datatable-tbody-loader-height: #{$datatable-tbody-loader-height};
+  --#{$prefix}datatable-tbody-progress-animation: #{$datatable-tbody-progress-animation};
+  --#{$prefix}datatable-tbody-progress-width: #{$datatable-tbody-progress-width};
+  --#{$prefix}datatable-tbody-progress-opacity: #{$datatable-tbody-progress-opacity};
+  --#{$prefix}datatable-tbody-progress-border-radius: #{$datatable-tbody-progress-border-radius};
+  --#{$prefix}datatable-pagination-padding-y: #{$datatable-pagination-padding-y};
+  --#{$prefix}datatable-pagination-border-width: #{$datatable-pagination-border-width};
+  --#{$prefix}datatable-pagination-nav-font-size: #{$datatable-pagination-nav-font-size};
+  --#{$prefix}datatable-pagination-buttons-margin-left: #{$datatable-pagination-buttons-margin-left};
+  --#{$prefix}datatable-pagination-button-padding-x: #{$datatable-pagination-button-padding-x};
+  --#{$prefix}datatable-sort-icon-transition-duration: #{$datatable-sort-icon-transition-duration};
+  --#{$prefix}datatable-sort-icon-left: #{$datatable-sort-icon-left};
+  --#{$prefix}datatable-sort-icon-top: #{$datatable-sort-icon-top};
+  --#{$prefix}datatable-select-wrapper-font-size: #{$datatable-select-wrapper-font-size};
+  --#{$prefix}datatable-select-wrapper-font-weight: #{$datatable-select-wrapper-font-weight};
+  --#{$prefix}datatable-sm-th-td-padding-y: #{$datatable-sm-th-td-padding-y};
+  --#{$prefix}datatable-sm-th-td-padding-x: #{$datatable-sm-th-td-padding-x};
+  --#{$prefix}datatable-sm-tbody-tr-last-child-height: #{$datatable-sm-tbody-tr-last-child-height};
+  --#{$prefix}datatable-sm-pagination-padding: #{$datatable-sm-pagination-padding};
+  --#{$prefix}datatable-bordered-th-td-border-width: #{$datatable-bordered-th-td-border-width};
+  --#{$prefix}datatable-hover-tbody-tr-transition: #{$datatable-hover-tbody-tr-transition};
+  --#{$prefix}datatable-dark-select-arrow-input-color: #{$datatable-dark-select-arrow-input-color};
+  --#{$prefix}datatable-dark-border-color: #{$datatable-dark-border-color};
+  --#{$prefix}datatable-dark-check-border-color: #{$datatable-dark-check-border-color};
+  --#{$prefix}datatable-dark-datatable-progress-opacity: #{$datatable-dark-datatable-progress-opacity};
+  // scss-docs-end datatable-css-vars
 
-  font-size: $datatable-font-size;
-  color: var(--datatable-color);
-  background-color: $datatable-background-color;
+  font-size: var(--#{$prefix}datatable-font-size);
+  color: var(--#{$prefix}datatable-color);
+  background-color: var(--#{$prefix}datatable-background-color);
 
   &-inner {
     background-color: inherit;
   }
 
   table {
-    color: var(--datatable-color);
+    font-size: var(--#{$prefix}datatable-font-size);
+    color: var(--#{$prefix}datatable-color);
     background-color: inherit;
     margin-bottom: 0;
-    border-color: var(--datatable-border-color);
+    border-color: var(--#{$prefix}datatable-border-color);
 
     th,
     td {
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      max-width: $datatable-table-th-td-max-width;
-      padding: $datatable-table-th-td-padding-y $datatable-table-th-td-padding-x;
+      max-width: var(--#{$prefix}datatable-table-th-td-max-width);
+      padding: var(--#{$prefix}datatable-table-th-td-padding-y)
+        var(--#{$prefix}datatable-table-th-td-padding-x);
     }
   }
 
@@ -37,12 +77,13 @@
 
     tr {
       background-color: inherit;
-      border-bottom: $datatable-thead-tr-border-width solid var(--datatable-border-color);
+      border-bottom: var(--#{$prefix}datatable-thead-tr-border-width) solid
+        var(--#{$prefix}datatable-border-color);
     }
     th {
       position: relative;
       border-bottom: none;
-      font-weight: $datatable-thead-th-font-weight;
+      font-weight: var(--#{$prefix}datatable-thead-th-font-weight);
 
       &:hover {
         .datatable-sort-icon {
@@ -55,13 +96,13 @@
       position: sticky;
       top: 0;
       z-index: 3;
-      box-shadow: var(--datatable-border-color) 0px 1px;
-      background-color: $datatable-thead-fixed-cell-background-color;
+      box-shadow: var(--#{$prefix}datatable-border-color) 0px 1px;
+      background-color: var(--#{$prefix}datatable-thead-fixed-cell-background-color);
     }
   }
 
   tbody {
-    font-weight: $datatable-tbody-font-weight;
+    font-weight: var(--#{$prefix}datatable-tbody-font-weight);
     background-color: inherit;
 
     .fixed-cell {
@@ -72,11 +113,11 @@
 
     tr {
       background-color: inherit;
-      transition: $datatable-tbody-tr-transition;
+      transition: var(--#{$prefix}datatable-tbody-tr-transition);
 
       &:last-child {
         border-bottom: transparent;
-        height: $datatable-tbody-tr-last-child-height;
+        height: var(--#{$prefix}datatable-tbody-tr-last-child-height);
       }
 
       &:focus {
@@ -84,7 +125,7 @@
       }
 
       &.active {
-        background-color: var(--datatable-active-color);
+        background-color: var(--#{$prefix}datatable-active-color);
       }
     }
 
@@ -97,7 +138,7 @@
 
   &-loader {
     width: 100%;
-    height: $datatable-tbody-loader-height;
+    height: var(--#{$prefix}datatable-tbody-loader-height);
     position: relative;
     overflow: hidden;
   }
@@ -108,13 +149,13 @@
   }
 
   &-progress {
-    animation: $datatable-tbody-progress-animation;
+    animation: var(--#{$prefix}datatable-tbody-progress-animation);
     animation-fill-mode: both;
     animation-iteration-count: infinite;
-    width: $datatable-tbody-progress-width;
+    width: var(--#{$prefix}datatable-tbody-progress-width);
     position: relative;
-    opacity: $datatable-tbody-progress-opacity;
-    border-radius: $datatable-tbody-progress-border-radius;
+    opacity: var(--#{$prefix}datatable-tbody-progress-opacity);
+    border-radius: var(--#{$prefix}datatable-tbody-progress-border-radius);
     display: block;
     height: 100%;
   }
@@ -133,48 +174,49 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    padding: $datatable-pagination-padding-y 0;
-    border-top: $datatable-pagination-border-width solid var(--datatable-border-color);
+    padding: var(--#{$prefix}datatable-pagination-padding-y) 0;
+    border-top: var(--#{$prefix}datatable-pagination-border-width) solid
+      var(--#{$prefix}datatable-border-color);
   }
 
   &-pagination-nav {
     padding: 0;
-    font-size: $datatable-pagination-nav-font-size;
+    font-size: var(--#{$prefix}datatable-pagination-nav-font-size);
     direction: ltr #{'/*!rtl:ignore*/'};
   }
 
   &-pagination-buttons {
-    margin-left: $datatable-pagination-buttons-margin-left;
+    margin-left: var(--#{$prefix}datatable-pagination-buttons-margin-left);
   }
 
   &-pagination-button {
-    padding-left: $datatable-pagination-button-padding-x;
-    padding-right: $datatable-pagination-button-padding-x;
-    color: var(--datatable-color);
+    padding-left: var(--#{$prefix}datatable-pagination-button-padding-x);
+    padding-right: var(--#{$prefix}datatable-pagination-button-padding-x);
+    color: var(--#{$prefix}datatable-color);
   }
 
   &-sort-icon {
     opacity: 0;
-    color: var(--datatable-muted-color);
+    color: var(--#{$prefix}datatable-muted-color);
     cursor: pointer;
     transition-property: opacity, transform;
-    transition-duration: $datatable-sort-icon-transition-duration;
+    transition-duration: var(--#{$prefix}datatable-sort-icon-transition-duration);
     transition-timing-function: linear;
     position: absolute;
-    left: $datatable-sort-icon-left;
-    top: $datatable-sort-icon-top;
+    left: var(--#{$prefix}datatable-sort-icon-left);
+    top: var(--#{$prefix}datatable-sort-icon-top);
 
     &.active {
       opacity: 1;
-      color: var(--datatable-color);
+      color: var(--#{$prefix}datatable-color);
     }
   }
 
   &-select-wrapper {
     display: flex;
     align-items: center;
-    font-size: $datatable-select-wrapper-font-size;
-    font-weight: $datatable-select-wrapper-font-weight;
+    font-size: var(--#{$prefix}datatable-select-wrapper-font-size);
+    font-weight: var(--#{$prefix}datatable-select-wrapper-font-weight);
     padding: 0 1rem;
 
     .select-input {
@@ -189,37 +231,43 @@
   &.datatable-sm {
     th,
     td {
-      padding: $datatable-sm-th-td-padding-y $datatable-sm-th-td-padding-x;
+      padding: var(--#{$prefix}datatable-sm-th-td-padding-y)
+        var(--#{$prefix}datatable-sm-th-td-padding-x);
     }
 
     tbody {
       tr:last-child {
         border-bottom: transparent;
-        height: $datatable-sm-tbody-tr-last-child-height;
+        height: var(--#{$prefix}datatable-sm-tbody-tr-last-child-height);
       }
     }
 
     .datatable-pagination {
-      padding: $datatable-sm-pagination-padding 0;
+      padding: var(--#{$prefix}datatable-sm-pagination-padding) 0;
     }
   }
 
   &.datatable-bordered {
     th,
     td {
-      border-width: $datatable-bordered-th-td-border-width;
+      border-width: var(--#{$prefix}datatable-bordered-th-td-border-width);
     }
 
     .datatable-pagination {
-      border: $datatable-bordered-th-td-border-width solid var(--datatable-border-color);
+      border: var(--#{$prefix}datatable-bordered-th-td-border-width) solid
+        var(--#{$prefix}datatable-border-color);
     }
   }
 
   &.datatable-striped {
     tbody {
       tr:nth-of-type(odd) {
-        background-color: var(--datatable-accent-bg);
-        color: var(--datatable-striped-color);
+        background-color: var(--#{$prefix}datatable-accent-bg);
+        color: var(--#{$prefix}datatable-striped-color);
+
+        td {
+          background-color: var(--#{$prefix}datatable-accent-bg);
+        }
       }
     }
   }
@@ -227,10 +275,13 @@
   &.datatable-hover {
     tbody {
       tr {
-        transition: $datatable-hover-tbody-tr-transition !important;
-
+        transition: var(--#{$prefix}datatable-hover-tbody-tr-transition) !important;
         &:hover {
-          background-color: var(--datatable-hover-bg) !important;
+          background-color: var(--#{$prefix}datatable-hover-bg) !important;
+
+          td {
+            background-color: var(--mdb-table-hover-bg);
+          }
         }
       }
     }
@@ -242,73 +293,67 @@
         cursor: pointer;
 
         &.active {
-          background-color: var(--datatable-hover-bg);
+          background-color: var(--#{$prefix}datatable-hover-bg);
         }
       }
     }
   }
 
   &.datatable-dark {
-    --datatable-color: #{#fff};
-    --datatable-border-color: #{#fff};
-    --datatable-active-color: #{rgba(255, 255, 255, 0.2)};
+    --#{$prefix}datatable-color: #{$datatable-dark-color};
+    --#{$prefix}datatable-border-color: #{$datatable-dark-border-color};
+    --#{$prefix}datatable-active-color: #{$datatable-dark-active-color};
+    --#{$prefix}datatable-striped-color: #{$datatable-dark-striped-color};
+    --#{$prefix}datatable-accent-bg: #{$datatable-dark-accent-bg};
+    --#{$prefix}datatable-hover-bg: #{$datatable-dark-hover-bg};
+    --#{$prefix}datatable-hover-color: #{$datatable-dark-hover-color};
 
     .select-wrapper {
       .select-arrow,
       input {
-        color: white;
+        color: var(--#{$prefix}datatable-dark-select-arrow-input-color);
       }
 
       .form-outline .form-control:focus ~ .form-notch .form-notch-leading,
       .form-notch-trailing {
-        border-color: rgb(251, 251, 251) !important;
+        border-color: var(--#{$prefix}datatable-dark-border-color) !important;
       }
       .form-notch-leading,
-      .form-noth-middle,
+      .form-notch-middle,
       .form-notch-trailing {
-        border-color: rgb(251, 251, 251) !important;
+        border-color: var(--#{$prefix}datatable-dark-border-color) !important;
       }
 
       .form-outline .form-control:focus ~ .form-notch .form-notch-leading {
-        border-color: rgb(251, 251, 251) !important;
+        border-color: var(--#{$prefix}datatable-dark-border-color) !important;
       }
     }
 
     .form-check-input[type='checkbox']:checked {
       background-color: transparent;
-      border-color: $datatable-dark-check-border-color;
+      border-color: var(--#{$prefix}datatable-dark-check-border-color);
     }
 
     .datatable-progress {
-      opacity: $datatable-dark-datatable-progress-opacity;
-    }
-
-    &.datatable-striped {
-      --datatable-striped-color: #{white};
-      --datatable-accent-bg: #{rgba(255, 255, 255, 0.05)};
-    }
-
-    &.datatable-hover {
-      --datatable-hover-bg: #{rgba(255, 255, 255, 0.2)};
-      --datatable-hover-color: #{white};
+      opacity: var(--#{$prefix}datatable-dark-datatable-progress-opacity);
     }
   }
 
   @each $color, $value in $theme-colors {
     &.border-#{$color} {
-      --datatable-border-color: #{$value};
+      --#{$prefix}datatable-border-color: #{$value};
     }
   }
 
   &.datatable-borderless {
-    --datatable-border-color: #{transparent};
+    --#{$prefix}datatable-border-color: #{transparent};
   }
 
   &.datatable-loading {
-    color: var(--datatable-muted-color);
+    color: var(--#{$prefix}datatable-muted-color);
 
     th {
-      color: var(--datatable-muted-color);
+      color: var(--#{$prefix}datatable-muted-color);
     }
 
     .datatable-sort-icon {

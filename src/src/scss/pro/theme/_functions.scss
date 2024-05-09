@@ -94,23 +94,23 @@ $mdb-theme-dark-pill-text: #ffffff;
     divider: $mdb-theme-light-divider,
     onHover: $mdb-theme-light-on-hover,
     // Datepicker and timepicker
-      pickerHeader: $primary,
+    pickerHeader: $primary,
     // Dropdown
-      dropdownText: $mdb-theme-light-dropdown-text,
+    dropdownText: $mdb-theme-light-dropdown-text,
     // Tooltip
-      tooltipBackground: $mdb-theme-light-tooltip-background,
+    tooltipBackground: $mdb-theme-light-tooltip-background,
     // Scrollspy
-      scrollspyActive: $primary,
+    scrollspyActive: $primary,
     // Sidenav
-      sidenavPrimaryText: $primary,
+    sidenavPrimaryText: $primary,
     sidenavPrimaryBg: rgba($primary, 0.1),
     sidenavSecondaryText: $secondary,
     sidenavSecondaryBg: rgba($secondary, 0.1),
     // Timepicker
-      timepickerClockBg: $mdb-theme-light-timepicker-clock-bg,
+    timepickerClockBg: $mdb-theme-light-timepicker-clock-bg,
     timepickerClockText: $mdb-theme-light-timepicker-clock-text,
     // Input
-      inputBorder: $mdb-theme-light-input-border,
+    inputBorder: $mdb-theme-light-input-border,
     inputLabel: $mdb-theme-light-input-label,
     inputText: $mdb-theme-light-input-text,
     inputPlaceholder: $mdb-theme-light-input-placeholder,
@@ -119,13 +119,14 @@ $mdb-theme-dark-pill-text: #ffffff;
     toastShadow: $mdb-theme-light-shadow-variant,
     inputBackground: $mdb-theme-light-input-background,
     // Pills
-      pillBackground: $mdb-theme-light-pill-background,
+    pillBackground: $mdb-theme-light-pill-background,
     pillText: $mdb-theme-light-pill-text
   );
 }
 
 @function mdb-dark-theme($primary, $secondary) {
   @return (
+    name: 'dark',
     primary: $primary,
     secondary: $secondary,
     surface: $mdb-theme-dark-surface,
@@ -146,23 +147,23 @@ $mdb-theme-dark-pill-text: #ffffff;
     divider: $mdb-theme-dark-divider,
     onHover: $mdb-theme-dark-on-hover,
     // Datepicker and timepicker
-      pickerHeader: $mdb-theme-dark-picker-header,
+    pickerHeader: $mdb-theme-dark-picker-header,
     // Dropdown
-      dropdownText: $mdb-theme-dark-dropdown-text,
+    dropdownText: $mdb-theme-dark-dropdown-text,
     // Tooltip
-      tooltipBackground: $mdb-theme-dark-tooltip-background,
+    tooltipBackground: $mdb-theme-dark-tooltip-background,
     // Scrollspy
-      scrollspyActive: lighten($primary, 20%),
+    scrollspyActive: lighten($primary, 20%),
     // Sidenav
-      sidenavPrimaryText: lighten($primary, 10%),
+    sidenavPrimaryText: lighten($primary, 10%),
     sidenavPrimaryBg: rgba($primary, 0.1),
     sidenavSecondaryText: lighten($secondary, 10%),
     sidenavSecondaryBg: rgba($secondary, 0.1),
     // Timepicker
-      timepickerClockBg: $mdb-theme-dark-timepicker-clock-bg,
+    timepickerClockBg: $mdb-theme-dark-timepicker-clock-bg,
     timepickerClockText: $mdb-theme-dark-timepicker-clock-text,
     // Input
-      inputBorder: $mdb-theme-dark-input-border,
+    inputBorder: $mdb-theme-dark-input-border,
     inputLabel: $mdb-theme-dark-input-label,
     inputText: $mdb-theme-dark-input-text,
     inputPlaceholder: $mdb-theme-light-input-placeholder,
@@ -171,7 +172,7 @@ $mdb-theme-dark-pill-text: #ffffff;
     toastShadow: $mdb-theme-dark-shadow-variant,
     inputBackground: $mdb-theme-dark-input-background,
     // Pills
-      pillBackground: $mdb-theme-dark-pill-background,
+    pillBackground: $mdb-theme-dark-pill-background,
     pillText: $mdb-theme-dark-pill-text
   );
 }

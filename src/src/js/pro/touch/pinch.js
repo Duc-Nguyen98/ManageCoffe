@@ -55,6 +55,7 @@ class Pinch extends TouchUtil {
     this._startTouch = this._touch;
 
     EventHandler.trigger(this._element, EVENT_START, {
+      touch: e,
       ratio: this._ratio,
       origin: this._origin,
     });
@@ -75,8 +76,13 @@ class Pinch extends TouchUtil {
       if (this._origin.x > threshold || this._origin.y > threshold) {
         this._startTouch = this._touch;
 
-        EventHandler.trigger(this._element, NAME, { ratio: this._ratio, origin: this._origin });
+        EventHandler.trigger(this._element, NAME, {
+          touch: e,
+          ratio: this._ratio,
+          origin: this._origin,
+        });
         EventHandler.trigger(this._element, EVENT_MOVE, {
+          touch: e,
           ratio: this._ratio,
           origin: this._origin,
         });
@@ -84,11 +90,12 @@ class Pinch extends TouchUtil {
     }
   }
 
-  handleTouchEnd() {
+  handleTouchEnd(e) {
     if (this.isNumber) {
       this._startTouch = null;
 
       EventHandler.trigger(this._element, EVENT_END, {
+        touch: e,
         ratio: this._ratio,
         origin: this._origin,
       });

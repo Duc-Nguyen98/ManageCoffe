@@ -3,13 +3,8 @@ import Data from '../../mdb/dom/data';
 import EventHandler from '../../mdb/dom/event-handler';
 import Manipulator from '../../mdb/dom/manipulator';
 import SelectorEngine from '../../mdb/dom/selector-engine';
-import {
-  typeCheckConfig,
-  getjQuery,
-  getUID,
-  isRTL,
-  onDOMContentLoaded,
-} from '../../mdb/util/index';
+import ScrollBarHelper from '../../bootstrap/mdb-prefix/util/scrollbar';
+import { typeCheckConfig, getUID, isRTL } from '../../mdb/util/index';
 import FocusTrap from '../../mdb/util/focusTrap';
 import {
   getDate,
@@ -39,6 +34,7 @@ import {
   createMonthViewTemplate,
   createYearViewTemplate,
   getToggleButtonTemplate,
+  createCustomHeader,
 } from './templates';
 import {
   ENTER,
@@ -53,6 +49,8 @@ import {
   PAGE_UP,
   PAGE_DOWN,
 } from '../../mdb/util/keycodes';
+import BaseComponent from '../../free/base-component';
+import { bindCallbackEventsIfNeeded } from '../../autoinit/init';
 
 /**
  * ------------------------------------------------------------------------
@@ -65,13 +63,14 @@ const YEARS_IN_ROW = 4;
 const MONTHS_IN_ROW = 4;
 
 const NAME = 'datepicker';
-const DATA_KEY = 'mdb.datepicker';
-const EVENT_KEY = `.${DATA_KEY}`;
+const DATA_KEY = `mdb.${NAME}`;
 const DATA_API_KEY = '.data-api';
 
+const EVENT_KEY = `.${DATA_KEY}`;
 const EVENT_CLOSE = `close${EVENT_KEY}`;
 const EVENT_OPEN = `open${EVENT_KEY}`;
-const EVENT_DATE_CHANGE = `dateChange${EVENT_KEY}`;
+const EVENT_VALUE_CHANGED = `valueChanged${EVENT_KEY}`;
+const EVENT_VIEW_CHANGED = `viewChanged${EVENT_KEY}`;
 const EVENT_CLICK_DATA_API = `click${EVENT_KEY}${DATA_API_KEY}`;
 
 const BACKDROP_OPEN_ANIMATION_CLASS = 'fade-in';
@@ -81,7 +80,6 @@ const CONTAINER_CLOSE_ANIMATION_CLASS = 'fade-out';
 
 const CLASS_FORM_ICON_TRAILING = 'form-icon-trailing';
 
-const SELECTOR_DATEPICKER = '.datepicker';
 const SELECTOR_DATA_TOGGLE = '[data-mdb-toggle="datepicker"]';
 const SELECTOR_MODAL_CONTAINER = '.datepicker-modal-container';
 const SELECTOR_DROPDOWN_CONTAINER = '.datepicker-dropdown-container';
@@ -95,6 +93,9 @@ const SELECTOR_DATES_CONTAINER = '.datepicker-view';
 
 const Default = {
   title: 'Select date',
+  container: 'body',
+  disablePast: false,
+  disableFuture: false,
   monthsFull: [
     'January',
     'February',
@@ -126,9 +127,8 @@ const Default = {
   prevYearLabel: 'Previous year',
   nextMultiYearLabel: 'Next 24 years',
   prevMultiYearLabel: 'Previous 24 years',
-  switchToMultiYearViewLabel: 'Choose year and month',
-  switchToMonthViewLabel: 'Choose date',
-  switchToDayViewLabel: 'Choose date',
+  switchToMultiYearViewLabel: 'Switch to year list',
+  switchToDayViewLabel: 'Switch to day list',
 
   startDate: null,
   startDay: 0,
@@ -144,10 +144,19 @@ const Default = {
   disableToggleButton: false,
   disableInput: false,
   animations: true,
+  confirmDateOnSelect: false,
+  removeOkBtn: false,
+  removeCancelBtn: false,
+  removeClearBtn: false,
+  headerTemplate: null,
+  headerTemplateModifier: null,
 };
 
 const DefaultType = {
   title: 'string',
+  container: 'string',
+  disablePast: 'boolean',
+  disableFuture: 'boolean',
   monthsFull: 'array',
   monthsShort: 'array',
   weekdaysFull: 'array',
@@ -167,7 +176,6 @@ const DefaultType = {
   nextMultiYearLabel: 'string',
   prevMultiYearLabel: 'string',
   switchToMultiYearViewLabel: 'string',
-  switchToMonthViewLabel: 'string',
   switchToDayViewLabel: 'string',
 
   startDate: '(null|string|date)',
@@ -184,6 +192,13 @@ const DefaultType = {
   disableToggleButton: 'boolean',
   disableInput: 'boolean',
   animations: 'boolean',
+  confirmDateOnSelect: 'boolean',
+  removeOkBtn: 'boolean',
+  removeCancelBtn: 'boolean',
+  removeClearBtn: 'boolean',
+
+  headerTemplate: '(null|string)',
+  headerTemplateModifier: '(null|function)',
 };
 
 /**
@@ -192,9 +207,10 @@ const DefaultType = {
  * ------------------------------------------------------------------------
  */
 
-class Datepicker {
+class Datepicker extends BaseComponent {
   constructor(element, options) {
-    this._element = element;
+    super(element);
+
     this._input = SelectorEngine.findOne('input', this._element);
     this._options = this._getConfig(options);
     this._activeDate = new Date();
@@ -208,13 +224,13 @@ class Datepicker {
     this._popper = null;
     this._focusTrap = null;
     this._isOpen = false;
-    this._toggleButtonId = getUID('datepicker-toggle-');
+    this._toggleButtonId = this._element.id
+      ? `datepicker-toggle-${this._element.id}`
+      : getUID('datepicker-toggle-');
     this._animations =
       !window.matchMedia('(prefers-reduced-motion: reduce)').matches && this._options.animations;
 
-    if (this._element) {
-      Data.setData(element, DATA_KEY, this);
-    }
+    this._scrollBar = new ScrollBarHelper();
 
     this._init();
 
@@ -225,6 +241,9 @@ class Datepicker {
     if (this._options.disableInput) {
       this._input.disabled = 'true';
     }
+
+    Manipulator.setDataAttribute(this._element, `${this.constructor.NAME}-initialized`, true);
+    bindCallbackEventsIfNeeded(this.constructor);
   }
 
   // Getters
@@ -345,6 +364,10 @@ class Datepicker {
     return config;
   }
 
+  _getContainer() {
+    return SelectorEngine.findOne(this._options.container);
+  }
+
   _getNewDaysOrderArray(config) {
     const index = config.startDay;
 
@@ -394,7 +417,7 @@ class Datepicker {
       this._options,
       MONTHS_IN_ROW,
       YEARS_IN_VIEW,
-      YEARS_IN_VIEW,
+      YEARS_IN_ROW,
       this._toggleButtonId
     );
 
@@ -402,6 +425,7 @@ class Datepicker {
       this._openDropdown(template);
     } else {
       this._openModal(backdrop, template);
+      this._scrollBar.hide();
     }
 
     if (this._animations) {
@@ -443,19 +467,14 @@ class Datepicker {
     this._popper = createPopper(this._input, template, {
       placement: 'bottom-start',
     });
-    document.body.appendChild(template);
+    const container = this._getContainer();
+    container.appendChild(template);
   }
 
   _openModal(backdrop, template) {
-    document.body.appendChild(backdrop);
-    document.body.appendChild(template);
-    const hasVerticalScroll = window.innerWidth > document.documentElement.clientWidth;
-    const scrollHeight = '15px';
-
-    if (hasVerticalScroll) {
-      document.body.style.overflow = 'hidden';
-      document.body.style.paddingRight = scrollHeight;
-    }
+    const container = this._getContainer();
+    container.appendChild(backdrop);
+    container.appendChild(template);
   }
 
   _setFocusTrap(element) {
@@ -526,6 +545,19 @@ class Datepicker {
     const month = getMonth(date);
     const day = getDate(date);
     const dayNumber = getDayNumber(date);
+
+    const datepickerHeaderContainer = SelectorEngine.findOne('.datepicker-header', this.container);
+
+    if (this._options.headerTemplate && datepickerHeaderContainer) {
+      datepickerHeaderContainer.innerHTML = createCustomHeader(
+        day,
+        dayNumber,
+        month,
+        date,
+        this._options
+      );
+      return;
+    }
     headerDateEl.innerHTML = `${dayNames[dayNumber]}, ${monthNames[month]} ${day}`;
   }
 
@@ -894,11 +926,11 @@ class Datepicker {
 
   _closeDropdown() {
     const datepicker = SelectorEngine.findOne('.datepicker-dropdown-container');
-
+    const container = this._getContainer();
     if (this._animations) {
       datepicker.addEventListener('animationend', () => {
         if (datepicker) {
-          document.body.removeChild(datepicker);
+          container.removeChild(datepicker);
         }
 
         if (this._popper) {
@@ -907,7 +939,7 @@ class Datepicker {
       });
     } else {
       if (datepicker) {
-        document.body.removeChild(datepicker);
+        container.removeChild(datepicker);
       }
 
       if (this._popper) {
@@ -933,17 +965,19 @@ class Datepicker {
     if (this._animations) {
       backdrop.addEventListener('animationend', () => {
         this._removePicker(backdrop, datepicker);
+        this._scrollBar.reset();
       });
     } else {
       this._removePicker(backdrop, datepicker);
+      this._scrollBar.reset();
     }
   }
 
   _removePicker(backdrop, datepicker) {
-    document.body.removeChild(backdrop);
-    document.body.removeChild(datepicker);
-    document.body.style.overflow = '';
-    document.body.style.paddingRight = '';
+    const container = this._getContainer();
+
+    container.removeChild(backdrop);
+    container.removeChild(datepicker);
   }
 
   _removeFocusTrap() {
@@ -981,22 +1015,9 @@ class Datepicker {
     if (generatedToggleButton) {
       this._element.removeChild(generatedToggleButton);
     }
+    Manipulator.removeDataAttribute(this._element, `${this.constructor.NAME}-initialized`);
 
-    Data.removeData(this._element, DATA_KEY);
-
-    this._element = null;
-    this._input = null;
-    this._options = null;
-    this._activeDate = null;
-    this._selectedDate = null;
-    this._selectedYear = null;
-    this._selectedMonth = null;
-    this._headerDate = null;
-    this._headerYear = null;
-    this._headerMonth = null;
-    this._view = null;
-    this._popper = null;
-    this._focusTrap = null;
+    super.dispose();
   }
 
   _removeInputAndToggleListeners() {
@@ -1011,9 +1032,9 @@ class Datepicker {
   }
 
   _selectDate(date, cell = this.activeCell) {
-    const { min, max, filter } = this._options;
+    const { min, max, filter, disablePast, disableFuture } = this._options;
 
-    if (isDateDisabled(date, min, max, filter)) {
+    if (isDateDisabled(date, min, max, filter, disablePast, disableFuture)) {
       return;
     }
 
@@ -1025,7 +1046,7 @@ class Datepicker {
     this._selectedMonth = getMonth(date);
     this._headerDate = date;
 
-    if (this._options.inline) {
+    if (this._options.inline || this.options.confirmDateOnSelect) {
       this._confirmSelection(date);
       this.close();
     }
@@ -1066,7 +1087,7 @@ class Datepicker {
       const dateString = this.formatDate(date);
       this._input.value = dateString;
       Manipulator.addClass(this._input, 'active');
-      EventHandler.trigger(this._element, EVENT_DATE_CHANGE, { date });
+      EventHandler.trigger(this._element, EVENT_VALUE_CHANGED, { date });
     }
   }
 
@@ -1173,9 +1194,9 @@ class Datepicker {
 
   _pickDay(day, el) {
     const date = convertStringToDate(day);
-    const { min, max, filter } = this._options;
+    const { min, max, filter, disablePast, disableFuture } = this._options;
 
-    if (isDateDisabled(date, min, max, filter)) {
+    if (isDateDisabled(date, min, max, filter, disablePast, disableFuture)) {
       return;
     }
 
@@ -1184,9 +1205,9 @@ class Datepicker {
   }
 
   _pickYear(year) {
-    const { min, max } = this._options;
+    const { min, max, disablePast, disableFuture } = this._options;
 
-    if (isYearDisabled(year, min, max)) {
+    if (isYearDisabled(year, min, max, disablePast, disableFuture)) {
       return;
     }
 
@@ -1198,9 +1219,12 @@ class Datepicker {
   }
 
   _pickMonth(month, year) {
-    const { min, max } = this._options;
+    const { min, max, disablePast, disableFuture } = this._options;
 
-    if (isMonthDisabled(month, year, min, max) || isYearDisabled(year, min, max)) {
+    if (
+      isMonthDisabled(month, year, min, max, disablePast, disableFuture) ||
+      isYearDisabled(year, min, max, disablePast, disableFuture)
+    ) {
       return;
     }
 
@@ -1330,6 +1354,8 @@ class Datepicker {
     this.datesContainer.focus();
     this._updateViewControlsAndAttributes(view);
     this._updateControlsDisabledState();
+
+    EventHandler.trigger(this._element, EVENT_VIEW_CHANGED, { view: this._view });
   }
 
   _updateViewControlsAndAttributes(view) {
@@ -1351,7 +1377,7 @@ class Datepicker {
 
     if (view === 'years') {
       this.viewChangeButton.textContent = `${this.firstYearInView} - ${this.lastYearInView}`;
-      this.viewChangeButton.setAttribute('aria-label', this._options.switchToMonthViewLabel);
+      this.viewChangeButton.setAttribute('aria-label', this._options.switchToDayViewLabel);
       this.previousButton.setAttribute('aria-label', this._options.prevMultiYearLabel);
       this.nextButton.setAttribute('aria-label', this._options.nextMultiYearLabel);
     }
@@ -1360,6 +1386,7 @@ class Datepicker {
   _updateControlsDisabledState() {
     if (
       isNextDateDisabled(
+        this._options.disableFuture,
         this._activeDate,
         this._view,
         YEARS_IN_VIEW,
@@ -1376,6 +1403,7 @@ class Datepicker {
 
     if (
       isPreviousDateDisabled(
+        this._options.disablePast,
         this._activeDate,
         this._view,
         YEARS_IN_VIEW,
@@ -1488,44 +1516,6 @@ class Datepicker {
       }
     });
   }
-
-  static getInstance(element) {
-    return Data.getData(element, DATA_KEY);
-  }
-
-  static getOrCreateInstance(element, config = {}) {
-    return (
-      this.getInstance(element) || new this(element, typeof config === 'object' ? config : null)
-    );
-  }
 }
 
 export default Datepicker;
-
-SelectorEngine.find(SELECTOR_DATEPICKER).forEach((datepicker) => {
-  let instance = Datepicker.getInstance(datepicker);
-  if (!instance) {
-    instance = new Datepicker(datepicker);
-  }
-});
-
-/**
- * ------------------------------------------------------------------------
- * jQuery
- * ------------------------------------------------------------------------
- * add .timepicker to jQuery only if jQuery is present
- */
-
-onDOMContentLoaded(() => {
-  const $ = getjQuery();
-
-  if ($) {
-    const JQUERY_NO_CONFLICT = $.fn[NAME];
-    $.fn[NAME] = Datepicker.jQueryInterface;
-    $.fn[NAME].Constructor = Datepicker;
-    $.fn[NAME].noConflict = () => {
-      $.fn[NAME] = JQUERY_NO_CONFLICT;
-      return Datepicker.jQueryInterface;
-    };
-  }
-});

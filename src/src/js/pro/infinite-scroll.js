@@ -1,8 +1,9 @@
-import { getjQuery, typeCheckConfig, onDOMContentLoaded } from '../mdb/util/index';
+import { typeCheckConfig } from '../mdb/util/index';
 import Data from '../mdb/dom/data';
 import Manipulator from '../mdb/dom/manipulator';
-import SelectorEngine from '../mdb/dom/selector-engine';
 import EventHandler from '../mdb/dom/event-handler';
+import BaseComponent from '../free/base-component';
+import { bindCallbackEventsIfNeeded } from '../autoinit/init';
 
 /**
  * ------------------------------------------------------------------------
@@ -11,9 +12,10 @@ import EventHandler from '../mdb/dom/event-handler';
  */
 
 const NAME = 'infiniteScroll';
-const DATA_KEY = 'mdb.infiniteScroll';
+const DATA_KEY = `mdb.${NAME}`;
+const EVENT_KEY = `.${DATA_KEY}`;
 
-const SELECTOR_INFINITE_SCROLL = '.infinite-scroll';
+const EVENT_COMPLETED = `completed${EVENT_KEY}`;
 
 const Default = {
   infiniteDirection: 'y',
@@ -23,19 +25,21 @@ const DefaultType = {
   infiniteDirection: 'string',
 };
 
-class InfiniteScroll {
+class InfiniteScroll extends BaseComponent {
   constructor(element, data) {
+    super(element);
     this._element = element;
-
-    if (this._element) {
-      Data.setData(element, DATA_KEY, this);
-    }
 
     this._options = this._getConfig(data);
 
     this.scrollHandler = this._scrollHandler.bind(this);
 
     this._init();
+
+    if (this._element !== window) {
+      Manipulator.setDataAttribute(this._element, `${this.constructor.NAME}-initialized`, true);
+      bindCallbackEventsIfNeeded(this.constructor);
+    }
   }
 
   // Getters
@@ -50,22 +54,25 @@ class InfiniteScroll {
 
   get condition() {
     if (this._element === window) {
-      return window.scrollY + window.innerHeight === document.documentElement.scrollHeight;
+      return (
+        Math.abs(window.scrollY + window.innerHeight - document.documentElement.scrollHeight) < 1
+      );
     }
     if (this._options.infiniteDirection === 'x') {
       return this.rect.width + this._element.scrollLeft + 10 >= this._element.scrollWidth;
     }
-    return this.rect.height + this._element.scrollTop >= this._element.scrollHeight;
+    return Math.ceil(this.rect.height + this._element.scrollTop) >= this._element.scrollHeight;
   }
 
   // Public
 
   dispose() {
-    EventHandler.off(this._element, 'scroll', this.scrollHandler);
+    EventHandler.off(this._element, 'scroll');
+    if (this._element !== window) {
+      Manipulator.removeDataAttribute(this._element, `${this.constructor.NAME}-initialized`);
+    }
 
-    Data.removeData(this._element, DATA_KEY);
-
-    this._element = null;
+    super.dispose();
   }
 
   // Private
@@ -76,7 +83,7 @@ class InfiniteScroll {
 
   _scrollHandler() {
     if (this.condition) {
-      EventHandler.trigger(this._element, 'complete.mdb.infiniteScroll');
+      EventHandler.trigger(this._element, EVENT_COMPLETED);
     }
     EventHandler.off(this._element, 'scroll', this.scrollHandler);
   }
@@ -92,16 +99,6 @@ class InfiniteScroll {
   }
 
   // Static
-
-  static getInstance(element) {
-    return Data.getData(element, DATA_KEY);
-  }
-
-  static getOrCreateInstance(element, config = {}) {
-    return (
-      this.getInstance(element) || new this(element, typeof config === 'object' ? config : null)
-    );
-  }
 
   static jQueryInterface(config) {
     return this.each(function () {
@@ -119,39 +116,5 @@ class InfiniteScroll {
     });
   }
 }
-
-/**
- * ------------------------------------------------------------------------
- * Data Api implementation - auto initialization
- * ------------------------------------------------------------------------
- */
-
-SelectorEngine.find(SELECTOR_INFINITE_SCROLL).forEach((infiniteScroll) => {
-  let instance = InfiniteScroll.getInstance(infiniteScroll);
-  if (!instance) {
-    instance = new InfiniteScroll(infiniteScroll);
-  }
-  return instance;
-});
-
-/**
- * ------------------------------------------------------------------------
- * jQuery
- * ------------------------------------------------------------------------
- */
-
-onDOMContentLoaded(() => {
-  const $ = getjQuery();
-
-  if ($) {
-    const JQUERY_NO_CONFLICT = $.fn[NAME];
-    $.fn[NAME] = InfiniteScroll.jQueryInterface;
-    $.fn[NAME].Constructor = InfiniteScroll;
-    $.fn[NAME].noConflict = () => {
-      $.fn[NAME] = JQUERY_NO_CONFLICT;
-      return InfiniteScroll.jQueryInterface;
-    };
-  }
-});
 
 export default InfiniteScroll;

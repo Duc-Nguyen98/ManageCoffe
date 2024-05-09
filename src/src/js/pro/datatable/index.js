@@ -1,12 +1,14 @@
 import PerfectScrollbar from '../../mdb/perfect-scrollbar';
-import { getjQuery, typeCheckConfig, onDOMContentLoaded } from '../../mdb/util/index';
+import { typeCheckConfig } from '../../mdb/util/index';
 import Data from '../../mdb/dom/data';
-import EventHandler from '../../mdb/dom/event-handler';
+import EventHandler, { EventHandlerMulti } from '../../mdb/dom/event-handler';
 import Manipulator from '../../mdb/dom/manipulator';
 import SelectorEngine from '../../mdb/dom/selector-engine';
 import tableTemplate from './html/table'; //eslint-disable-line
 import { search, sort, paginate } from './util';
 import Select from '../select';
+import BaseComponent from '../../free/base-component';
+import { bindCallbackEventsIfNeeded } from '../../autoinit/init';
 
 /**
  * ------------------------------------------------------------------------
@@ -15,12 +17,11 @@ import Select from '../select';
  */
 
 const NAME = 'datatable';
-const DATA_KEY = 'mdb.datatable';
+const DATA_KEY = `mdb.${NAME}`;
 
 const CLASS_DATATABLE = 'datatable';
 const CLASS_FIXED_CELL = 'fixed-cell';
 
-const SELECTOR_DATATABLE = '.datatable';
 const SELECTOR_BODY = '.datatable-inner';
 const SELECTOR_CELL = 'td';
 const SELECTOR_HEADER = '.datatable-header th';
@@ -35,10 +36,13 @@ const SELECTOR_SORT_ICON = '.datatable-sort-icon';
 const SELECTOR_ROW = '.datatable-body tr';
 const SELECTOR_ROW_CHECKBOX = '.datatable-row-checkbox';
 
-const EVENT_SELECT = 'selectRows.mdb.datatable';
-const EVENT_RENDER = 'render.mdb.datatable';
-const EVENT_ROW_CLICK = 'rowClick.mdb.datatable';
-const EVENT_UPDATE = 'update.mdb.datatable';
+const EVENT_KEY = `.${DATA_KEY}`;
+const EVENT_SELECTED = `rowSelected${EVENT_KEY}`;
+const EVENT_RENDER = `render${EVENT_KEY}`;
+const EVENT_ROW_CLICKED = `rowClicked${EVENT_KEY}`;
+const EVENT_UPDATE = `update${EVENT_KEY}`;
+
+const EVENT_VALUE_CHANGED_SELECT = 'valueChanged.mdb.select';
 
 const TYPE_OPTIONS = {
   bordered: 'boolean',
@@ -131,13 +135,12 @@ const DEFAUL_COLUMN = {
  * ------------------------------------------------------------------------
  */
 
-class Datatable {
+class Datatable extends BaseComponent {
   constructor(element, data = {}, options = {}) {
-    this._element = element;
+    super(element);
 
     this._options = this._getOptions(options);
-    this._sortField = this._options.sortField;
-    this._sortOrder = this._options.sortOrder;
+
     this._sortReverse = false;
 
     this._activePage = 0;
@@ -157,12 +160,21 @@ class Datatable {
     this._headerCheckbox = null;
     this._rows = this._getRows(data.rows);
     this._columns = this._getColumns(data.columns);
+    this._tableId = null;
+    this._hasFixedColumns = null;
 
     if (this._element) {
-      Data.setData(element, DATA_KEY, this);
-
       this._perfectScrollbar = null;
       this._setup();
+
+      // Preventing from disappearing borders in datatables with fixed columns
+      this._hasFixedColumns = this._columns.some((column) => column.hasOwnProperty('fixed'));
+      if (this._hasFixedColumns) {
+        this._listenToWindowResize();
+      }
+
+      Manipulator.setDataAttribute(this._element, `${this.constructor.NAME}-initialized`, true);
+      bindCallbackEventsIfNeeded(this.constructor);
     }
   }
 
@@ -230,8 +242,12 @@ class Datatable {
   get computedRows() {
     let result = [...this.searchResult];
 
-    if (this._sortOrder) {
-      result = sort({ rows: result, field: this._sortField, order: this._sortOrder });
+    if (this._options.sortOrder) {
+      result = sort({
+        rows: result,
+        field: this._options.sortField,
+        order: this._options.sortOrder,
+      });
     }
 
     if (this._options.pagination) {
@@ -334,6 +350,8 @@ class Datatable {
     this._options = this._getOptions({ ...this._options, ...options });
 
     this._setup();
+
+    this._performSort();
   }
 
   dispose() {
@@ -341,13 +359,11 @@ class Datatable {
       this._selectInstance.dispose();
     }
 
-    Data.removeData(this._element, DATA_KEY);
-
     this._removeEventListeners();
-
     this._perfectScrollbar.destroy();
+    Manipulator.removeDataAttribute(this._element, `${this.constructor.NAME}-initialized`);
 
-    this._element = null;
+    super.dispose();
   }
 
   search(string, column) {
@@ -362,26 +378,39 @@ class Datatable {
     }
 
     this._renderRows();
+
+    if (this._options.maxHeight) {
+      this._perfectScrollbar.element.scrollTop = 0;
+
+      this._perfectScrollbar.update();
+    }
   }
 
   sort(column, order = 'asc') {
-    this._sortOrder = order;
+    this._options.sortOrder = order;
 
     if (typeof column === 'string') {
-      this._sortField = this.columns.find((header) => header.label === column).field;
+      this._options.sortField = this.columns.find((header) => header.label === column).field;
     } else {
-      this._sortField = column.field;
+      this._options.sortField = column.field;
     }
 
-    const icon = SelectorEngine.findOne(`i[data-mdb-sort="${this._sortField}"]`, this._element);
-
-    this._activePage = 0;
+    const icon = SelectorEngine.findOne(
+      `i[data-mdb-sort="${this._options.sortField}"]`,
+      this._element
+    );
 
     this._toggleDisableState();
 
     this._renderRows();
 
     this._setActiveSortIcon(icon);
+  }
+
+  setActivePage(index) {
+    if (index < this.pages) {
+      this._changeActivePage(index);
+    }
   }
 
   // Private
@@ -411,7 +440,7 @@ class Datatable {
   }
 
   _emitSelectEvent() {
-    EventHandler.trigger(this._element, EVENT_SELECT, {
+    EventHandler.trigger(this._element, EVENT_SELECTED, {
       selectedRows: this.rows.filter((row) => this._selected.indexOf(row.rowIndex) !== -1),
       selectedIndexes: this._selected,
       allSelected: this._selected.length === this.rows.length,
@@ -464,6 +493,13 @@ class Datatable {
       ...options,
     };
 
+    const entriesOptions = Manipulator.getDataAttributes(this._element).entriesOptions;
+    const entriesOptionsAsArray = Array.isArray(config.entriesOptions)
+      ? config.entriesOptions
+      : JSON.parse(entriesOptions);
+
+    config.entriesOptions = entriesOptionsAsArray;
+
     typeCheckConfig(NAME, config, TYPE_OPTIONS);
     return config;
   }
@@ -502,13 +538,13 @@ class Datatable {
 
   _setActiveSortIcon(active) {
     SelectorEngine.find(SELECTOR_SORT_ICON, this._element).forEach((icon) => {
-      const angle = this._sortOrder === 'desc' && icon === active ? 180 : 0;
+      const angle = this._options.sortOrder === 'desc' && icon === active ? 180 : 0;
 
       Manipulator.style(icon, {
         transform: `rotate(${angle}deg)`,
       });
 
-      if (icon === active && this._sortOrder) {
+      if (icon === active && this._options.sortOrder) {
         Manipulator.addClass(icon, 'active');
       } else {
         Manipulator.removeClass(icon, 'active');
@@ -548,13 +584,21 @@ class Datatable {
     this._setupSort();
   }
 
+  _listenToWindowResize() {
+    EventHandlerMulti.on(window, 'resize DOMContentLoaded', this._handleWindowResize.bind(this));
+  }
+
+  _handleWindowResize() {
+    this._renderRows();
+  }
+
   _setupClickableRows() {
     SelectorEngine.find(SELECTOR_ROW, this._element).forEach((row) => {
       const index = Manipulator.getDataAttribute(row, 'index');
 
       EventHandler.on(row, 'click', (e) => {
         if (!SelectorEngine.matches(e.target, SELECTOR_ROW_CHECKBOX)) {
-          EventHandler.trigger(this._element, EVENT_ROW_CLICK, { index, row: this.rows[index] });
+          EventHandler.trigger(this._element, EVENT_ROW_CLICKED, { index, row: this.rows[index] });
         }
       });
     });
@@ -634,25 +678,27 @@ class Datatable {
       }
 
       EventHandler.on(header, 'click', () => {
-        if (this._sortField === field && this._sortOrder === 'asc') {
-          this._sortOrder = 'desc';
-        } else if (this._sortField === field && this._sortOrder === 'desc') {
-          this._sortOrder = this._options.forceSort ? 'asc' : null;
+        if (this._options.sortField === field && this._options.sortOrder === 'asc') {
+          this._options.sortOrder = 'desc';
+        } else if (this._options.sortField === field && this._options.sortOrder === 'desc') {
+          this._options.sortOrder = this._options.forceSort ? 'asc' : null;
         } else {
-          this._sortOrder = 'asc';
+          this._options.sortOrder = 'asc';
         }
 
-        this._sortField = field;
+        this._options.sortField = field;
 
-        this._activePage = 0;
-
-        this._toggleDisableState();
-
-        this._renderRows();
+        this._performSort();
 
         this._setActiveSortIcon(icon);
       });
     });
+  }
+
+  _performSort() {
+    this._toggleDisableState();
+
+    this._renderRows();
   }
 
   _setupSelectable() {
@@ -706,7 +752,7 @@ class Datatable {
 
     this._selectInstance = new Select(this._select);
 
-    EventHandler.on(this._select, 'valueChange.mdb.select', (e) => this._setEntries(e));
+    EventHandler.on(this._select, EVENT_VALUE_CHANGED_SELECT, (e) => this._setEntries(e));
   }
 
   _removeEventListeners() {
@@ -715,7 +761,7 @@ class Datatable {
 
       EventHandler.off(this._paginationLeft, 'click');
 
-      EventHandler.off(this._select, 'valueChange.mdb.select');
+      EventHandler.off(this._select, EVENT_VALUE_CHANGED_SELECT);
 
       if (this._options.fullPagination) {
         EventHandler.off(this._paginationStart, 'click');
@@ -752,7 +798,14 @@ class Datatable {
   }
 
   _renderTable() {
+    const userTable = SelectorEngine.findOne('table', this._element);
+    this._tableId = userTable?.getAttribute('id');
     this._element.innerHTML = tableTemplate(this.tableOptions).table;
+
+    if (this._tableId) {
+      const renderedTable = SelectorEngine.findOne('table', this._element);
+      renderedTable.setAttribute('id', this._tableId);
+    }
 
     this._formatCells();
 
@@ -789,23 +842,31 @@ class Datatable {
   }
 
   _formatCells() {
+    const columnsMap = new Map(
+      this.columns.map((obj) => {
+        return [obj.field, obj];
+      })
+    );
+
     const rows = SelectorEngine.find(SELECTOR_ROW, this._element);
+    const rowsData = this.rows;
+    const cellsToFormat = [];
 
-    rows.forEach((row) => {
-      const index = Manipulator.getDataAttribute(row, 'index');
-
+    rows.forEach((row, index) => {
       const cells = SelectorEngine.find(SELECTOR_CELL, row);
 
       cells.forEach((cell) => {
         const field = Manipulator.getDataAttribute(cell, 'field');
-
-        const column = this.columns.find((column) => column.field === field);
+        const column = columnsMap.get(field);
 
         if (column && column.format !== null) {
-          column.format(cell, this.rows[index][field]);
+          const cellData = rowsData[index][field];
+          cellsToFormat.push({ cell, column, cellData });
         }
       });
     });
+
+    cellsToFormat.forEach(({ cell, column, cellData }) => column.format(cell, cellData));
   }
 
   _toggleDisableState() {
@@ -826,7 +887,7 @@ class Datatable {
       }
     }
 
-    if (this._activePage === this.pages - 1 || this._options.loading) {
+    if (this._activePage === this.pages - 1 || this._options.loading || this.pages === 0) {
       this._paginationRight.setAttribute('disabled', true);
 
       if (this._options.fullPagination) {
@@ -866,6 +927,9 @@ class Datatable {
       }
     } else {
       this._selected = this._selected.filter((index) => index !== rowIndex);
+    }
+    if (this._options.multi && !e.target.checked) {
+      this._headerCheckbox.checked = false;
     }
 
     this._setActiveRows();
@@ -920,52 +984,6 @@ class Datatable {
       }
     });
   }
-
-  static getInstance(element) {
-    return Data.getData(element, DATA_KEY);
-  }
-
-  static getOrCreateInstance(element, config = {}) {
-    return (
-      this.getInstance(element) || new this(element, typeof config === 'object' ? config : null)
-    );
-  }
 }
-
-/**
- * ------------------------------------------------------------------------
- * Data Api implementation - auto initialization
- * ------------------------------------------------------------------------
- */
-
-SelectorEngine.find(SELECTOR_DATATABLE).forEach((datatable) => {
-  let instance = Datatable.getInstance(datatable);
-  if (!instance) {
-    instance = new Datatable(datatable);
-  }
-
-  return instance;
-});
-
-/**
- * ------------------------------------------------------------------------
- * jQuery
- * ------------------------------------------------------------------------
- * add .datatable to jQuery only if jQuery is present
- */
-
-onDOMContentLoaded(() => {
-  const $ = getjQuery();
-
-  if ($) {
-    const JQUERY_NO_CONFLICT = $.fn[NAME];
-    $.fn[NAME] = Datatable.jQueryInterface;
-    $.fn[NAME].Constructor = Datatable;
-    $.fn[NAME].noConflict = () => {
-      $.fn[NAME] = JQUERY_NO_CONFLICT;
-      return Datatable.jQueryInterface;
-    };
-  }
-});
 
 export default Datatable;

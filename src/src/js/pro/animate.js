@@ -1,8 +1,9 @@
-import { getjQuery, typeCheckConfig, onDOMContentLoaded } from '../mdb/util/index';
-import Data from '../mdb/dom/data';
+import { typeCheckConfig } from '../mdb/util/index';
 import Manipulator from '../mdb/dom/manipulator';
 import SelectorEngine from '../mdb/dom/selector-engine';
 import EventHandler from '../mdb/dom/event-handler';
+import BaseComponent from '../free/base-component';
+import { bindCallbackEventsIfNeeded } from '../autoinit/init';
 
 /**
  * ------------------------------------------------------------------------
@@ -11,8 +12,6 @@ import EventHandler from '../mdb/dom/event-handler';
  */
 
 const NAME = 'animation';
-const DATA_KEY = 'mdb.animation';
-const SELECTOR_EXPAND = '[data-mdb-toggle="animation"]';
 
 const DefaultType = {
   animation: 'string',
@@ -58,17 +57,16 @@ const Default = {
  * ------------------------------------------------------------------------
  */
 
-class Animate {
+class Animate extends BaseComponent {
   constructor(element, options) {
-    this._element = element;
+    super(element);
+
     this._animateElement = this._getAnimateElement();
     this._isFirstScroll = true;
     this._repeatAnimateOnScroll = true;
     this._options = this._getConfig(options);
-
-    if (this._element) {
-      Data.setData(element, DATA_KEY, this);
-    }
+    Manipulator.setDataAttribute(this._element, `${this.constructor.NAME}-initialized`, true);
+    bindCallbackEventsIfNeeded(this.constructor);
   }
 
   // Getters
@@ -98,13 +96,9 @@ class Animate {
     EventHandler.off(this._animateElement, 'animationend');
     EventHandler.off(window, 'scroll');
     EventHandler.off(this._element, 'mouseover');
+    Manipulator.removeDataAttribute(this._element, `${this.constructor.NAME}-initialized`);
 
-    Data.removeData(this._element, DATA_KEY);
-    this._element = null;
-    this._animateElement = null;
-    this._isFirstScroll = null;
-    this._repeatAnimateOnScroll = null;
-    this._options = null;
+    super.dispose();
   }
 
   // Private
@@ -197,9 +191,14 @@ class Animate {
     this._animateElement.classList.remove(this._options.animation, 'animation');
   }
 
+  _removeInvisibleClass() {
+    Manipulator.removeClass(this._animateElement, 'invisible');
+  }
+
   _startAnimation() {
     this._callback(this._options.onStart);
 
+    this._removeInvisibleClass();
     this._addAnimatedClass();
 
     if (this._options.animationRepeat && !this._options.animationInterval) {
@@ -321,47 +320,6 @@ class Animate {
     const animate = new Animate(this[0], options);
     animate.init();
   }
-
-  static getInstance(element) {
-    return Data.getData(element, DATA_KEY);
-  }
-
-  static getOrCreateInstance(element, config = {}) {
-    return (
-      this.getInstance(element) || new this(element, typeof config === 'object' ? config : null)
-    );
-  }
 }
-
-/**
- * ------------------------------------------------------------------------
- * Data Api implementation - auto initialization
- * ------------------------------------------------------------------------
- */
-
-SelectorEngine.find(SELECTOR_EXPAND).forEach((el) => {
-  Animate.autoInit(new Animate(el));
-});
-
-/**
- * ------------------------------------------------------------------------
- * jQuery
- * ------------------------------------------------------------------------
- * add .animate to jQuery only if jQuery is present
- */
-
-onDOMContentLoaded(() => {
-  const $ = getjQuery();
-
-  if ($) {
-    const JQUERY_NO_CONFLICT = $.fn[NAME];
-    $.fn[NAME] = Animate.jQueryInterface;
-    $.fn[NAME].Constructor = Animate;
-    $.fn[NAME].noConflict = () => {
-      $.fn[NAME] = JQUERY_NO_CONFLICT;
-      return Animate.jQueryInterface;
-    };
-  }
-});
 
 export default Animate;

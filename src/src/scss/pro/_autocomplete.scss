@@ -1,11 +1,15 @@
 .autocomplete-label {
-  max-width: 80%;
+  --#{$prefix}autocomplete-label-max-width: #{$autocomplete-label-max-width};
+  --#{$prefix}autocomplete-label-active-transform: #{$autocomplete-label-active-transform};
+  --#{$prefix}autocomplete-label-color: #{$autocomplete-label-color};
+
+  max-width: var(--#{$prefix}autocomplete-label-max-width);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 
   &.active {
-    transform: translateY(-1rem) translateY(0.1rem) scale(0.8);
+    transform: var(--#{$prefix}autocomplete-label-active-transform);
   }
 }
 
@@ -23,12 +27,18 @@
   }
 }
 
+.form-outline {
+  --#{$prefix}form-outline-select-notch-border-color: #{$form-outline-select-notch-border-color};
+}
+
 .autocomplete-input.focused {
-  color: #616161;
+  --#{$prefix}autocomplete-input-focused-color: #{$autocomplete-input-focused-color};
+
+  color: var(--#{$prefix}autocomplete-input-focused-color);
   outline: 0;
 
   & ~ .autocomplete-label {
-    color: #1266f1;
+    color: var(--#{$prefix}autocomplete-label-color);
   }
 
   &::placeholder {
@@ -36,42 +46,57 @@
   }
 
   & ~ .form-notch .form-notch-leading {
-    border-color: $form-outline-select-notch-border-color;
-    box-shadow: -1px 0 0 0 $form-outline-select-notch-border-color,
-      0 1px 0 0 $form-outline-select-notch-border-color,
-      0 -1px 0 0 $form-outline-select-notch-border-color;
+    border-color: var(--#{$prefix}form-outline-select-notch-border-color);
+    box-shadow: -1px 0 0 0 var(--#{$prefix}form-outline-select-notch-border-color),
+      0 1px 0 0 var(--#{$prefix}form-outline-select-notch-border-color),
+      0 -1px 0 0 var(--#{$prefix}form-outline-select-notch-border-color);
   }
 
   & ~ .form-notch .form-notch-middle {
-    border-color: $form-outline-select-notch-border-color;
-    box-shadow: 0 1px 0 0 $form-outline-select-notch-border-color;
+    border-color: var(--#{$prefix}form-outline-select-notch-border-color);
+    box-shadow: 0 1px 0 0 var(--#{$prefix}form-outline-select-notch-border-color);
     border-top: 1px solid transparent;
   }
 
   & ~ .form-notch .form-notch-trailing {
-    border-color: $form-outline-select-notch-border-color;
-    box-shadow: 1px 0 0 0 $form-outline-select-notch-border-color,
-      0 -1px 0 0 $form-outline-select-notch-border-color,
-      0 1px 0 0 $form-outline-select-notch-border-color;
+    border-color: var(--#{$prefix}form-outline-select-notch-border-color);
+    box-shadow: 1px 0 0 0 var(--#{$prefix}form-outline-select-notch-border-color),
+      0 -1px 0 0 var(--#{$prefix}form-outline-select-notch-border-color),
+      0 1px 0 0 var(--#{$prefix}form-outline-select-notch-border-color);
   }
 }
 
 .autocomplete-dropdown-container {
-  z-index: $zindex-autocomplete-dropdown-container;
+  --#{$prefix}autocomplete-dropdown-container-zindex: #{$autocomplete-dropdown-container-zindex};
+  --#{$prefix}autocomplete-dropdown-background-color: #{$autocomplete-dropdown-background-color};
+  --#{$prefix}autocomplete-dropdown-box-shadow: #{$autocomplete-dropdown-box-shadow};
+  --#{$prefix}autocomplete-dropdown-margin: #{$autocomplete-dropdown-margin};
+  --#{$prefix}autocomplete-dropdown-transform: #{$autocomplete-dropdown-transform};
+  --#{$prefix}autocomplete-dropdown-transition: #{$autocomplete-dropdown-transition};
+  --#{$prefix}autocomplete-dropdown-open-transform: #{$autocomplete-dropdown-open-transform};
+  --#{$prefix}autocomplete-item-color: #{$autocomplete-item-color};
+  --#{$prefix}autocomplete-item-padding: #{$autocomplete-item-padding};
+  --#{$prefix}autocomplete-item-font-size: #{$autocomplete-item-font-size};
+  --#{$prefix}autocomplete-item-font-weight: #{$autocomplete-item-font-weight};
+  --#{$prefix}autocomplete-item-hover-background-color: #{$autocomplete-item-hover-background-color};
+  --#{$prefix}autocomplete-item-disabled-color: #{$autocomplete-item-disabled-color};
+  --#{$prefix}autocomplete-scrollbar-thumb-background-color: #{$autocomplete-scrollbar-thumb-background-color};
+
+  z-index: var(--#{$prefix}autocomplete-dropdown-container-zindex);
 }
 
 .autocomplete-dropdown {
-  background-color: #fff;
-  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
-  margin: 0;
+  background-color: var(--#{$prefix}autocomplete-dropdown-background-color);
+  box-shadow: var(--#{$prefix}autocomplete-dropdown-box-shadow);
+  margin: var(--#{$prefix}autocomplete-dropdown-margin);
   outline: 0;
   position: relative;
-  transform: scaleY(0.8);
+  transform: var(--#{$prefix}autocomplete-dropdown-transform);
   opacity: 0;
-  transition: all 0.2s;
+  transition: var(--#{$prefix}autocomplete-dropdown-transition);
 
   &.open {
-    transform: scaleY(1);
+    transform: var(--#{$prefix}autocomplete-dropdown-open-transform);
     opacity: 1;
   }
 }
@@ -106,7 +131,7 @@
 
   &::-webkit-scrollbar-thumb:vertical {
     height: 50px;
-    background-color: #999;
+    background-color: var(--#{$prefix}autocomplete-scrollbar-thumb-background-color);
     border-radius: 4px;
   }
 }
@@ -121,24 +146,24 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  color: rgba(0, 0, 0, 0.87);
-  padding: 6.5px 16px;
-  font-size: 1rem;
-  font-weight: 400;
+  color: var(--#{$prefix}autocomplete-item-color);
+  padding: var(--#{$prefix}autocomplete-item-padding);
+  font-size: var(--#{$prefix}autocomplete-item-font-size);
+  font-weight: var(--#{$prefix}autocomplete-item-font-weight);
   background-color: transparent;
   user-select: none;
 
   &:hover:not(.disabled) {
-    background-color: #ddd;
+    background-color: var(--#{$prefix}autocomplete-item-hover-background-color);
   }
 
   &.active {
-    background-color: #ddd;
+    background-color: var(--#{$prefix}autocomplete-item-hover-background-color);
   }
 
   &.disabled {
     cursor: default;
-    color: #9e9e9e;
+    color: var(--#{$prefix}autocomplete-item-disabled-color);
   }
 }
 

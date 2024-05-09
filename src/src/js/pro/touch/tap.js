@@ -44,6 +44,7 @@ class Tap extends TouchUtil {
         clearTimeout(this._timer);
         this._tapCount = 0;
         EventHandler.trigger(this._element, NAME, {
+          touch: e,
           origin: {
             x,
             y,

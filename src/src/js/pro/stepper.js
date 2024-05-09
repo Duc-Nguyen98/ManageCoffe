@@ -2,7 +2,7 @@ import Data from '../mdb/dom/data';
 import EventHandler from '../mdb/dom/event-handler';
 import SelectorEngine from '../mdb/dom/selector-engine';
 import Manipulator from '../mdb/dom/manipulator';
-import { typeCheckConfig, getjQuery, isRTL, onDOMContentLoaded } from '../mdb/util/index';
+import { typeCheckConfig, isRTL } from '../mdb/util/index';
 import {
   LEFT_ARROW,
   RIGHT_ARROW,
@@ -14,6 +14,8 @@ import {
   SPACE,
   TAB,
 } from '../mdb/util/keycodes';
+import BaseComponent from '../free/base-component';
+import { bindCallbackEventsIfNeeded } from '../autoinit/init';
 
 /**
  * ------------------------------------------------------------------------
@@ -23,7 +25,6 @@ import {
 
 const NAME = 'stepper';
 const DATA_KEY = 'mdb.stepper';
-const SELECTOR_EXPAND = '[data-mdb-stepper="stepper"]';
 const EVENT_KEY = `.${DATA_KEY}`;
 
 const STEPPER_HORIZONTAL = 'horizontal';
@@ -75,9 +76,10 @@ const EVENT_KEYUP = `keyup${EVENT_KEY}`;
 const EVENT_RESIZE = `resize${EVENT_KEY}`;
 const EVENT_CLICK = `click${EVENT_KEY}`;
 const EVENT_ANIMATIONEND = 'animationend';
-const EVENT_CHANGE_STEP = `onChangeStep${EVENT_KEY}`;
-const EVENT_INVALID = `onInvalid${EVENT_KEY}`;
-const EVENT_VALID = `onValid${EVENT_KEY}`;
+const EVENT_CHANGE_STEP = `stepChange${EVENT_KEY}`;
+const EVENT_CHANGED_STEP = `stepChanged${EVENT_KEY}`;
+const EVENT_INVALID = `stepInvalid${EVENT_KEY}`;
+const EVENT_VALID = `stepValid${EVENT_KEY}`;
 
 const STEP_CLASS = `${NAME}-step`;
 const HEAD_CLASS = `${NAME}-head`;
@@ -123,23 +125,24 @@ const MOBILE_BUTTON_BACK = (options) => {
 };
 const MOBILE_STEPPER_HEAD = (options) => {
   return `
-  <div class ="${MOBILE_HEAD_CLASS} bg-light">
+  <div class ="${MOBILE_HEAD_CLASS}">
     ${options.stepperMobileStepTxt} <span id="${MOBILE_ACTIVE_STEP_ID}"></span> ${options.stepperMobileOfTxt} <span id="${MOBILE_NUMBER_OF_STEPS_ID}"></span>
   </div>
 `;
 };
 const MOBILE_PROGRESS_BAR = `
   <div class="${MOBILE_PROGRESS_CLASS} gray-500">
-    <div class="${MOBILE_PROGRESS_BAR_CLASS} bg-primary"></div>
+    <div class="${MOBILE_PROGRESS_BAR_CLASS}"></div>
   </div>
 `;
 const MOBILE_FOOTER = `
-  <div class="${MOBILE_FOOTER_CLASS} bg-light"></div>
+  <div class="${MOBILE_FOOTER_CLASS}"></div>
 `;
 
-class Stepper {
+class Stepper extends BaseComponent {
   constructor(element, options) {
-    this._element = element;
+    super(element);
+
     this._options = this._getConfig(options);
     this._elementHeight = 0;
     this._steps = SelectorEngine.find(`.${STEP_CLASS}`, this._element);
@@ -150,8 +153,9 @@ class Stepper {
       !window.matchMedia('(prefers-reduced-motion: reduce)').matches && this._options.animations;
 
     if (this._element) {
-      Data.setData(element, DATA_KEY, this);
       this._init();
+      Manipulator.setDataAttribute(this._element, `${this.constructor.NAME}-initialized`, true);
+      bindCallbackEventsIfNeeded(this.constructor);
     }
   }
 
@@ -178,8 +182,10 @@ class Stepper {
 
     EventHandler.off(window, EVENT_RESIZE);
 
-    Data.removeData(this._element, DATA_KEY);
-    this._element = null;
+    this._unbindMouseDown();
+    Manipulator.removeDataAttribute(this._element, `${this.constructor.NAME}-initialized`);
+
+    super.dispose();
   }
 
   changeStep(index) {
@@ -190,8 +196,22 @@ class Stepper {
     this._toggleStep(this._activeStepIndex + 1);
   }
 
-  previousStep() {
+  prevStep() {
     this._toggleStep(this._activeStepIndex - 1);
+  }
+
+  resizeStepper() {
+    if (this._currentView === STEPPER_VERTICAL) {
+      this._setSingleStepHeight(this.activeStep);
+    }
+
+    if (this._currentView === STEPPER_HORIZONTAL) {
+      this._setHeight(this.activeStep);
+    }
+
+    if (this._options.stepperVerticalBreakpoint || this._options.stepperMobileBreakpoint) {
+      this._toggleStepperView();
+    }
   }
 
   // Private
@@ -263,19 +283,17 @@ class Stepper {
     });
   }
 
+  _unbindMouseDown() {
+    this._steps.forEach((el) => {
+      const stepHead = SelectorEngine.findOne(`.${HEAD_CLASS}`, el);
+
+      EventHandler.off(stepHead, EVENT_MOUSEDOWN);
+    });
+  }
+
   _bindResize() {
     EventHandler.on(window, EVENT_RESIZE, () => {
-      if (this._currentView === STEPPER_VERTICAL) {
-        this._setSingleStepHeight(this.activeStep);
-      }
-
-      if (this._currentView === STEPPER_HORIZONTAL) {
-        this._setHeight(this.activeStep);
-      }
-
-      if (this._options.stepperVerticalBreakpoint || this._options.stepperMobileBreakpoint) {
-        this._toggleStepperView();
-      }
+      this.resizeStepper();
     });
   }
 
@@ -309,12 +327,17 @@ class Stepper {
 
     const isValid = this._validateStep(index);
 
+    const activeStepIndex = this._activeStepIndex;
+
     if (!isValid) {
       return;
     }
 
     if (this._options.stepperLinear) {
-      EventHandler.trigger(this.activeStep, EVENT_VALID);
+      EventHandler.trigger(this.activeStep, EVENT_VALID, {
+        currentStep: this._activeStepIndex,
+        nextStep: index,
+      });
     }
 
     if (this._options.stepperNoEditable) {
@@ -359,6 +382,11 @@ class Stepper {
         new mdb.Input(formOutline).init();
       });
     }
+
+    EventHandler.trigger(this.activeStep, EVENT_CHANGED_STEP, {
+      currentStep: this._activeStepIndex,
+      prevStep: activeStepIndex,
+    });
   }
 
   _resetStepperHeight() {
@@ -608,7 +636,7 @@ class Stepper {
     const btnBack = SelectorEngine.findOne(`.${BACK_BTN_CLASS}`, this._element);
     const btnNext = SelectorEngine.findOne(`.${NEXT_BTN_CLASS}`, this._element);
 
-    EventHandler.on(btnBack, EVENT_CLICK, () => this.previousStep());
+    EventHandler.on(btnBack, EVENT_CLICK, () => this.prevStep());
     EventHandler.on(btnNext, EVENT_CLICK, () => this.nextStep());
   }
 
@@ -616,7 +644,7 @@ class Stepper {
     const btnBack = SelectorEngine.findOne(`.${BACK_BTN_CLASS}`, this._element);
     const btnNext = SelectorEngine.findOne(`.${NEXT_BTN_CLASS}`, this._element);
 
-    EventHandler.off(btnBack, EVENT_CLICK, () => this.previousStep());
+    EventHandler.off(btnBack, EVENT_CLICK, () => this.prevStep());
     EventHandler.off(btnNext, EVENT_CLICK, () => this.nextStep());
   }
 
@@ -652,7 +680,10 @@ class Stepper {
       result = false;
     }
 
-    const changeStepEvent = EventHandler.trigger(this.activeStep, EVENT_CHANGE_STEP);
+    const changeStepEvent = EventHandler.trigger(this.activeStep, EVENT_CHANGE_STEP, {
+      currentStep: this._activeStepIndex,
+      nextStep: index,
+    });
 
     if (this._options.stepperLinear) {
       // prevent toggleStep if one of the steps is skipped
@@ -680,7 +711,10 @@ class Stepper {
 
         if (!this._validateActiveStepRequiredElements()) {
           this._toggleInvalid(this._activeStepIndex);
-          EventHandler.trigger(this.activeStep, EVENT_INVALID);
+          EventHandler.trigger(this.activeStep, EVENT_INVALID, {
+            currentStep: this._activeStepIndex,
+            nextStep: index,
+          });
           // wait for other elements transition end
           // the input transition takes 200ms. + 10ms is added, because without it it would not expand to the correct height
 
@@ -950,52 +984,6 @@ class Stepper {
       }
     });
   }
-
-  static getInstance(element) {
-    return Data.getData(element, DATA_KEY);
-  }
-
-  static getOrCreateInstance(element, config = {}) {
-    return (
-      this.getInstance(element) || new this(element, typeof config === 'object' ? config : null)
-    );
-  }
 }
-
-/**
- * ------------------------------------------------------------------------
- * Data Api implementation - auto initialization
- * ------------------------------------------------------------------------
- */
-
-SelectorEngine.find(SELECTOR_EXPAND).forEach((el) => {
-  let instance = Stepper.getInstance(el);
-  if (!instance) {
-    instance = new Stepper(el);
-  }
-
-  return instance;
-});
-
-/**
- * ------------------------------------------------------------------------
- * jQuery
- * ------------------------------------------------------------------------
- * add .rating to jQuery only if jQuery is present
- */
-
-onDOMContentLoaded(() => {
-  const $ = getjQuery();
-
-  if ($) {
-    const JQUERY_NO_CONFLICT = $.fn[NAME];
-    $.fn[NAME] = Stepper.jQueryInterface;
-    $.fn[NAME].Constructor = Stepper;
-    $.fn[NAME].noConflict = () => {
-      $.fn[NAME] = JQUERY_NO_CONFLICT;
-      return Stepper.jQueryInterface;
-    };
-  }
-});
 
 export default Stepper;

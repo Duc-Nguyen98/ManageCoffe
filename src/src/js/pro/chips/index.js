@@ -1,7 +1,8 @@
-import { getjQuery, typeCheckConfig, element, onDOMContentLoaded } from '../../mdb/util/index';
+import { typeCheckConfig, element } from '../../mdb/util/index';
 import Manipulator from '../../mdb/dom/manipulator';
 import SelectorEngine from '../../mdb/dom/selector-engine';
 import Chip from './chip';
+import Input from '../../free/input';
 import Data from '../../mdb/dom/data';
 import { getInputField } from './templates';
 import EventHandler from '../../mdb/dom/event-handler';
@@ -14,6 +15,8 @@ import {
   DOWN_ARROW,
   DELETE,
 } from '../../mdb/util/keycodes';
+import { bindCallbackEventsIfNeeded } from '../../autoinit/init';
+
 // import FocusTrap from '../../mdb/util/focusTrap';
 
 /**
@@ -40,6 +43,7 @@ const SELECTOR_CHIP_ACTIVE = `${SELECTOR_CHIP}.${CLASSNAME_ACTIVE}`;
 const SELECTOR_CLOSE = '.close';
 
 const EVENT_ADD = 'add.mdb.chips';
+const EVENT_ADDED = 'added.mdb.chips';
 const EVENT_ARROW_DOWN = 'arrowDown.mdb.chips';
 const EVENT_ARROW_LEFT = 'arrowLeft.mdb.chips';
 const EVENT_ARROW_RIGHT = 'arrowRight.mdb.chips';
@@ -67,10 +71,12 @@ class ChipsInput extends Chip {
   constructor(element, data = {}) {
     super(element, data);
     this._options = this._getConfig(data);
-    this._element = element;
     this.numberClicks = 0;
+    this._inputInstance = null;
 
     this.init();
+    Manipulator.setDataAttribute(this._element, `${this.constructor.NAME}-initialized`, true);
+    bindCallbackEventsIfNeeded(this.constructor);
   }
 
   // Getters
@@ -101,6 +107,7 @@ class ChipsInput extends Chip {
     this._setChipsClass();
     this._appendInputToElement(CLASSNAME_CHIPS_PLACEHOLDER);
     this._handleInitialValue();
+    this._initializeInput();
     this._handleInputText();
     this._handleKeyboard();
     this._handleChipsOnSelect();
@@ -110,11 +117,33 @@ class ChipsInput extends Chip {
   }
 
   dispose() {
-    this._element = null;
-    this._options = null;
+    Manipulator.removeClass(this._element, 'chips');
+    this.allChips.forEach((chip) => {
+      const instance = Chip.getInstance(chip);
+      if (instance) {
+        chip.remove();
+        EventHandler.off(chip, 'dblclick');
+        instance.dispose();
+      }
+    });
+    if (this._inputInstance) {
+      this._inputInstance.dispose();
+    }
+    this.chipsInputWrapper.remove();
+    EventHandler.off(this._element, 'click');
+    EventHandler.off(this._element, 'keypress');
+    Manipulator.removeDataAttribute(this._element, `${this.constructor.NAME}-initialized`);
+
+    super.dispose();
   }
 
   // Private
+
+  _initializeInput() {
+    const formOutline = this._element.querySelector('.form-outline');
+
+    this._inputInstance = new Input(formOutline).init();
+  }
 
   _setChipsClass() {
     Manipulator.addClass(this._element, 'chips');
@@ -262,12 +291,12 @@ class ChipsInput extends Chip {
 
     if (num === 0) num = 1;
 
-    this._handleAddActiveClassWithKebyboard(num);
+    this._handleAddActiveClassWithKeyboard(num);
   }
 
   _handleLeftKeyboardArrow(num) {
     this._handleRemoveActiveClass();
-    this._handleAddActiveClassWithKebyboard(num);
+    this._handleAddActiveClassWithKeyboard(num);
   }
 
   _handleActiveChipAfterRemove(index) {
@@ -372,13 +401,12 @@ class ChipsInput extends Chip {
 
     if (keyCode === ENTER) {
       if (target.value === '') return;
+      event.preventDefault();
 
       this._handleCreateChip(target, target.value);
 
       this._handleRemoveActiveClass();
       this.numberClicks = this.allChips.length + 1;
-
-      this._handleEvents(event, EVENT_ADD);
     }
 
     if (this.allChips.length > 0) {
@@ -389,7 +417,8 @@ class ChipsInput extends Chip {
     }
   }
 
-  _handleBlurInput = ({ target }) => {
+  _handleBlurInput(event) {
+    const { target } = event;
     if (target.value.length > 0) {
       this._handleCreateChip(target, target.value);
     }
@@ -403,12 +432,14 @@ class ChipsInput extends Chip {
     }
 
     this.allChips.forEach((chip) => Manipulator.removeClass(chip, CLASSNAME_ACTIVE));
-  };
+  }
 
   _handleInputText() {
     const placeholder = SelectorEngine.findOne(CLASSNAME_CHIPS_PLACEHOLDER, this._element);
 
-    EventHandler.on(this._element, 'keyup', placeholder, (e) => this._handleKeysInputToElement(e));
+    EventHandler.on(this._element, 'keypress', placeholder, (e) =>
+      this._handleKeysInputToElement(e)
+    );
     EventHandler.on(this.input, 'blur', (e) => this._handleBlurInput(e));
   }
 
@@ -421,29 +452,39 @@ class ChipsInput extends Chip {
   }
 
   _handleCreateChip(target, value) {
-    const divElement = element('div');
-    const instance = Chip.getInstance(divElement);
+    const addEvent = EventHandler.trigger(this._element, EVENT_ADD, { value });
 
-    const divWithChips = new Chip(instance, { text: value });
+    if (addEvent.defaultPrevented) {
+      return;
+    }
+
+    const divElement = element('div');
+    const divWithChips = new Chip(divElement, { text: value });
+
+    let chipsContainer;
 
     if (this._options.parentSelector !== '') {
       const parent = document.querySelector(this._options.parentSelector);
       parent.insertAdjacentHTML('beforeend', divWithChips.appendChip());
+      chipsContainer = parent;
     } else {
       target.insertAdjacentHTML('beforebegin', divWithChips.appendChip());
+      chipsContainer = target.parentNode;
     }
 
     target.value = '';
 
-    SelectorEngine.find(SELECTOR_CHIP).forEach((chip) => {
+    SelectorEngine.find(SELECTOR_CHIP, chipsContainer).forEach((chip) => {
       let instance = Chip.getInstance(chip);
       if (!instance) {
         instance = new Chip(chip);
+        instance.init();
       }
-      return instance.init();
     });
 
     this._handleEditable();
+
+    EventHandler.trigger(this._element, EVENT_ADDED, { value });
   }
 
   _handleChipsOnSelect() {
@@ -454,7 +495,7 @@ class ChipsInput extends Chip {
     });
   }
 
-  _handleAddActiveClassWithKebyboard(num) {
+  _handleAddActiveClassWithKeyboard(num) {
     let chip;
 
     if (this.allChips[num - 1] === undefined) {
@@ -498,50 +539,6 @@ class ChipsInput extends Chip {
       }
     });
   }
-
-  static getInstance(element) {
-    return Data.getData(element, DATA_KEY);
-  }
-
-  static getOrCreateInstance(element, config = {}) {
-    return (
-      this.getInstance(element) || new this(element, typeof config === 'object' ? config : null)
-    );
-  }
 }
-
-/**
- * ------------------------------------------------------------------------
- * Data Api implementation - auto initialization
- * ------------------------------------------------------------------------
- */
-
-SelectorEngine.find(`.${NAME}`).forEach((chip) => {
-  let instance = ChipsInput.getInstance(chip);
-  if (!instance) {
-    instance = new ChipsInput(chip);
-  }
-  return instance;
-});
-
-/**
- * ------------------------------------------------------------------------
- * jQuery
- * ------------------------------------------------------------------------
- */
-
-onDOMContentLoaded(() => {
-  const $ = getjQuery();
-
-  if ($) {
-    const JQUERY_NO_CONFLICT = $.fn[NAME];
-    $.fn[NAME] = ChipsInput.jQueryInterface;
-    $.fn[NAME].Constructor = ChipsInput;
-    $.fn[NAME].noConflict = () => {
-      $.fn[NAME] = JQUERY_NO_CONFLICT;
-      return ChipsInput.jQueryInterface;
-    };
-  }
-});
 
 export default ChipsInput;

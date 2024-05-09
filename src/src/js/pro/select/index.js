@@ -3,7 +3,7 @@ import Data from '../../mdb/dom/data';
 import EventHandler from '../../mdb/dom/event-handler';
 import Manipulator from '../../mdb/dom/manipulator';
 import SelectorEngine from '../../mdb/dom/selector-engine';
-import { typeCheckConfig, getjQuery, getUID, onDOMContentLoaded } from '../../mdb/util/index';
+import { typeCheckConfig, getUID } from '../../mdb/util/index';
 import Input from '../../free/input';
 import SelectOption from './select-option';
 import SelectionModel from './selection-model';
@@ -15,6 +15,8 @@ import {
   getOptionsListTemplate,
   getFakeValueTemplate,
 } from './templates';
+import BaseComponent from '../../free/base-component';
+import { bindCallbackEventsIfNeeded } from '../../autoinit/init';
 
 const Default = {
   autoSelect: false,
@@ -38,6 +40,7 @@ const Default = {
   validFeedback: 'Valid',
   invalidFeedback: 'Invalid',
   placeholder: '',
+  filterFn: null,
 };
 
 const DefaultType = {
@@ -62,6 +65,7 @@ const DefaultType = {
   validFeedback: 'string',
   invalidFeedback: 'string',
   placeholder: '',
+  filterFn: '(function|null)',
 };
 
 const NAME = 'select';
@@ -70,12 +74,14 @@ const DATA_KEY = 'mdb.select';
 const EVENT_KEY = `.${DATA_KEY}`;
 const EVENT_CLOSE = `close${EVENT_KEY}`;
 const EVENT_OPEN = `open${EVENT_KEY}`;
-const EVENT_SELECT = `optionSelect${EVENT_KEY}`;
-const EVENT_DESELECT = `optionDeselect${EVENT_KEY}`;
-const EVENT_VALUE_CHANGE = `valueChange${EVENT_KEY}`;
-const EVENT_CHANGE = 'change';
+const EVENT_SELECTED = `optionSelected${EVENT_KEY}`;
+const EVENT_DESELECTED = `optionDeselected${EVENT_KEY}`;
+const EVENT_VALUE_CHANGED = `valueChanged${EVENT_KEY}`;
+const EVENT_CHANGE_NATIVE = 'change';
+const EVENT_OPENED = `opened${EVENT_KEY}`;
+const EVENT_CLOSED = `closed${EVENT_KEY}`;
+const EVENT_SEARCH = `search${EVENT_KEY}`;
 
-const SELECTOR_SELECT = '.select';
 const SELECTOR_LABEL = '.select-label';
 const SELECTOR_INPUT = '.select-input';
 const SELECTOR_FILTER_INPUT = '.select-filter-input';
@@ -98,9 +104,10 @@ const CLASS_NAME_SELECT_ALL_OPTION = 'select-all-option';
 
 const ANIMATION_TRANSITION_TIME = 200;
 
-class Select {
+class Select extends BaseComponent {
   constructor(element, config) {
-    this._element = element;
+    super(element);
+
     this._config = this._getConfig(config);
     this._optionsToRender = this._getOptionsToRender(element);
 
@@ -114,9 +121,13 @@ class Select {
     this._activeOptionIndex = -1;
     this._activeOption = null;
 
-    this._wrapperId = getUID('select-wrapper-');
-    this._dropdownContainerId = getUID('select-dropdown-container-');
-    this._selectAllId = getUID('select-all-');
+    this._wrapperId = this._element.id
+      ? `select-wrapper-${this._element.id}`
+      : getUID('select-wrapper-');
+    this._dropdownContainerId = this._element.id
+      ? `select-dropdown-container-${this._element.id}`
+      : getUID('select-dropdown-container-');
+    this._selectAllId = this._element.id ? `select-all-${this._element.id}` : getUID('select-all-');
     this._debounceTimeoutId = null;
 
     this._dropdownHeight = this._config.optionHeight * this._config.visibleOptions;
@@ -142,10 +153,8 @@ class Select {
     this._isOpen = false;
 
     this._addMutationObserver();
-
-    if (this._element) {
-      Data.setData(element, DATA_KEY, this);
-    }
+    Manipulator.setDataAttribute(this._element, `${this.constructor.NAME}-initialized`, true);
+    bindCallbackEventsIfNeeded(this.constructor);
   }
 
   static get NAME() {
@@ -226,7 +235,7 @@ class Select {
     nodes.forEach((node) => {
       if (node.nodeName === 'OPTGROUP') {
         const optionGroup = {
-          id: getUID('group-'),
+          id: node.id ? `group-${node.id}` : getUID('group-'),
           label: node.label,
           disabled: node.hasAttribute('disabled'),
           hidden: node.hasAttribute('hidden'),
@@ -270,7 +279,7 @@ class Select {
   }
 
   _createOptionObject(nativeOption, group = {}) {
-    const id = getUID('option-');
+    const id = nativeOption.id ? `option-${nativeOption.id}` : getUID('option-');
     const groupId = group.id ? group.id : null;
     const groupDisabled = group.disabled ? group.disabled : false;
     const selected = nativeOption.selected || nativeOption.hasAttribute('selected');
@@ -308,6 +317,9 @@ class Select {
     this._wrapper = SelectorEngine.findOne(`#${this._wrapperId}`);
     this._input = SelectorEngine.findOne(SELECTOR_INPUT, this._wrapper);
 
+    if (this._element.getAttribute('autocomplete') === 'off') {
+      this._input.setAttribute('autocomplete', 'off');
+    }
     const containerSelector = this._config.container;
 
     if (containerSelector === 'body') {
@@ -359,8 +371,10 @@ class Select {
   _bindComponentEvents() {
     this._listenToComponentKeydown();
     this._listenToWrapperClick();
-    this._listenToClearBtnClick();
-    this._listenToClearBtnKeydown();
+    if (!this._config.disabled) {
+      this._listenToClearBtnClick();
+      this._listenToClearBtnKeydown();
+    }
   }
 
   _setDefaultSelections() {
@@ -385,7 +399,8 @@ class Select {
 
   _handleOpenKeydown(event) {
     const key = event.keyCode;
-    const isCloseKey = key === ESCAPE || (key === UP_ARROW && event.altKey) || key === TAB;
+    const isCloseKey =
+      key === ESCAPE || ((key === UP_ARROW || key === DOWN_ARROW) && event.altKey) || key === TAB;
 
     if (key === TAB && this._config.autoSelect && !this.multiple) {
       this._handleAutoSelection(this._activeOption);
@@ -415,6 +430,7 @@ class Select {
         this._scrollToOption(this._activeOption);
         break;
       case ENTER:
+        event.preventDefault();
         if (this._activeOption) {
           if (this.hasSelectAll && this._activeOptionIndex === 0) {
             this._handleSelectAll();
@@ -432,9 +448,12 @@ class Select {
 
   _handleClosedKeydown(event) {
     const key = event.keyCode;
+    if (key === ENTER) {
+      event.preventDefault();
+    }
     const isOpenKey =
       key === ENTER ||
-      (key === DOWN_ARROW && event.altKey) ||
+      ((key === DOWN_ARROW || key === UP_ARROW) && event.altKey) ||
       (key === DOWN_ARROW && this.multiple);
 
     if (isOpenKey) {
@@ -444,10 +463,12 @@ class Select {
     if (!this.multiple) {
       switch (key) {
         case DOWN_ARROW:
+          if (event.altKey) return;
           this._setNextOptionActive();
           this._handleSelection(this._activeOption);
           break;
         case UP_ARROW:
+          if (event.altKey) return;
           this._setPreviousOptionActive();
           this._handleSelection(this._activeOption);
           break;
@@ -638,13 +659,18 @@ class Select {
       this._selectionModel.clear();
       selected.deselect();
     }
+
+    if (this._optionsToRender[0].hidden === true) {
+      this._singleOptionSelect(this._optionsToRender[0]);
+    } else {
+      this._emitValueChangeEvent(null);
+      this._emitNativeChangeEvent();
+    }
+
     this._updateInputValue();
     this._updateFakeLabelPosition();
     this._updateLabelPosition();
     this._updateClearButtonVisibility();
-
-    this._emitValueChangeEvent(null);
-    this._emitNativeChangeEvent();
   }
 
   _listenToOptionsClick() {
@@ -751,14 +777,14 @@ class Select {
       this._selectionModel.deselect(currentSelected);
       currentSelected.deselect();
       currentSelected.node.setAttribute('selected', false);
-      EventHandler.trigger(this._element, EVENT_DESELECT, { value: currentSelected.value });
+      EventHandler.trigger(this._element, EVENT_DESELECTED, { value: currentSelected.value });
     }
 
     if (!currentSelected || (currentSelected && option !== currentSelected)) {
       this._selectionModel.select(option);
       option.select();
       option.node.setAttribute('selected', true);
-      EventHandler.trigger(this._element, EVENT_SELECT, { value: option.value });
+      EventHandler.trigger(this._element, EVENT_SELECTED, { value: option.value });
       this._emitValueChangeEvent(this.value);
       this._emitNativeChangeEvent();
     }
@@ -769,12 +795,12 @@ class Select {
       this._selectionModel.deselect(option);
       option.deselect();
       option.node.setAttribute('selected', false);
-      EventHandler.trigger(this._element, EVENT_DESELECT, { value: option.value });
+      EventHandler.trigger(this._element, EVENT_DESELECTED, { value: option.value });
     } else {
       this._selectionModel.select(option);
       option.select();
       option.node.setAttribute('selected', true);
-      EventHandler.trigger(this._element, EVENT_SELECT, { value: option.value });
+      EventHandler.trigger(this._element, EVENT_SELECTED, { value: option.value });
     }
 
     this._emitValueChangeEvent(this.value);
@@ -782,11 +808,11 @@ class Select {
   }
 
   _emitValueChangeEvent(value) {
-    EventHandler.trigger(this._element, EVENT_VALUE_CHANGE, { value });
+    EventHandler.trigger(this._element, EVENT_VALUE_CHANGED, { value });
   }
 
   _emitNativeChangeEvent() {
-    EventHandler.trigger(this._element, EVENT_CHANGE);
+    EventHandler.trigger(this._element, EVENT_CHANGE_NATIVE);
   }
 
   _updateInputValue() {
@@ -844,11 +870,13 @@ class Select {
   }
 
   _updateLabelPosition() {
+    const isInitialized = Manipulator.hasClass(this._element, CLASS_NAME_INITIALIZED);
+    const isValueEmpty = this._input.value !== '';
     if (!this._label) {
       return;
     }
 
-    if (this._input.value !== '' || this._isOpen || this._isFakeValueActive) {
+    if (isInitialized && (isValueEmpty || this._isOpen || this._isFakeValueActive)) {
       Manipulator.addClass(this._label, CLASS_NAME_ACTIVE);
     } else {
       Manipulator.removeClass(this._label, CLASS_NAME_ACTIVE);
@@ -870,6 +898,10 @@ class Select {
   _updateFakeLabelPosition() {
     if (!this._fakeValue) {
       return;
+    }
+
+    if (this.hasSelection) {
+      this._fakeValue.textContent = this.hasSelection.label;
     }
 
     if (this._input.value === '' && this._fakeValue.innerHTML !== '') {
@@ -938,7 +970,7 @@ class Select {
       this._listenToSelectSearch();
 
       // New listener for dropdown navigation is needed, because
-      // we focus search input inside dropdown template, wchich is
+      // we focus search input inside dropdown template, which is
       // appended to the body. In this case listener attached to the
       // select wrapper won't work
       this._listenToDropdownKeydown();
@@ -949,6 +981,8 @@ class Select {
     this._listenToWindowResize();
 
     this._isOpen = true;
+    this._input.setAttribute('aria-expanded', true);
+    EventHandler.trigger(this._element, EVENT_OPENED);
 
     this._updateLabelPosition();
     this._setInputActiveStyles();
@@ -1020,6 +1054,12 @@ class Select {
     this.filterInput.addEventListener('input', (event) => {
       const searchTerm = event.target.value;
       const debounceTime = this._config.filterDebounce;
+      const searchEvent = EventHandler.trigger(this._element, EVENT_SEARCH, { value: searchTerm });
+
+      if (searchEvent.defaultPrevented) {
+        return;
+      }
+
       this._debounceFilter(searchTerm, debounceTime);
     });
   }
@@ -1036,6 +1076,7 @@ class Select {
 
   _filterOptions(searchTerm) {
     const filtered = [];
+    const filterFn = this._config.filterFn;
 
     this._optionsToRender.forEach((option) => {
       const isOptionGroup = option.hasOwnProperty('options');
@@ -1052,7 +1093,12 @@ class Select {
         }
       }
 
-      if (isValidOption) {
+      if (filterFn && !isOptionGroup) {
+        const customSearchResult = filterFn(searchTerm, option);
+        if (customSearchResult) {
+          filtered.push(option);
+        }
+      } else if (isValidOption) {
         filtered.push(option);
       }
     });
@@ -1095,6 +1141,10 @@ class Select {
   }
 
   _filter(value, options) {
+    const filterFn = this._config.filterFn;
+    if (filterFn) {
+      return options.filter((option) => filterFn(value, option));
+    }
     const filterValue = value.toLowerCase();
     return options.filter((option) => option.label.toLowerCase().includes(filterValue));
   }
@@ -1140,7 +1190,7 @@ class Select {
       return;
     }
 
-    if (this._config.filter) {
+    if (this._config.filter && this.hasSelectAll) {
       this._resetFilterState();
       this._updateOptionsListTemplate(this._optionsToRender);
       if (this._config.multiple) {
@@ -1167,7 +1217,9 @@ class Select {
       }
       this._popper.destroy();
       this._isOpen = false;
+      this._input.setAttribute('aria-expanded', false);
       EventHandler.off(this.dropdown, 'transitionend');
+      EventHandler.trigger(this._element, EVENT_CLOSED);
     }, ANIMATION_TRANSITION_TIME);
   }
 
@@ -1258,7 +1310,7 @@ class Select {
   }
 
   _disconnectMutationObserver() {
-    if (this.mutationObserver) {
+    if (this._mutationObserver) {
       this._mutationObserver.disconnect();
       this._mutationObserver = null;
     }
@@ -1293,11 +1345,15 @@ class Select {
   }
 
   dispose() {
+    this._disconnectMutationObserver();
     this._removeComponentEvents();
 
-    this._destroyMaterialSelect();
+    this._disconnectMutationObserver();
 
-    Data.removeData(this._element, DATA_KEY);
+    this._destroyMaterialSelect();
+    Manipulator.removeDataAttribute(this._element, `${this.constructor.NAME}-initialized`);
+
+    super.dispose();
   }
 
   _removeComponentEvents() {
@@ -1318,8 +1374,23 @@ class Select {
 
   _destroyMaterialTemplate() {
     const wrapperParent = this._wrapper.parentNode;
+    const labels = SelectorEngine.find('label', this._wrapper);
+
     wrapperParent.appendChild(this._element);
+    labels.forEach((label) => {
+      wrapperParent.appendChild(label);
+    });
+
+    labels.forEach((label) => {
+      Manipulator.removeClass(label, CLASS_NAME_ACTIVE);
+    });
     Manipulator.removeClass(this._element, CLASS_NAME_INITIALIZED);
+
+    // restore custom content removed on init
+    if (this._customContent) {
+      wrapperParent.appendChild(this._customContent);
+    }
+
     wrapperParent.removeChild(this._wrapper);
   }
 
@@ -1331,12 +1402,15 @@ class Select {
     const isMultipleValue = Array.isArray(value);
 
     if (isMultipleValue) {
-      value.forEach((selectionValue) => this._selectByValue(selectionValue));
+      value.forEach((selectionValue) => {
+        this._selectByValue(selectionValue);
+      });
     } else {
       this._selectByValue(value);
     }
 
     this._updateSelections();
+    this._emitValueChangeEvent(value);
   }
 
   _selectByValue(value) {
@@ -1370,44 +1444,6 @@ class Select {
       }
     });
   }
-
-  static getInstance(element) {
-    return Data.getData(element, DATA_KEY);
-  }
-
-  static getOrCreateInstance(element, config = {}) {
-    return (
-      this.getInstance(element) || new this(element, typeof config === 'object' ? config : null)
-    );
-  }
 }
 
 export default Select;
-
-const $ = getjQuery();
-
-SelectorEngine.find(SELECTOR_SELECT).forEach((select) => {
-  let instance = Select.getInstance(select);
-  if (!instance) {
-    instance = new Select(select);
-  }
-});
-
-/**
- * ------------------------------------------------------------------------
- * jQuery
- * ------------------------------------------------------------------------
- * add .timepicker to jQuery only if jQuery is present
- */
-
-onDOMContentLoaded(() => {
-  if ($) {
-    const JQUERY_NO_CONFLICT = $.fn[NAME];
-    $.fn[NAME] = Select.jQueryInterface;
-    $.fn[NAME].Constructor = Select;
-    $.fn[NAME].noConflict = () => {
-      $.fn[NAME] = JQUERY_NO_CONFLICT;
-      return Select.jQueryInterface;
-    };
-  }
-});

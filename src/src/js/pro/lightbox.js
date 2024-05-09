@@ -1,8 +1,10 @@
-import { element, typeCheckConfig, getjQuery, isRTL, onDOMContentLoaded } from '../mdb/util/index';
+import { element, typeCheckConfig, isRTL } from '../mdb/util/index';
 import Data from '../mdb/dom/data';
 import EventHandler from '../mdb/dom/event-handler';
 import Manipulator from '../mdb/dom/manipulator';
 import SelectorEngine from '../mdb/dom/selector-engine';
+import BaseComponent from '../free/base-component';
+import { bindCallbackEventsIfNeeded } from '../autoinit/init';
 
 /**
  * ------------------------------------------------------------------------
@@ -12,6 +14,10 @@ import SelectorEngine from '../mdb/dom/selector-engine';
 
 const NAME = 'lightbox';
 const DATA_KEY = 'mdb.lightbox';
+const EVENT_KEY = `.${DATA_KEY}`;
+const DATA_API_KEY = '.data-api';
+const EVENT_CLICK_DATA_API = `click${EVENT_KEY}${DATA_API_KEY}`;
+
 const CLASSNAME_LIGHTBOX = 'lightbox';
 const CLASSNAME_GALLERY = 'lightbox-gallery';
 
@@ -29,18 +35,17 @@ const CLASSNAME_ARROW_RIGHT = 'lightbox-gallery-arrow-right';
 const CLASSNAME_CAPTION_WRAPPER = 'lightbox-gallery-caption-wrapper';
 const CLASSNAME_CAPTION = 'lightbox-gallery-caption';
 const CLASSNAME_IMG = 'lightbox-gallery-image';
-const CLASSNAME_FA_PRO = 'fontawesome-pro';
 
-const SELECTOR_TOGGLE = `.${CLASSNAME_LIGHTBOX} img:not(.lightbox-disabled)`;
+const SELECTOR_TOGGLE = `[data-mdb-${NAME}-init] img:not(.lightbox-disabled)`;
 
 const OPTIONS_TYPE = {
+  container: 'string',
   zoomLevel: '(number|string)',
-  fontAwesome: 'string',
 };
 
 const DEFAULT_OPTIONS = {
+  container: 'body',
   zoomLevel: 1,
-  fontAwesome: 'free',
 };
 
 /**
@@ -49,10 +54,12 @@ const DEFAULT_OPTIONS = {
  * ------------------------------------------------------------------------
  */
 
-class Lightbox {
+class Lightbox extends BaseComponent {
   constructor(element, options = {}) {
-    this._element = element;
+    super(element);
+
     this._options = options;
+    this._getContainer();
 
     this._id = `lightbox-${Math.random().toString(36).substr(2, 9)}`;
     this._activeImg = 0;
@@ -82,10 +89,13 @@ class Lightbox {
     this._leftArrowWrapper = null;
     this._rightArrowWrapper = null;
     this._initiated = false;
+    this._multitouch = false;
+    this._touchZoomPosition = [];
 
     if (this._element) {
-      Data.setData(element, DATA_KEY, this);
       this.init();
+      Manipulator.setDataAttribute(this._element, `${this.constructor.NAME}-initialized`, true);
+      bindCallbackEventsIfNeeded(this.constructor);
     }
   }
 
@@ -147,7 +157,7 @@ class Lightbox {
 
   slide(target = 'right') {
     if (this._animating === true || this._images.length <= 1) return;
-    this._triggerEvents('slide', 'slided');
+    this._triggerEvents('slide', 'slid');
 
     this._beforeSlideEvents();
     if (target === 'right') this._slideHorizontally(target);
@@ -203,11 +213,12 @@ class Lightbox {
   }
 
   dispose() {
-    EventHandler.off(document, 'click', SELECTOR_TOGGLE, this.toggle);
+    EventHandler.off(document, EVENT_CLICK_DATA_API, SELECTOR_TOGGLE, this.toggle);
     if (this._galleryContent) this._removeEvents();
     if (this._gallery) this._gallery.remove();
 
     Data.removeData(this._element, DATA_KEY);
+    Manipulator.removeDataAttribute(this._element, `${this.constructor.NAME}-initialized`);
     this._element = null;
   }
 
@@ -218,6 +229,10 @@ class Lightbox {
       return !image.classList.contains('lightbox-disabled');
     });
     this._images = lightboxImages;
+  }
+
+  _getContainer() {
+    this._container = SelectorEngine.findOne(this.options.container);
   }
 
   _setActiveImg(target) {
@@ -235,7 +250,7 @@ class Lightbox {
     this._appendContent();
     this._appendArrows();
     this._appendCaption();
-    document.body.append(this._gallery);
+    this._container.append(this._gallery);
   }
 
   _appendToolbar() {
@@ -255,19 +270,13 @@ class Lightbox {
     Manipulator.addClass(rightTools, CLASSNAME_RIGHT_TOOLS);
     Manipulator.addClass(closeBtn, CLASSNAME_CLOSE_BTN);
 
-    if (this.options.fontAwesome === 'pro') {
-      Manipulator.addClass(this._fullscreenBtn, CLASSNAME_FA_PRO);
-      Manipulator.addClass(this._zoomBtn, CLASSNAME_FA_PRO);
-      Manipulator.addClass(closeBtn, CLASSNAME_FA_PRO);
-    }
-
     this._fullscreenBtn.setAttribute('aria-label', 'Toggle fullscreen');
     this._zoomBtn.setAttribute('aria-label', 'Zoom in');
     closeBtn.setAttribute('aria-label', 'Close');
 
-    EventHandler.on(this._fullscreenBtn, 'click', () => this.toggleFullscreen());
-    EventHandler.on(this._zoomBtn, 'click', () => this._toggleZoom());
-    EventHandler.on(closeBtn, 'click', () => this.close());
+    EventHandler.on(this._fullscreenBtn, EVENT_CLICK_DATA_API, () => this.toggleFullscreen());
+    EventHandler.on(this._zoomBtn, EVENT_CLICK_DATA_API, () => this._toggleZoom());
+    EventHandler.on(closeBtn, EVENT_CLICK_DATA_API, () => this.close());
 
     leftTools.append(this._imgCounter);
     rightTools.append(this._fullscreenBtn);
@@ -308,20 +317,15 @@ class Lightbox {
     Manipulator.addClass(this._leftArrowWrapper, CLASSNAME_ARROW_LEFT);
     const leftArrow = element('button');
     leftArrow.setAttribute('aria-label', 'Previous');
-    EventHandler.on(leftArrow, 'click', () => this.slide('left'));
+    EventHandler.on(leftArrow, EVENT_CLICK_DATA_API, () => this.slide('left'));
     this._leftArrowWrapper.append(leftArrow);
 
     this._rightArrowWrapper = element('div');
     Manipulator.addClass(this._rightArrowWrapper, CLASSNAME_ARROW_RIGHT);
     this._rightArrow = element('button');
     this._rightArrow.setAttribute('aria-label', 'Next');
-    EventHandler.on(this._rightArrow, 'click', () => this.slide());
+    EventHandler.on(this._rightArrow, EVENT_CLICK_DATA_API, () => this.slide());
     this._rightArrowWrapper.append(this._rightArrow);
-
-    if (this.options.fontAwesome === 'pro') {
-      Manipulator.addClass(leftArrow, CLASSNAME_FA_PRO);
-      Manipulator.addClass(this._rightArrow, CLASSNAME_FA_PRO);
-    }
 
     this._getImages();
     if (this._images.length <= 1) return;
@@ -383,7 +387,9 @@ class Lightbox {
     newImg.draggable = false;
 
     Manipulator.style(newImgWrapper, { position: 'absolute', left: `${positionLeft}%`, top: 0 });
-    if (img.dataset.caption) newImg.dataset.caption = img.dataset.caption;
+    if (img.dataset.mdbCaption || img.dataset.mdbCaption === '') {
+      newImg.dataset.caption = img.dataset.mdbCaption;
+    }
 
     if (positionLeft === 0) {
       if (newImg.width < newImg.height) Manipulator.addClass(newImg, 'vertical');
@@ -548,7 +554,10 @@ class Lightbox {
 
   _updateCaption() {
     setTimeout(() => {
-      const caption = this.currentImg.dataset.caption || this.currentImg.alt;
+      let caption = this.currentImg.alt;
+      if (this.currentImg.dataset.caption || this.currentImg.dataset.caption === '') {
+        caption = this.currentImg.dataset.caption;
+      }
       SelectorEngine.findOne(`.${CLASSNAME_CAPTION}`, this._gallery).innerHTML = caption;
     }, 200);
   }
@@ -622,6 +631,8 @@ class Lightbox {
   _addEvents() {
     const images = SelectorEngine.find('img', this._galleryContent);
 
+    this._onWindowTouchmove = this._onWindowTouchmove.bind(this);
+    this._onWindowTouchstart = this._onWindowTouchstart.bind(this);
     this._onImgMousedown = this._onMousedown.bind(this);
     this._onImgMousemove = this._onMousemove.bind(this);
     this._onImgWheel = this._onZoom.bind(this);
@@ -645,6 +656,8 @@ class Lightbox {
       EventHandler.on(img, 'dblclick', this._onImgDoubleClick, { passive: true });
     });
 
+    document.addEventListener('touchmove', this._onWindowTouchmove, { passive: false });
+    EventHandler.on(window, 'touchstart', this._onWindowTouchstart);
     EventHandler.on(window, 'mouseup', this._onImgMouseup);
     EventHandler.on(window, 'touchend', this._onImgTouchend);
     EventHandler.on(window, 'resize', this._onWindowResize);
@@ -669,6 +682,8 @@ class Lightbox {
       EventHandler.off(img, 'dblclick', this._onImgDoubleClick);
     });
 
+    document.removeEventListener('touchmove', this._onWindowTouchmove, { passive: false });
+    EventHandler.off(window, 'touchstart', this._onWindowTouchstart);
     EventHandler.off(window, 'mouseup', this._onImgMouseup);
     EventHandler.off(window, 'touchend', this._onImgTouchend);
     EventHandler.off(window, 'resize', this._onWindowResize);
@@ -693,6 +708,13 @@ class Lightbox {
     this._mousedownPositionX = x * (1 / this._zoom) - this._positionX;
     this._mousedownPositionY = y * (1 / this._zoom) - this._positionY;
     this._mousedown = true;
+
+    if (e.type === 'touchstart') {
+      if (e.touches.length > 1) {
+        this._multitouch = true;
+        this._touchZoomPosition = e.touches;
+      }
+    }
   }
 
   _onMousemove(e) {
@@ -704,17 +726,19 @@ class Lightbox {
 
     if (touch) this._resetToolsToggler();
 
-    if (this._zoom !== 1) {
-      this._positionX = x * (1 / this._zoom) - this._mousedownPositionX;
-      this._positionY = y * (1 / this._zoom) - this._mousedownPositionY;
-      Manipulator.style(this.currentImg, {
-        left: `${this._positionX}px`,
-        top: `${this._positionY}px`,
-      });
-    } else {
-      if (this._images.length <= 1) return;
-      this._positionX = x * (1 / this._zoom) - this._mousedownPositionX;
-      Manipulator.style(this.currentImg, { left: `${this._positionX}px` });
+    if (!this._multitouch) {
+      if (this._zoom !== 1) {
+        this._positionX = x * (1 / this._zoom) - this._mousedownPositionX;
+        this._positionY = y * (1 / this._zoom) - this._mousedownPositionY;
+        Manipulator.style(this.currentImg, {
+          left: `${this._positionX}px`,
+          top: `${this._positionY}px`,
+        });
+      } else {
+        if (this._images.length <= 1) return;
+        this._positionX = x * (1 / this._zoom) - this._mousedownPositionX;
+        Manipulator.style(this.currentImg, { left: `${this._positionX}px` });
+      }
     }
   }
 
@@ -725,8 +749,51 @@ class Lightbox {
 
   _onTouchend(e) {
     this._mousedown = false;
-    this._moveImg(e.target);
-    this._checkDoubleTap(e);
+
+    if (this._multitouch) {
+      if (e.targetTouches.length === 0) {
+        this._multitouch = false;
+        this._touchZoomPosition = [];
+      }
+    } else if (!this._multitouch) {
+      this._checkDoubleTap(e);
+      this._moveImg(e.target);
+    }
+  }
+
+  _calculateTouchZoom(e) {
+    const initialDistance = Math.hypot(
+      this._touchZoomPosition[1].pageX - this._touchZoomPosition[0].pageX,
+      this._touchZoomPosition[1].pageY - this._touchZoomPosition[0].pageY
+    );
+    const finalDistance = Math.hypot(
+      e.touches[1].pageX - e.touches[0].pageX,
+      e.touches[1].pageY - e.touches[0].pageY
+    );
+    const distanceChange = Math.abs(initialDistance - finalDistance);
+    const screenWidth = e.view.screen.width;
+    if (distanceChange > screenWidth * 0.03) {
+      if (initialDistance <= finalDistance) {
+        this.zoomIn();
+      } else {
+        this.zoomOut();
+      }
+      this._touchZoomPosition = e.touches;
+    }
+  }
+
+  _onWindowTouchstart(e) {
+    if (e.touches.length > 1) {
+      this._multitouch = true;
+      this._touchZoomPosition = e.touches;
+    }
+  }
+
+  _onWindowTouchmove(e) {
+    e.preventDefault();
+    if (e.type === 'touchmove' && e.targetTouches.length > 1) {
+      this._calculateTouchZoom(e);
+    }
   }
 
   _onRightArrowKeydown(e) {
@@ -803,6 +870,7 @@ class Lightbox {
   }
 
   _moveImg(target) {
+    if (this._multitouch) return;
     if (this._zoom !== 1 || target !== this.currentImg || this._images.length <= 1) return;
 
     const movement = this._positionX - this._originalPositionX;
@@ -845,6 +913,8 @@ class Lightbox {
   }
 
   _onDoubleClick(e) {
+    if (this._multitouch) return;
+
     if (!e.touches) this._setNewPositionOnZoomIn(e);
     if (this._zoom !== 1) {
       this._restoreDefaultZoom();
@@ -968,16 +1038,6 @@ class Lightbox {
     }
   }
 
-  static getInstance(element) {
-    return Data.getData(element, DATA_KEY);
-  }
-
-  static getOrCreateInstance(element, config = {}) {
-    return (
-      this.getInstance(element) || new this(element, typeof config === 'object' ? config : null)
-    );
-  }
-
   static toggle() {
     return function (event) {
       const lightbox = SelectorEngine.closest(event.target, `.${CLASSNAME_LIGHTBOX}`);
@@ -1005,34 +1065,5 @@ class Lightbox {
     });
   }
 }
-
-/**
- * ------------------------------------------------------------------------
- * Data Api implementation - auto initialization
- * ------------------------------------------------------------------------
- */
-
-SelectorEngine.find(`.${CLASSNAME_LIGHTBOX}`).forEach((el) => new Lightbox(el));
-EventHandler.on(document, 'click', SELECTOR_TOGGLE, Lightbox.toggle());
-
-/**
- * ------------------------------------------------------------------------
- * jQuery
- * ------------------------------------------------------------------------
- */
-
-onDOMContentLoaded(() => {
-  const $ = getjQuery();
-
-  if ($) {
-    const JQUERY_NO_CONFLICT = $.fn[NAME];
-    $.fn[NAME] = Lightbox.jQueryInterface;
-    $.fn[NAME].Constructor = Lightbox;
-    $.fn[NAME].noConflict = () => {
-      $.fn[NAME] = JQUERY_NO_CONFLICT;
-      return Lightbox.jQueryInterface;
-    };
-  }
-});
 
 export default Lightbox;
