@@ -2,22 +2,18 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Index</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>HNMU Coffe</title>
+    <!-- MDB icon -->
+    <link rel="icon" href="img/mdb-favicon.ico" type="image/x-icon" />
     <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <!-- Google Fonts Roboto -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" />
     <!-- MDB -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.2.0/mdb.min.css" rel="stylesheet" />
-
-    <link rel="stylesheet" href=" ../public/css/mdb.min.css" />
-
-    <script type="text/javascript" src="../public/js/mdb.umd.min.js"></script>
-
-
-
+    <link rel="stylesheet" href="css/mdb.min.css" />
     <style>
         body {
             background-color: #fbfbfb;
@@ -66,9 +62,7 @@
     </style>
 </head>
 
-
 <body>
-
     <?php $base_url = '/ManageCoffe/src/'; ?>
     <?php include $_SERVER['DOCUMENT_ROOT'] . $base_url . 'utils/database.php'; ?>
     <?php include $_SERVER['DOCUMENT_ROOT'] . $base_url . 'utils/truncate.php'; ?>
