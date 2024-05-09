@@ -37,9 +37,9 @@
                             <tbody>
                                 <?php
                                 //! Handle Data Query Table
-                                $rows = mysqli_query($conn, "SELECT * FROM product WHERE soft_delete = 0");
+                                $rows = mysqli_query($conn, "SELECT product.*, product_categories.name AS categories_name FROM product JOIN product_categories ON product.idcategory = product_categories.id WHERE product.soft_delete = 0;
+                                 ");
                                 $i = 1;
-
                                 while ($row = mysqli_fetch_assoc($rows)) {
                                 ?>
                                     <tr id="<?= $row['id']; ?>" class="text-start fw-bold">
@@ -55,10 +55,10 @@
                                             </div>
                                         </td>
                                         <td>
-                                            Cà Phê
+                                            <?= $row['categories_name'] ?>
                                         </td>
                                         <td>
-                                           <?= getInventoryBadge($row['inventory_count']); ?>
+                                            <?= getInventoryBadge($row['inventory_count']); ?>
 
                                         </td>
                                         <td>
