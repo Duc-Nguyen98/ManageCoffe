@@ -1,6 +1,6 @@
 <?php include 'layout/header.php'; ?>
 <?php include 'utils/formatCurrency.php'; ?>
-<?php include 'utils/getProductDescription.php'; ?>
+<?php include 'utils/getInventoryBadge.php'; ?>
 
 <!--Main layout-->
 <main style="margin-top: 58px;">
@@ -25,16 +25,17 @@
                                     <th>ID Sản Phẩm</th>
                                     <th>Sản Phẩm</th>
                                     <th>Danh Mục</th>
-                                    <th>Giá Nhập</th>
-                                    <th>Tồn Kho-*</th>
                                     <th>Trạng Thái</th>
+                                    <th>Tồn Kho-*</th>
+                                    <th>Giá Nhập</th>
+                                    <th>Hình Thức KD</th>
                                     <th>Ngày Tạo</th>
                                     <th>Lịch Sử Cập Nhật</th>
                                     <th>Hoạt Động</th>
                                 </tr>
                             </thead>
                             <tbody>
-                            <?php
+                                <?php
                                 //! Handle Data Query Table
                                 $rows = mysqli_query($conn, "SELECT * FROM product WHERE soft_delete = 0");
                                 $i = 1;
@@ -43,42 +44,48 @@
                                 ?>
                                     <tr id="<?= $row['id']; ?>" class="text-start fw-bold">
                                         <td><?= $row['id']; ?></td>
-                                    <td><b>ISP<?= $row['id']; ?></b></td>
-                                    <td>
-                                    <div class="d-flex align-items-center">
+                                        <td><b>ISP<?= $row['id']; ?></b></td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
                                                 <img src="<?= $row['image']; ?>" alt="" style="width: 45px; height: 45px" class="rounded-circle">
                                                 <div class="ms-3">
                                                     <p class="fw-bold mb-1 text-capitalize"><?= $row['name']; ?></p>
                                                     <p class="text-muted mb-0">*-<?= $row['slug']; ?></p>
                                                 </div>
                                             </div>
-                                    </td>
-                                    <td>
-                                        Cà Phê
-                                    </td>
-                                    <td>
-                                        <b><?= formatCurrency($row['purchase_price']); ?></b>
-                                    </td>
-                                    <td>
-                                        <h4 href="#" class="badge badge-primary rounded-pill"><?= $row['inventory_count']; ?>/SL</h4>
-                                    </td>
-                                    <td>
-                                        <span class="badge badge-success rounded-pill d-inline">Còn hàng</span>
-                                    </td>
-                                    <td class="text-muted"><?= $row['created_at']; ?></td>
-                                    <td class="text-muted"><?= $row['update_at']; ?></td>
-                                    <td>
-                                        <a href="<?php echo $base_url; ?>controllers/product/view.php" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-eye fa-lg"></i>
-                                        </a>
-                                        <a href="<?php echo $base_url; ?>controllers/product/edit.php" class="btn btn-link btn-rounded btn-sm fw-bold bg-primary bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-marker fa-lg"></i>
-                                        </a>
-                                        <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-danger bg-gradient text-white" data-mdb-ripple-color="dark">
-                                            <i class="fas fa-recycle fa-lg"></i>
-                                        </button>
-                                    </td>
-                                </tr>
+                                        </td>
+                                        <td>
+                                            Cà Phê
+                                        </td>
+                                        <td>
+                                           <?= getInventoryBadge($row['inventory_count']); ?>
+
+                                        </td>
+                                        <td>
+                                            <h4 href="#" class="badge badge-primary rounded-pill"><?= $row['inventory_count']; ?>/SL</h4>
+                                        </td>
+                                        <td>
+                                            <b><?= formatCurrency($row['purchase_price']); ?></b>
+                                        </td>
+                                        <td>
+                                            <span class="badge <?= $row['status'] == 0 ? 'badge-success' : 'badge-danger'; ?> rounded-pill d-inline">
+                                                <?= $row['status'] == 0 ? 'Đang hợp tác' : 'Tạm ngừng hợp tác'; ?>
+                                            </span>
+                                        </td>
+                                        <td class="text-muted"><?= $row['created_at']; ?></td>
+                                        <td class="text-muted"><?= $row['update_at']; ?></td>
+                                        <td>
+                                            <a href="<?php echo $base_url; ?>controllers/product/view.php" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
+                                                <i class="fas fa-eye fa-lg"></i>
+                                            </a>
+                                            <a href="<?php echo $base_url; ?>controllers/product/edit.php" class="btn btn-link btn-rounded btn-sm fw-bold bg-primary bg-gradient text-white" data-mdb-ripple-color="dark">
+                                                <i class="fas fa-marker fa-lg"></i>
+                                            </a>
+                                            <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-danger bg-gradient text-white" data-mdb-ripple-color="dark">
+                                                <i class="fas fa-recycle fa-lg"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
                                 <?php };
                                 //! Handle Data Query Table
                                 ?>
