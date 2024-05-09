@@ -1,11 +1,10 @@
 /* eslint-disable no-restricted-globals */
 import PerfectScrollbar from 'perfect-scrollbar';
-import { typeCheckConfig } from '../mdb/util/index';
+import { getjQuery, typeCheckConfig, onDOMContentLoaded } from '../mdb/util/index';
 import Data from '../mdb/dom/data';
 import Manipulator from '../mdb/dom/manipulator';
 import EventHandler from '../mdb/dom/event-handler';
-import BaseComponent from '../free/base-component';
-import { bindCallbackEventsIfNeeded } from '../autoinit/init';
+import SelectorEngine from '../mdb/dom/selector-engine';
 
 const NAME = 'perfectScrollbar';
 const CLASSNAME_PS = 'perfect-scrollbar';
@@ -56,20 +55,18 @@ const DefaultType = {
   scrollYMarginOffset: 'number',
 };
 
-class PerfectScrollbars extends BaseComponent {
+class PerfectScrollbars {
   constructor(element, options = {}) {
-    super(element);
-
+    this._element = element;
     this._options = this._getConfig(options);
     this.perfectScrollbar = null;
 
     if (this._element) {
+      Data.setData(element, DATA_KEY, this);
       Manipulator.addClass(this._element, CLASSNAME_PS);
     }
 
     this.init();
-    Manipulator.setDataAttribute(this._element, `${this.constructor.NAME}-initialized`, true);
-    bindCallbackEventsIfNeeded(this.constructor);
   }
 
   // Getters
@@ -96,12 +93,13 @@ class PerfectScrollbars extends BaseComponent {
 
   // Public
   dispose() {
-    this.removeEvent(EVENTS);
+    Data.removeData(this._element, DATA_KEY);
+    this._element = null;
+    this._dataAttrOptions = null;
+    this._options = null;
     this.perfectScrollbar.destroy();
+    this.removeEvent(EVENTS);
     this.perfectScrollbar = null;
-    Manipulator.removeDataAttribute(this._element, `${this.constructor.NAME}-initialized`);
-
-    super.dispose();
   }
 
   init() {
@@ -157,6 +155,45 @@ class PerfectScrollbars extends BaseComponent {
       }
     });
   }
+
+  static getInstance(element) {
+    return Data.getData(element, DATA_KEY);
+  }
+
+  static getOrCreateInstance(element, config = {}) {
+    return (
+      this.getInstance(element) || new this(element, typeof config === 'object' ? config : null)
+    );
+  }
 }
+
+SelectorEngine.find('[data-mdb-perfect-scrollbar="true"]').forEach((scroll) => {
+  let instance = PerfectScrollbars.getInstance(scroll);
+  if (!instance) {
+    instance = new PerfectScrollbars(scroll);
+  }
+  return instance;
+});
+
+/**
+ * ------------------------------------------------------------------------
+ * jQuery
+ * ------------------------------------------------------------------------
+ * add .perfectScrollbar to jQuery only if jQuery is present
+ */
+
+onDOMContentLoaded(() => {
+  const $ = getjQuery();
+
+  if ($) {
+    const JQUERY_NO_CONFLICT = $.fn[NAME];
+    $.fn[NAME] = PerfectScrollbars.jQueryInterface;
+    $.fn[NAME].Constructor = PerfectScrollbars;
+    $.fn[NAME].noConflict = () => {
+      $.fn[NAME] = JQUERY_NO_CONFLICT;
+      return PerfectScrollbars.jQueryInterface;
+    };
+  }
+});
 
 export default PerfectScrollbars;

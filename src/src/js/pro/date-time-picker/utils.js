@@ -1,7 +1,7 @@
 import { createDate } from '../datepicker/date-utils';
 
 const isValidTime = (time) => {
-  const AmPmReg = /^(0?[1-9]|1[012])(:[0-5]\d) [APap][mM]$/;
+  const AmPmReg = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9] [APap][mM]$/;
   const timeReg = /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9](:[0-5][0-9])?$/;
   return time.match(AmPmReg) || time.match(timeReg);
 };
@@ -11,19 +11,11 @@ const isValidDate = (date) => {
   return date && Object.prototype.toString.call(date) === '[object Date]' && !isNaN(date);
 };
 
-const getMonth = (date) => {
-  return date.getMonth();
-};
-
-const getYear = (date) => {
-  return date.getFullYear();
-};
-
 const getDelimeters = (format) => {
   return format.match(/[^(dmy)]{1,}/g);
 };
 
-const parseDate = (dateString, format, delimeters, options) => {
+const parseDate = (dateString, format, delimeters) => {
   let delimeterPattern;
 
   if (delimeters[0] !== delimeters[1]) {
@@ -53,12 +45,6 @@ const parseDate = (dateString, format, delimeters, options) => {
 
   let monthsNames;
 
-  if (format.indexOf('mmmm') !== -1) {
-    monthsNames = options.monthsFull;
-  } else {
-    monthsNames = options.monthsShort;
-  }
-
   const year = Number(datesArray[0].value);
   const month = isMonthString
     ? getMonthNumberByMonthName(datesArray[1].value, monthsNames)
@@ -73,12 +59,4 @@ const getMonthNumberByMonthName = (monthValue, monthLabels) => {
   return monthLabels.findIndex((monthLabel) => monthLabel === monthValue);
 };
 
-export {
-  getDelimeters,
-  parseDate,
-  getMonth,
-  getYear,
-  getMonthNumberByMonthName,
-  isValidDate,
-  isValidTime,
-};
+export { getDelimeters, parseDate, getMonthNumberByMonthName, isValidDate, isValidTime };

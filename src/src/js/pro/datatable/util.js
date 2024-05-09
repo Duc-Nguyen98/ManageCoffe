@@ -56,7 +56,7 @@ const search = (rows, search, column) => {
 
 const paginate = ({ rows, entries, activePage }) => {
   const firstVisibleEntry = activePage * entries;
-  return rows.slice(firstVisibleEntry, firstVisibleEntry + Number(entries));
+  return rows.slice(firstVisibleEntry, firstVisibleEntry + entries);
 };
 
 export { sort, search, paginate };

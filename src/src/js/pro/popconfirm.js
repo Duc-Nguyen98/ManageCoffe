@@ -1,14 +1,17 @@
 import { createPopper } from '@popperjs/core';
-import { element, typeCheckConfig, getUID, isRTL } from '../mdb/util/index';
+import {
+  getjQuery,
+  element,
+  typeCheckConfig,
+  getUID,
+  isRTL,
+  onDOMContentLoaded,
+} from '../mdb/util/index';
 import Data from '../mdb/dom/data';
 import EventHandler from '../mdb/dom/event-handler';
 import SelectorEngine from '../mdb/dom/selector-engine';
 import Manipulator from '../mdb/dom/manipulator';
 import { ESCAPE } from '../mdb/util/keycodes';
-import BaseComponent from '../free/base-component';
-import { bindCallbackEventsIfNeeded } from '../autoinit/init';
-import FocusTrap from '../mdb/util/focusTrap';
-import ScrollBarHelper from '../bootstrap/mdb-prefix/util/scrollbar';
 
 /**
  * ------------------------------------------------------------------------
@@ -18,6 +21,7 @@ import ScrollBarHelper from '../bootstrap/mdb-prefix/util/scrollbar';
 
 const NAME = 'popconfirm';
 const DATA_KEY = 'mdb.popconfirm';
+const SELECTOR_POPCONFIRM = '.popconfirm-toggle';
 const SELECTOR_POPCONFIRM_BODY = '.popconfirm';
 const EVENT_KEY = `.${DATA_KEY}`;
 const EVENT_CANCEL = `cancel${EVENT_KEY}`;
@@ -51,29 +55,23 @@ const Default = {
  * ------------------------------------------------------------------------
  */
 
-class Popconfirm extends BaseComponent {
+class Popconfirm {
   constructor(element, options) {
-    super(element);
-
+    this._element = element;
     this._options = this._getConfig(options);
     this._cancelButtonTemplate = this._getCancelButtonTemplate();
     this._popper = null;
     this._cancelButton = '';
     this._confirmButton = '';
     this._isOpen = false;
-    this._uid = this._element.id ? `popconfirm-${this._element.id}` : getUID('popconfirm-');
-    this._focusTrap = null;
-    this._scrollBar = new ScrollBarHelper();
+    this._uid = getUID('popconfirm-');
+
+    if (element) {
+      Data.setData(element, DATA_KEY, this);
+    }
 
     this._clickHandler = this.open.bind(this);
-
-    this._escapeKeydownHandler = this._handleEscapeKey.bind(this);
-    this._outsideClickHandler = this._handleOutsideClick.bind(this);
-
     EventHandler.on(this._element, 'click', this._clickHandler);
-
-    Manipulator.setDataAttribute(this._element, `${this.constructor.NAME}-initialized`, true);
-    bindCallbackEventsIfNeeded(this.constructor);
   }
 
   // Getters
@@ -96,15 +94,9 @@ class Popconfirm extends BaseComponent {
     if (this._isOpen || this.container !== null) {
       this.close();
     }
-
-    EventHandler.off(this._element, 'click', this._clickHandler);
-    Manipulator.removeDataAttribute(this._element, `${this.constructor.NAME}-initialized`);
-
-    // timeout is needed to avoid the issue with popper
-    const timeout = this._isOpen && this._options.popconfirmMode === 'inline' ? 155 : 0;
-    setTimeout(() => {
-      super.dispose();
-    }, timeout);
+    Data.removeData(this._element, DATA_KEY);
+    EventHandler.on(this._element, 'click', this._clickHandler);
+    this._element = null;
   }
 
   open() {
@@ -115,9 +107,7 @@ class Popconfirm extends BaseComponent {
       this._openPopover(this._getPopoverTemplate());
     } else {
       this._openModal(this._getModalTemplate());
-      this._scrollBar.hide();
     }
-
     this._handleCancelButtonClick();
     this._handleConfirmButtonClick();
     this._listenToEscapeKey();
@@ -143,38 +133,8 @@ class Popconfirm extends BaseComponent {
       this._isOpen = false;
     }
 
-    this._removeFocusTrap();
-    this._scrollBar.reset();
-
-    this._element.focus();
-
-    EventHandler.off(document, 'click', this._outsideClickHandler);
-    EventHandler.off(document, 'keydown', this._escapeKeydownHandler);
-  }
-
-  _setFocusTrap(element) {
-    this._focusTrap = new FocusTrap(element, {
-      event: 'keydown',
-      condition: (event) => event.key === 'Tab',
-    });
-
-    this._focusTrap.trap();
-
-    const cancelButton = SelectorEngine.findOne('#popconfirm-button-cancel', element);
-    const confirmButton = SelectorEngine.findOne('#popconfirm-button-confirm', element);
-
-    if (cancelButton) {
-      cancelButton.focus();
-    } else {
-      confirmButton.focus();
-    }
-  }
-
-  _removeFocusTrap() {
-    if (this._focusTrap) {
-      this._focusTrap.disable();
-      this._focusTrap = null;
-    }
+    EventHandler.off(document, 'click', this._handleOutsideClick.bind(this));
+    EventHandler.off(document, 'keydown', this._handleEscapeKey.bind(this));
   }
 
   _handlePopconfirmTransitionEnd(event) {
@@ -202,7 +162,7 @@ class Popconfirm extends BaseComponent {
     const popover = element('div');
     const popconfirmTemplate = this._getPopconfirmTemplate();
     Manipulator.addClass(popover, 'popconfirm-popover');
-    Manipulator.addClass(popover, 'shadow-2');
+    Manipulator.addClass(popover, 'shadow-4');
     popover.id = this._uid;
     popover.innerHTML = popconfirmTemplate;
     return popover;
@@ -212,7 +172,7 @@ class Popconfirm extends BaseComponent {
     const modal = element('div');
     const popconfirmTemplate = this._getPopconfirmTemplate();
     Manipulator.addClass(modal, 'popconfirm-modal');
-    Manipulator.addClass(modal, 'shadow-2');
+    Manipulator.addClass(modal, 'shadow-4');
     modal.id = this._uid;
     modal.innerHTML = popconfirmTemplate;
     return modal;
@@ -226,7 +186,7 @@ class Popconfirm extends BaseComponent {
       </p>
       <div class="popconfirm-buttons-container">
       ${this._cancelButtonTemplate}
-      <button type="button" id="popconfirm-button-confirm" data-mdb-ripple-init
+      <button type="button" id="popconfirm-button-confirm"
       aria-label="${this._options.confirmLabel}"
       class="btn ${this._options.okClass} btn-sm">${this._options.okText}</button>
       </div>
@@ -248,7 +208,7 @@ class Popconfirm extends BaseComponent {
       return '';
     }
     return `<button type="button" id="popconfirm-button-cancel" aria-label="${this._options.cancelLabel}"
-    class="btn btn-secondary btn-sm" data-mdb-ripple-init >${this._options.cancelText}</button>`;
+    class="btn btn-flat btn-sm">${this._options.cancelText}</button>`;
   }
 
   _getMessageIcon() {
@@ -276,8 +236,6 @@ class Popconfirm extends BaseComponent {
       Manipulator.addClass(this.popconfirmBody, 'fade');
       Manipulator.addClass(this.popconfirmBody, 'show');
       this._isOpen = true;
-
-      this._setFocusTrap(this.container);
     }, 0);
   }
 
@@ -288,8 +246,6 @@ class Popconfirm extends BaseComponent {
     backdrop.appendChild(template);
     Manipulator.addClass(this.popconfirmBody, 'show');
     this._isOpen = true;
-
-    this._setFocusTrap(this.container);
   }
 
   _handleCancelButtonClick() {
@@ -313,20 +269,17 @@ class Popconfirm extends BaseComponent {
   }
 
   _listenToEscapeKey() {
-    EventHandler.on(document, 'keydown', this._escapeKeydownHandler);
+    EventHandler.on(document, 'keydown', this._handleEscapeKey.bind(this));
   }
 
   _handleEscapeKey(event) {
     if (event.keyCode === ESCAPE) {
-      if (this._isOpen) {
-        EventHandler.trigger(this._element, EVENT_CANCEL);
-      }
       this.close();
     }
   }
 
   _listenToOutsideClick() {
-    EventHandler.on(document, 'click', this._outsideClickHandler);
+    EventHandler.on(document, 'click', this._handleOutsideClick.bind(this));
   }
 
   _handleOutsideClick(event) {
@@ -336,9 +289,6 @@ class Popconfirm extends BaseComponent {
     const isElement = event.target === this._element;
     const isElementContent = this._element && this._element.contains(event.target);
     if (!isContainer && !isContainerContent && !isElement && !isElementContent) {
-      if (this._isOpen) {
-        EventHandler.trigger(this._element, EVENT_CANCEL);
-      }
       this.close();
     }
   }
@@ -402,6 +352,50 @@ class Popconfirm extends BaseComponent {
       }
     });
   }
+
+  static getInstance(element) {
+    return Data.getData(element, DATA_KEY);
+  }
+
+  static getOrCreateInstance(element, config = {}) {
+    return (
+      this.getInstance(element) || new this(element, typeof config === 'object' ? config : null)
+    );
+  }
 }
+
+/**
+ * ------------------------------------------------------------------------
+ * Data Api implementation - auto initialization
+ * ------------------------------------------------------------------------
+ */
+
+SelectorEngine.find(SELECTOR_POPCONFIRM).forEach((el) => {
+  let instance = Popconfirm.getInstance(el);
+  if (!instance) {
+    instance = new Popconfirm(el);
+  }
+  return instance;
+});
+
+/**
+ * ------------------------------------------------------------------------
+ * jQuery
+ * ------------------------------------------------------------------------
+ */
+
+onDOMContentLoaded(() => {
+  const $ = getjQuery();
+
+  if ($) {
+    const JQUERY_NO_CONFLICT = $.fn[NAME];
+    $.fn[NAME] = Popconfirm.jQueryInterface;
+    $.fn[NAME].Constructor = Popconfirm;
+    $.fn[NAME].noConflict = () => {
+      $.fn[NAME] = JQUERY_NO_CONFLICT;
+      return Popconfirm.jQueryInterface;
+    };
+  }
+});
 
 export default Popconfirm;

@@ -2,7 +2,7 @@ import { createPopper } from '@popperjs/core';
 import Data from '../../mdb/dom/data';
 import Manipulator from '../../mdb/dom/manipulator';
 import SelectorEngine from '../../mdb/dom/selector-engine';
-import { typeCheckConfig, getUID, defineJQueryPlugin } from '../../mdb/util/index';
+import { typeCheckConfig, getjQuery, getUID, onDOMContentLoaded } from '../../mdb/util/index';
 import EventHandler from '../../mdb/dom/event-handler';
 import {
   getDropdownTemplate,
@@ -12,12 +12,9 @@ import {
 } from './templates';
 import { ESCAPE, UP_ARROW, DOWN_ARROW, HOME, END, ENTER, TAB } from '../../mdb/util/keycodes';
 import { sanitizeHtml, DefaultWhitelist } from '../../mdb/util/sanitizer';
-import BaseComponent from '../../free/base-component';
-import { bindCallbackEventsIfNeeded } from '../../autoinit/init';
 
 const Default = {
   autoSelect: false,
-  container: 'body',
   customContent: '',
   debounce: 300,
   displayValue: (value) => value,
@@ -30,7 +27,6 @@ const Default = {
 
 const DefaultType = {
   autoSelect: 'boolean',
-  container: 'string',
   customContent: 'string',
   debounce: 'number',
   displayValue: 'function',
@@ -67,12 +63,10 @@ const EVENT_UPDATE = `update${EVENT_KEY}`;
 
 const LOADER_CLOSE_DELAY = 300;
 
-class Autocomplete extends BaseComponent {
+class Autocomplete {
   constructor(element, options) {
-    super(element);
-
+    this._element = element;
     this._options = this._getConfig(options);
-    this._getContainer();
     this._input = SelectorEngine.findOne(SELECTOR_INPUT, element);
     this._label = SelectorEngine.findOne(SELECTOR_LABEL, element);
     this._customContent = SelectorEngine.findOne(SELECTOR_CUSTOM_CONTENT, element);
@@ -92,9 +86,11 @@ class Autocomplete extends BaseComponent {
     this._userInputHandler = this._handleUserInput.bind(this);
     this._keydownHandler = this._handleKeydown.bind(this);
 
+    if (element) {
+      Data.setData(element, DATA_KEY, this);
+    }
+
     this._init();
-    Manipulator.setDataAttribute(this._element, `${this.constructor.NAME}-initialized`, true);
-    bindCallbackEventsIfNeeded(this.constructor);
   }
 
   static get NAME() {
@@ -117,12 +113,8 @@ class Autocomplete extends BaseComponent {
     return SelectorEngine.findOne(SELECTOR_ITEMS_LIST, this._dropdownContainer);
   }
 
-  search(value) {
+  initSearch(value) {
     this._filterResults(value);
-  }
-
-  _getContainer() {
-    this._container = SelectorEngine.findOne(this._options.container);
   }
 
   _getConfig(config) {
@@ -150,9 +142,7 @@ class Autocomplete extends BaseComponent {
   }
 
   _initDropdown() {
-    this._dropdownContainerId = this._element.id
-      ? `autocomplete-dropdown-${this._element.id}`
-      : getUID('autocomplete-dropdown-');
+    this._dropdownContainerId = getUID('autocomplete-dropdown-');
     const settings = {
       id: this._dropdownContainerId,
       items: [],
@@ -339,9 +329,7 @@ class Autocomplete extends BaseComponent {
       this.open();
     }
 
-    if (this._popper) {
-      this._popper.forceUpdate();
-    }
+    this._popper.forceUpdate();
   }
 
   _listenToKeydown() {
@@ -398,24 +386,14 @@ class Autocomplete extends BaseComponent {
         this._scrollToItem(this._activeItem);
         break;
       case HOME:
-        if (this._activeItemIndex > -1) {
-          this._setActiveItem(0);
-          this._scrollToItem(this._activeItem);
-        } else {
-          this._input.setSelectionRange(0, 0);
-        }
+        this._setActiveItem(0);
+        this._scrollToItem(this._activeItem);
         break;
       case END:
-        if (this._activeItemIndex > -1) {
-          this._setActiveItem(this.items.length - 1);
-          this._scrollToItem(this._activeItem);
-        } else {
-          const end = this._input.value.length;
-          this._input.setSelectionRange(end, end);
-        }
+        this._setActiveItem(this.items.length - 1);
+        this._scrollToItem(this._activeItem);
         break;
       case ENTER:
-        event.preventDefault();
         if (this._activeItemIndex > -1) {
           const item = this._filteredResults[this._activeItemIndex];
           this._handleSelection(item);
@@ -477,9 +455,6 @@ class Autocomplete extends BaseComponent {
   }
 
   _handleClosedKeydown(event) {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-    }
     const key = event.keyCode;
     const isOpenKey = key === ENTER || key === DOWN_ARROW || key === DOWN_ARROW;
 
@@ -489,10 +464,6 @@ class Autocomplete extends BaseComponent {
   }
 
   open() {
-    if (this._lastQueryValue === null) {
-      this._filterResults('');
-    }
-
     const openEvent = EventHandler.trigger(this._element, EVENT_OPEN);
 
     if (this._isOpen || openEvent.defaultPrevented) {
@@ -511,7 +482,7 @@ class Autocomplete extends BaseComponent {
         },
       ],
     });
-    this._container.appendChild(this._dropdownContainer);
+    document.body.appendChild(this._dropdownContainer);
 
     this._listenToOutsideClick();
     this._listenToItemsClick();
@@ -521,7 +492,6 @@ class Autocomplete extends BaseComponent {
     setTimeout(() => {
       Manipulator.addClass(this.dropdown, CLASS_NAME_OPEN);
       this._isOpen = true;
-      this._input.setAttribute('aria-expanded', true);
       this._setInputActiveStyles();
       this._updateLabelPosition();
     }, 0);
@@ -622,7 +592,7 @@ class Autocomplete extends BaseComponent {
     Manipulator.removeClass(this._input, CLASS_NAME_FOCUSED);
     Manipulator.removeClass(this._input, CLASS_NAME_ACTIVE);
 
-    if (!this._input.value && this._label) {
+    if (!this._input.value) {
       Manipulator.removeClass(this._label, CLASS_NAME_ACTIVE);
     }
   }
@@ -641,11 +611,10 @@ class Autocomplete extends BaseComponent {
       this._popper.destroy();
 
       if (this._dropdownContainer) {
-        this._container.removeChild(this._dropdownContainer);
+        document.body.removeChild(this._dropdownContainer);
       }
 
       this._isOpen = false;
-      this._input.setAttribute('aria-expanded', false);
       EventHandler.off(this.dropdown, 'transitionend');
     }
   }
@@ -656,10 +625,8 @@ class Autocomplete extends BaseComponent {
     }
 
     this._removeInputAndElementEvents();
-    this._dropdownContainer.remove();
-    Manipulator.removeDataAttribute(this._element, `${this.constructor.NAME}-initialized`);
 
-    super.dispose();
+    Data.removeData(this._element, DATA_KEY);
   }
 
   _removeInputAndElementEvents() {
@@ -690,8 +657,37 @@ class Autocomplete extends BaseComponent {
       }
     });
   }
+
+  static getInstance(element) {
+    return Data.getData(element, DATA_KEY);
+  }
+
+  static getOrCreateInstance(element, config = {}) {
+    return (
+      this.getInstance(element) || new this(element, typeof config === 'object' ? config : null)
+    );
+  }
 }
 
-defineJQueryPlugin(Autocomplete);
-
 export default Autocomplete;
+
+/**
+ * ------------------------------------------------------------------------
+ * jQuery
+ * ------------------------------------------------------------------------
+ * add .timepicker to jQuery only if jQuery is present
+ */
+
+onDOMContentLoaded(() => {
+  const $ = getjQuery();
+
+  if ($) {
+    const JQUERY_NO_CONFLICT = $.fn[NAME];
+    $.fn[NAME] = Autocomplete.jQueryInterface;
+    $.fn[NAME].Constructor = Autocomplete;
+    $.fn[NAME].noConflict = () => {
+      $.fn[NAME] = JQUERY_NO_CONFLICT;
+      return Autocomplete.jQueryInterface;
+    };
+  }
+});

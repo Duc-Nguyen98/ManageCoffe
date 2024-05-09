@@ -1,12 +1,10 @@
-import { typeCheckConfig } from '../../mdb/util/index';
+import { getjQuery, typeCheckConfig, onDOMContentLoaded } from '../../mdb/util/index';
 import EventHandler, { EventHandlerMulti } from '../../mdb/dom/event-handler';
 import Manipulator from '../../mdb/dom/manipulator';
 import SelectorEngine from '../../mdb/dom/selector-engine';
 import Data from '../../mdb/dom/data';
 import { getConnectsTemplate, getHandleTemplate, getTooltipTemplate } from './template';
 import { getEventTypeClientX } from './utils';
-import BaseComponent from '../../free/base-component';
-import { bindCallbackEventsIfNeeded } from '../../autoinit/init';
 
 /**
  * ------------------------------------------------------------------------
@@ -15,12 +13,13 @@ import { bindCallbackEventsIfNeeded } from '../../autoinit/init';
  */
 
 const NAME = 'multiRangeSlider';
-const DATA_KEY = `mdb.${NAME}`;
 const SELECTOR_MULTI = 'multi-range-slider';
+const SELECTOR_MULTI_RANGE = '.multi-range-slider';
+const DATA_KEY = 'mdb.multiRangeSlider';
 
-const EVENT_KEY = `.${DATA_KEY}`;
-const EVENT_VALUE_CHANGED = `valueChanged${EVENT_KEY}`;
-const EVENT_START = `start${EVENT_KEY}`;
+const EVENT_SHOW_PERCENT = 'showPercent.mdb.multiRangeSlider';
+const EVENT_VALUE = 'value.mdb.multiRangeSlider';
+const EVENT_START = 'start.mdb.multiRangeSlider';
 
 const CLASSNAME_HAND = '.multi-range-slider-hand';
 const CLASSNAME_CONNECT = '.multi-range-slider-connect';
@@ -56,15 +55,13 @@ const Default = {
   tooltips: false,
 };
 
-class MultiRangeSlider extends BaseComponent {
+class MultiRangeSlider {
   constructor(element, data = {}) {
-    super(element);
+    this._element = element;
     this._options = this._getConfig(data);
     this._mousemove = false;
 
     this.init();
-    Manipulator.setDataAttribute(this._element, `${this.constructor.NAME}-initialized`, true);
-    bindCallbackEventsIfNeeded(this.constructor);
   }
 
   // Getters
@@ -115,13 +112,19 @@ class MultiRangeSlider extends BaseComponent {
     this._handleClickEventOnHand();
     this._handleEndMoveEventDocument();
     this._handleClickOnRange();
+    this._setValueEventOnMouseDown();
+    this._setPercentEventOnMouseDown();
     this._setTooltipToHand();
   }
 
   dispose() {
-    Manipulator.removeDataAttribute(this._element, `${this.constructor.NAME}-initialized`);
+    Data.removeData(this._element, DATA_KEY);
 
-    super.dispose();
+    this._element = null;
+    this._input = null;
+    this._options = null;
+    this._view = null;
+    this._focusTrap = null;
   }
 
   // Private
@@ -142,8 +145,8 @@ class MultiRangeSlider extends BaseComponent {
     } else {
       this.hands.forEach((hand, i) => {
         if (startValues[i] > max || startValues[i] < min) return;
-        const normalizedValue = (startValues[i] - min) / (max - min);
-        const translation = normalizedValue * this.connect.offsetWidth - hand.offsetWidth / 2;
+        const translation =
+          (startValues[i] * this.connect.offsetWidth) / max - hand.offsetWidth / 2;
 
         Manipulator.setDataAttribute(hand, 'translation', Math.round(translation));
 
@@ -181,16 +184,41 @@ class MultiRangeSlider extends BaseComponent {
 
         this._handleMoveEvent(hand, index);
         this._handleEndMoveEvent(hand, ev);
-
-        EventHandler.trigger(hand, EVENT_START, { hand });
       });
     });
   }
 
+  _setPercentEventOnMouseDown() {
+    EventHandlerMulti.on(this.connect, 'mousedown touchstart', (ev) => {
+      const value = (getEventTypeClientX(ev) - this.leftConnectRect) / ev.target.offsetWidth;
+      const percent = `${Math.round(value * 100)}%`;
+
+      EventHandler.trigger(this._element, EVENT_SHOW_PERCENT, {
+        percents: { value, percent },
+      });
+    });
+  }
+
+  _setValueEventOnMouseDown() {
+    EventHandlerMulti.on(this.connect, 'mousedown touchstart', (ev) => {
+      const { max, min, numberOfRanges } = this._options;
+
+      if (numberOfRanges < 2) {
+        const value =
+          Math.round(
+            (getEventTypeClientX(ev) - this.leftConnectRect) / (ev.target.offsetWidth / (max - min))
+          ) %
+          (max - min);
+
+        EventHandler.trigger(this._element, EVENT_START, {
+          values: { value: value + min, rounded: Math.round(value + min) },
+        });
+      }
+    });
+  }
+
   _setClassHorizontalOrVertical() {
-    if (this._element) {
-      Manipulator.addClass(this._element, SELECTOR_MULTI);
-    }
+    Manipulator.addClass(this._element, SELECTOR_MULTI);
 
     if (this._options.orientation === 'horizontal') {
       Manipulator.addClass(this._element, SELECTOR_HORIZONTAL);
@@ -217,7 +245,7 @@ class MultiRangeSlider extends BaseComponent {
   }
 
   _setTooltipToHand() {
-    if (this._options.tooltip) {
+    if (this._options.tooltips) {
       this.hands.forEach((hand) => {
         return hand.insertAdjacentHTML('beforeend', getTooltipTemplate());
       });
@@ -246,7 +274,7 @@ class MultiRangeSlider extends BaseComponent {
         const handActiveHandle = Manipulator.getDataAttribute(this.handActive, 'handle');
         const handActiveTranslation = Manipulator.getDataAttribute(this.handActive, 'translation');
         if (value < min) {
-          translation = min - hand.offsetWidth / 2;
+          translation = min - hand.offsetWidth;
           value = min;
         } else if (maxValue >= max) {
           return;
@@ -311,7 +339,7 @@ class MultiRangeSlider extends BaseComponent {
         Manipulator.setDataAttribute(hand, 'translation', translation);
 
         if (numberOfRanges < 2) {
-          EventHandler.trigger(this._element, EVENT_VALUE_CHANGED, {
+          EventHandler.trigger(this._element, EVENT_VALUE, {
             values: { value: value + min, rounded: Math.round(value + min) },
           });
         } else {
@@ -342,7 +370,7 @@ class MultiRangeSlider extends BaseComponent {
       arr.push({ value });
     });
 
-    EventHandler.trigger(this._element, EVENT_VALUE_CHANGED, {
+    EventHandler.trigger(this._element, EVENT_VALUE, {
       values: {
         value: arr.map(({ value }) => value),
         rounded: arr.map(({ value }) => Math.round(value)),
@@ -455,6 +483,50 @@ class MultiRangeSlider extends BaseComponent {
     typeCheckConfig(NAME, config, DefaultType);
     return config;
   }
+
+  static getInstance(element) {
+    return Data.getData(element, DATA_KEY);
+  }
+
+  static getOrCreateInstance(element, config = {}) {
+    return (
+      this.getInstance(element) || new this(element, typeof config === 'object' ? config : null)
+    );
+  }
 }
+
+/**
+ * ------------------------------------------------------------------------
+ * Data Api implementation - auto initialization
+ * ------------------------------------------------------------------------
+ */
+
+SelectorEngine.find(SELECTOR_MULTI_RANGE).forEach((range) => {
+  let instance = MultiRangeSlider.getInstance(range);
+  if (!instance) {
+    instance = new MultiRangeSlider(range);
+  }
+  return instance;
+});
+
+/**
+ * ------------------------------------------------------------------------
+ * jQuery
+ * ------------------------------------------------------------------------
+ */
+
+onDOMContentLoaded(() => {
+  const $ = getjQuery();
+
+  if ($) {
+    const JQUERY_NO_CONFLICT = $.fn[NAME];
+    $.fn[NAME] = MultiRangeSlider.jQueryInterface;
+    $.fn[NAME].Constructor = MultiRangeSlider;
+    $.fn[NAME].noConflict = () => {
+      $.fn[NAME] = JQUERY_NO_CONFLICT;
+      return MultiRangeSlider.jQueryInterface;
+    };
+  }
+});
 
 export default MultiRangeSlider;

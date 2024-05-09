@@ -57,15 +57,14 @@ class Pan extends TouchUtil {
     if (direction === 'all' && (y.value > threshold || x.value > threshold)) {
       const direction = y.value > x.value ? y.direction : x.direction;
 
-      EventHandler.trigger(this._element, `${NAME}${direction}`, { touch: e });
-      EventHandler.trigger(this._element, NAME, { ...displacementMoved, touch: e });
+      EventHandler.trigger(this._element, `${NAME}${direction}`);
+      EventHandler.trigger(this._element, NAME, displacementMoved);
     }
 
     const axis = direction === LEFT || direction === RIGHT ? 'x' : 'y';
 
     if (movedDirection[axis].direction === direction && pan[axis].value > threshold) {
       EventHandler.trigger(this._element, `${NAME}${direction}`, {
-        touch: e,
         [axis]: postion[axis] - movedPosition[axis],
       });
     }

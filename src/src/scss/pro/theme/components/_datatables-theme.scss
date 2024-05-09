@@ -22,9 +22,7 @@
     }
 
     .table > :not(caption) > * > * {
-      @if map-get($theme, name) != 'dark' {
-        background-color: $surface;
-      }
+      background-color: $surface;
       border-color: $divider;
     }
 

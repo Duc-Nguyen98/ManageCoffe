@@ -3,486 +3,355 @@
 @keyframes drop-in {
   0% {
     opacity: 0;
-    transform: var(--#{$prefix}animation-drop-in-transform-0);
+    transform: scale(0);
   }
-
   100% {
     opacity: 1;
-    transform: var(--#{$prefix}animation-drop-in-transform-100);
+    transform: scale(1);
   }
 }
 
 .drop-in {
-  --#{$prefix}animation-drop-in-transform-0: #{$animation-drop-in-transform-0};
-  --#{$prefix}animation-drop-in-transform-100: #{$animation-drop-in-transform-100};
-  --#{$prefix}animation-drop-in-timing-function: #{$animation-drop-in-timing-function};
-
   transform-origin: top center;
-  animation-timing-function: var(--#{$prefix}animation-drop-in-timing-function);
+  animation-timing-function: cubic-bezier(0.34, 1.61, 0.7, 1);
   animation-name: drop-in;
 }
 
 @keyframes drop-out {
   0% {
     opacity: 1;
-    transform: var(--#{$prefix}animation-drop-out-transform-0);
+    transform: scale(1);
   }
-
   100% {
     opacity: 0;
-    transform: var(--#{$prefix}animation-drop-out-transform-100);
+    transform: scale(0);
   }
 }
 
 .drop-out {
-  --#{$prefix}animation-drop-out-transform-0: #{$animation-drop-out-transform-0};
-  --#{$prefix}animation-drop-out-transform-100: #{$animation-drop-out-transform-100};
-  --#{$prefix}animation-drop-out-timing-function: #{$animation-drop-out-timing-function};
-
   transform-origin: top center;
-  animation-timing-function: var(--#{$prefix}animation-drop-out-timing-function);
+  animation-timing-function: cubic-bezier(0.34, 1.61, 0.7, 1);
   animation-name: drop-out;
 }
 
 @keyframes fly-in {
   0% {
     opacity: 0;
-    transform: var(--#{$prefix}animation-fly-in-transform-0);
+    transform: scale3d(0.3, 0.3, 0.3);
   }
-
   20% {
-    transform: var(--#{$prefix}animation-fly-in-transform-20);
+    transform: scale3d(1.1, 1.1, 1.1);
   }
-
   40% {
-    transform: var(--#{$prefix}animation-fly-in-transform-40);
+    transform: scale3d(0.9, 0.9, 0.9);
   }
-
   60% {
     opacity: 1;
-    transform: var(--#{$prefix}animation-fly-in-transform-60);
+    transform: scale3d(1.03, 1.03, 1.03);
   }
-
   80% {
-    transform: var(--#{$prefix}animation-fly-in-transform-80);
+    transform: scale3d(0.97, 0.97, 0.97);
   }
-
   100% {
     opacity: 1;
-    transform: var(--#{$prefix}animation-fly-in-transform-100);
+    transform: scale3d(1, 1, 1);
   }
 }
 
 .fly-in {
-  --#{$prefix}animation-fly-in-transform-0: #{$animation-fly-in-transform-0};
-  --#{$prefix}animation-fly-in-transform-20: #{$animation-fly-in-transform-20};
-  --#{$prefix}animation-fly-in-transform-40: #{$animation-fly-in-transform-40};
-  --#{$prefix}animation-fly-in-transform-60: #{$animation-fly-in-transform-60};
-  --#{$prefix}animation-fly-in-transform-80: #{$animation-fly-in-transform-80};
-  --#{$prefix}animation-fly-in-transform-100: #{$animation-fly-in-transform-100};
-  --#{$prefix}animation-fly-in-timing-function: #{$animation-fly-in-timing-function};
-
   animation-name: fly-in;
-  transition-timing-function: var(--#{$prefix}animation-fly-in-timing-function);
+  transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 
 @keyframes fly-in-up {
   0% {
     opacity: 0;
-    transform: var(--#{$prefix}animation-fly-in-up-transform-0);
+    transform: translate3d(0, 1500px, 0);
   }
-
   60% {
     opacity: 1;
-    transform: var(--#{$prefix}animation-fly-in-up-transform-60);
+    transform: translate3d(0, -20px, 0);
   }
-
   75% {
-    transform: var(--#{$prefix}animation-fly-in-up-transform-75);
+    transform: translate3d(0, 10px, 0);
   }
-
   90% {
-    transform: var(--#{$prefix}animation-fly-in-up-transform-90);
+    transform: translate3d(0, -5px, 0);
   }
-
   100% {
-    transform: var(--#{$prefix}animation-fly-in-up-transform-100);
+    transform: translate3d(0, 0, 0);
   }
 }
 
 .fly-in-up {
-  --#{$prefix}animation-fly-in-up-transform-0: #{$animation-fly-in-up-transform-0};
-  --#{$prefix}animation-fly-in-up-transform-60: #{$animation-fly-in-up-transform-60};
-  --#{$prefix}animation-fly-in-up-transform-75: #{$animation-fly-in-up-transform-75};
-  --#{$prefix}animation-fly-in-up-transform-90: #{$animation-fly-in-up-transform-90};
-  --#{$prefix}animation-fly-in-up-transform-100: #{$animation-fly-in-up-transform-100};
-  --#{$prefix}animation-fly-in-up-timing-function: #{$animation-fly-in-up-timing-function};
-
   animation-name: fly-in-up;
-  transition-timing-function: var(--#{$prefix}animation-fly-in-up-timing-function);
+  transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 
 @keyframes fly-in-down {
   0% {
     opacity: 0;
-    transform: var(--#{$prefix}animation-fly-in-down-transform-0);
+    transform: translate3d(0, -1500px, 0);
   }
-
   60% {
     opacity: 1;
-    transform: var(--#{$prefix}animation-fly-in-down-transform-60);
+    transform: translate3d(0, 25px, 0);
   }
-
   75% {
-    transform: var(--#{$prefix}animation-fly-in-down-transform-75);
+    transform: translate3d(0, -10px, 0);
   }
-
   90% {
-    transform: var(--#{$prefix}animation-fly-in-down-transform-90);
+    transform: translate3d(0, 5px, 0);
   }
-
   100% {
     transform: none;
   }
 }
 
 .fly-in-down {
-  --#{$prefix}animation-fly-in-down-transform-0: #{$animation-fly-in-down-transform-0};
-  --#{$prefix}animation-fly-in-down-transform-60: #{$animation-fly-in-down-transform-60};
-  --#{$prefix}animation-fly-in-down-transform-75: #{$animation-fly-in-down-transform-75};
-  --#{$prefix}animation-fly-in-down-transform-90: #{$animation-fly-in-down-transform-90};
-  --#{$prefix}animation-fly-in-down-timing-function: #{$animation-fly-in-down-timing-function};
-
   animation-name: fly-in-down;
-  transition-timing-function: var(--#{$prefix}animation-fly-in-down-timing-function);
+  transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 
 @keyframes fly-in-left {
   0% {
     opacity: 0;
-    transform: var(--#{$prefix}animation-fly-in-left-transform-0);
+    transform: translate3d(1500px, 0, 0);
   }
-
   60% {
     opacity: 1;
-    transform: var(--#{$prefix}animation-fly-in-left-transform-60);
+    transform: translate3d(-25px, 0, 0);
   }
-
   75% {
-    transform: var(--#{$prefix}animation-fly-in-left-transform-75);
+    transform: translate3d(10px, 0, 0);
   }
-
   90% {
-    transform: var(--#{$prefix}animation-fly-in-left-transform-90);
+    transform: translate3d(-5px, 0, 0);
   }
-
   100% {
     transform: none;
   }
 }
 
 .fly-in-left {
-  --#{$prefix}animation-fly-in-left-transform-0: #{$animation-fly-in-left-transform-0};
-  --#{$prefix}animation-fly-in-left-transform-60: #{$animation-fly-in-left-transform-60};
-  --#{$prefix}animation-fly-in-left-transform-75: #{$animation-fly-in-left-transform-75};
-  --#{$prefix}animation-fly-in-left-transform-90: #{$animation-fly-in-left-transform-90};
-  --#{$prefix}animation-fly-in-left-timing-function: #{$animation-fly-in-left-timing-function};
-
   animation-name: fly-in-left;
-  transition-timing-function: var(--#{$prefix}animation-fly-in-left-timing-function);
+  transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 
 @keyframes fly-in-right {
   0% {
     opacity: 0;
-    transform: var(--#{$prefix}animation-fly-in-right-transform-0);
+    transform: translate3d(-1500px, 0, 0);
   }
-
   60% {
     opacity: 1;
-    transform: var(--#{$prefix}animation-fly-in-right-transform-60);
+    transform: translate3d(25px, 0, 0);
   }
-
   75% {
-    transform: var(--#{$prefix}animation-fly-in-right-transform-75);
+    transform: translate3d(-10px, 0, 0);
   }
-
   90% {
-    transform: var(--#{$prefix}animation-fly-in-right-transform-90);
+    transform: translate3d(5px, 0, 0);
   }
-
   100% {
     transform: none;
   }
 }
 
 .fly-in-right {
-  --#{$prefix}animation-fly-in-right-transform-0: #{$animation-fly-in-right-transform-0};
-  --#{$prefix}animation-fly-in-right-transform-60: #{$animation-fly-in-right-transform-60};
-  --#{$prefix}animation-fly-in-right-transform-75: #{$animation-fly-in-right-transform-75};
-  --#{$prefix}animation-fly-in-right-transform-90: #{$animation-fly-in-right-transform-90};
-  --#{$prefix}animation-fly-in-right-timing-function: #{$animation-fly-in-right-timing-function};
-
   animation-name: fly-in-right;
-  transition-timing-function: var(--#{$prefix}animation-fly-in-right-timing-function);
+  transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 
 @keyframes fly-out {
   20% {
-    transform: var(--#{$prefix}animation-fly-out-transform-20);
+    transform: scale3d(0.9, 0.9, 0.9);
   }
-
   50%,
   55% {
     opacity: 1;
-    transform: var(--#{$prefix}animation-fly-out-transform-55);
+    transform: scale3d(1.1, 1.1, 1.1);
   }
-
   100% {
     opacity: 0;
-    transform: var(--#{$prefix}animation-fly-out-transform-100);
+    transform: scale3d(0.3, 0.3, 0.3);
   }
 }
 
 .fly-out {
-  --#{$prefix}animation-fly-out-transform-20: #{$animation-fly-out-transform-20};
-  --#{$prefix}animation-fly-out-transform-55: #{$animation-fly-out-transform-55};
-  --#{$prefix}animation-fly-out-transform-100: #{$animation-fly-out-transform-100};
-  --#{$prefix}animation-fly-out-timing-function: #{$animation-fly-out-timing-function};
-
   animation-name: fly-out;
-  transition-timing-function: var(--#{$prefix}animation-fly-out-timing-function);
+  transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 
 @keyframes fly-out-up {
   20% {
-    transform: var(--#{$prefix}animation-fly-out-up-transform-20);
+    transform: translate3d(0, 10px, 0);
   }
-
   40%,
   45% {
     opacity: 1;
-    transform: var(--#{$prefix}animation-fly-out-up-transform-45);
+    transform: translate3d(0, -20px, 0);
   }
-
   100% {
     opacity: 0;
-    transform: var(--#{$prefix}animation-fly-out-up-transform-100);
+    transform: translate3d(0, 2000px, 0);
   }
 }
 
 .fly-out-up {
-  --#{$prefix}animation-fly-out-up-transform-20: #{$animation-fly-out-up-transform-20};
-  --#{$prefix}animation-fly-out-up-transform-45: #{$animation-fly-out-up-transform-45};
-  --#{$prefix}animation-fly-out-up-transform-100: #{$animation-fly-out-up-transform-100};
-  --#{$prefix}animation-fly-out-up-timing-function: #{$animation-fly-out-up-timing-function};
-
   animation-name: fly-out-up;
-  transition-timing-function: var(--#{$prefix}animation-fly-out-up-timing-function);
+  transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 
 @keyframes fly-out-down {
   20% {
-    transform: var(--#{$prefix}animation-fly-out-down-transform-20);
+    transform: translate3d(0, -10px, 0);
   }
-
   40%,
   45% {
     opacity: 1;
-    transform: var(--#{$prefix}animation-fly-out-down-transform-45);
+    transform: translate3d(0, 20px, 0);
   }
-
   100% {
     opacity: 0;
-    transform: var(--#{$prefix}animation-fly-out-down-transform-100);
+    transform: translate3d(0, -2000px, 0);
   }
 }
 
 .fly-out-down {
-  --#{$prefix}animation-fly-out-down-transform-20: #{$animation-fly-out-down-transform-20};
-  --#{$prefix}animation-fly-out-down-transform-45: #{$animation-fly-out-down-transform-45};
-  --#{$prefix}animation-fly-out-down-transform-100: #{$animation-fly-out-down-transform-100};
-  --#{$prefix}animation-fly-out-down-timing-function: #{$animation-fly-out-down-timing-function};
-
   animation-name: fly-out-down;
-  transition-timing-function: var(--#{$prefix}animation-fly-out-down-timing-function);
+  transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 
 @keyframes fly-out-left {
   20% {
     opacity: 1;
-    transform: var(--#{$prefix}animation-fly-out-left-transform-20);
+    transform: translate3d(-20px, 0, 0);
   }
-
   100% {
     opacity: 0;
-    transform: var(--#{$prefix}animation-fly-out-left-transform-100);
+    transform: translate3d(2000px, 0, 0);
   }
 }
 
 .fly-out-left {
-  --#{$prefix}animation-fly-out-left-transform-20: #{$animation-fly-out-left-transform-20};
-  --#{$prefix}animation-fly-out-left-transform-100: #{$animation-fly-out-left-transform-100};
-  --#{$prefix}animation-fly-out-left-timing-function: #{$animation-fly-out-left-timing-function};
-
   animation-name: fly-out-left;
-  transition-timing-function: var(--#{$prefix}animation-fly-out-left-timing-function);
+  transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 
 @keyframes fly-out-right {
   20% {
     opacity: 1;
-    transform: var(--#{$prefix}animation-fly-out-right-transform-20);
+    transform: translate3d(20px, 0, 0);
   }
-
   100% {
     opacity: 0;
-    transform: var(--#{$prefix}animation-fly-out-right-transform-100);
+    transform: translate3d(-2000px, 0, 0);
   }
 }
 
 .fly-out-right {
-  --#{$prefix}animation-fly-out-right-transform-20: #{$animation-fly-out-right-transform-20};
-  --#{$prefix}animation-fly-out-right-transform-100: #{$animation-fly-out-right-transform-100};
-  --#{$prefix}animation-fly-out-right-timing-function: #{$animation-fly-out-right-timing-function};
-
   animation-name: fly-out-right;
-  transition-timing-function: var(--#{$prefix}animation-fly-out-right-timing-function);
+  transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 
 @keyframes browse-in {
   0% {
-    transform: var(--#{$prefix}animation-browse-in-transform-0);
+    transform: scale(0.8) translateZ(0px);
     z-index: -1;
   }
-
   10% {
-    transform: var(--#{$prefix}animation-browse-in-transform-10);
+    transform: scale(0.8) translateZ(0px);
     z-index: -1;
     opacity: 0.7;
   }
-
   80% {
-    transform: var(--#{$prefix}animation-browse-in-transform-80);
+    transform: scale(1.05) translateZ(0px);
     opacity: 1;
     z-index: 999;
   }
-
   100% {
-    transform: var(--#{$prefix}animation-browse-in-transform-100);
+    transform: scale(1) translateZ(0px);
     z-index: 999;
   }
 }
 
 .browse-in {
-  --#{$prefix}animation-browse-in-transform-0: #{$animation-browse-in-transform-0};
-  --#{$prefix}animation-browse-in-transform-10: #{$animation-browse-in-transform-10};
-  --#{$prefix}animation-browse-in-transform-80: #{$animation-browse-in-transform-80};
-  --#{$prefix}animation-browse-in-transform-100: #{$animation-browse-in-transform-100};
-
   animation-name: browse-in;
 }
 
 @keyframes browse-out-left {
   0% {
     z-index: 999;
-    transform: var(--#{$prefix}animation-browse-out-left-transform-0);
+    transform: translateX(0%) rotateY(0deg) rotateX(0deg);
   }
-
   50% {
     z-index: -1;
-    transform: var(--#{$prefix}animation-browse-out-left-transform-50);
+    transform: translateX(-105%) rotateY(35deg) rotateX(10deg) translateZ(-10px);
   }
-
   80% {
     opacity: 1;
   }
-
   100% {
     z-index: -1;
-    transform: var(--#{$prefix}animation-browse-out-left-transform-100);
+    transform: translateX(0%) rotateY(0deg) rotateX(0deg) translateZ(-10px);
     opacity: 0;
   }
 }
 
 .browse-out,
 .browse-out-left {
-  --#{$prefix}animation-browse-out-left-transform-0: #{$animation-browse-out-left-transform-0};
-  --#{$prefix}animation-browse-out-left-transform-50: #{$animation-browse-out-left-transform-50};
-  --#{$prefix}animation-browse-out-left-transform-100: #{$animation-browse-out-left-transform-100};
-
   animation-name: browse-out-left;
 }
 
 @keyframes browse-out-right {
   0% {
     z-index: 999;
-    transform: var(--#{$prefix}animation-browse-out-right-transform-0);
+    transform: translateX(0%) rotateY(0deg) rotateX(0deg);
   }
-
   50% {
     z-index: 1;
-    transform: var(--#{$prefix}animation-browse-out-right-transform-50);
+    transform: translateX(105%) rotateY(35deg) rotateX(10deg) translateZ(-10px);
   }
-
   80% {
     opacity: 1;
   }
-
   100% {
     z-index: 1;
-    transform: var(--#{$prefix}animation-browse-out-right-transform-100);
+    transform: translateX(0%) rotateY(0deg) rotateX(0deg) translateZ(-10px);
     opacity: 0;
   }
 }
 
 .browse-out-right {
-  --#{$prefix}animation-browse-out-right-transform-0: #{$animation-browse-out-right-transform-0};
-  --#{$prefix}animation-browse-out-right-transform-50: #{$animation-browse-out-right-transform-50};
-  --#{$prefix}animation-browse-out-right-transform-100: #{$animation-browse-out-right-transform-100};
-
   animation-name: browse-out-right;
 }
 
 @keyframes jiggle {
   0% {
-    transform: var(--#{$prefix}animation-jiggle-transform-0);
+    transform: scale3d(1, 1, 1);
   }
-
   30% {
-    transform: var(--#{$prefix}animation-jiggle-transform-30);
+    transform: scale3d(1.25, 0.75, 1);
   }
-
   40% {
-    transform: var(--#{$prefix}animation-jiggle-transform-40);
+    transform: scale3d(0.75, 1.25, 1);
   }
-
   50% {
-    transform: var(--#{$prefix}animation-jiggle-transform-50);
+    transform: scale3d(1.15, 0.85, 1);
   }
-
   65% {
-    transform: var(--#{$prefix}animation-jiggle-transform-65);
+    transform: scale3d(0.95, 1.05, 1);
   }
-
   75% {
-    transform: var(--#{$prefix}animation-jiggle-transform-75);
+    transform: scale3d(1.05, 0.95, 1);
   }
-
   100% {
-    transform: var(--#{$prefix}animation-jiggle-transform-100);
+    transform: scale3d(1, 1, 1);
   }
 }
 
 .jiggle {
-  --#{$prefix}animation-jiggle-transform-0: #{$animation-jiggle-transform-0};
-  --#{$prefix}animation-jiggle-transform-30: #{$animation-jiggle-transform-30};
-  --#{$prefix}animation-jiggle-transform-40: #{$animation-jiggle-transform-40};
-  --#{$prefix}animation-jiggle-transform-50: #{$animation-jiggle-transform-50};
-  --#{$prefix}animation-jiggle-transform-65: #{$animation-jiggle-transform-65};
-  --#{$prefix}animation-jiggle-transform-75: #{$animation-jiggle-transform-75};
-  --#{$prefix}animation-jiggle-transform-100: #{$animation-jiggle-transform-100};
-
   animation-name: jiggle;
 }
 
@@ -492,7 +361,6 @@
   100% {
     opacity: 1;
   }
-
   25%,
   75% {
     opacity: 0;
@@ -500,60 +368,46 @@
 }
 
 .flash {
-  --#{$prefix}animation-flash-duration: #{$animation-flash-duration};
-
-  animation-duration: var(--#{$prefix}animation-flash-duration);
+  animation-duration: 750ms;
   animation-name: flash;
 }
 
 @keyframes shake {
   0%,
   100% {
-    transform: var(--#{$prefix}animation-shake-transform-100);
+    transform: translateX(0);
   }
-
   10%,
   30%,
   50%,
   70%,
   90% {
-    transform: var(--#{$prefix}animation-shake-transform-90);
+    transform: translateX(-10px);
   }
-
   20%,
   40%,
   60%,
   80% {
-    transform: var(--#{$prefix}animation-shake-transform-80);
+    transform: translateX(10px);
   }
 }
 
 .shake {
-  --#{$prefix}animation-shake-transform-100: #{$animation-shake-transform-100};
-  --#{$prefix}animation-shake-transform-90: #{$animation-shake-transform-90};
-  --#{$prefix}animation-shake-transform-80: #{$animation-shake-transform-80};
-
   animation-name: shake;
 }
 
 @keyframes glow {
   0% {
-    background-color: var(--#{$prefix}animation-glow-bg-0);
+    background-color: #fcfcfd;
   }
-
   30% {
-    background-color: var(--#{$prefix}animation-glow-bg-30);
+    background-color: #fff6cd;
   }
-
   100% {
-    background-color: var(--#{$prefix}animation-glow-bg-100);
+    background-color: #fcfcfd;
   }
 }
 
 .glow {
-  --#{$prefix}animation-glow-bg-0: #{$animation-glow-bg-0};
-  --#{$prefix}animation-glow-bg-30: #{$animation-glow-bg-30};
-  --#{$prefix}animation-glow-bg-100: #{$animation-glow-bg-100};
-
   animation-name: glow;
 }

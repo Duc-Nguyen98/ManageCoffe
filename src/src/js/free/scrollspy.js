@@ -1,8 +1,8 @@
+import { getjQuery, onDOMContentLoaded } from '../mdb/util/index';
 import EventHandler from '../mdb/dom/event-handler';
 import SelectorEngine from '../mdb/dom/selector-engine';
 import Manipulator from '../mdb/dom/manipulator';
 import BSScrollSpy from '../bootstrap/mdb-prefix/scrollspy';
-import { bindCallbackEventsIfNeeded } from '../autoinit/init';
 
 /**
  * ------------------------------------------------------------------------
@@ -13,14 +13,17 @@ import { bindCallbackEventsIfNeeded } from '../autoinit/init';
 const NAME = 'scrollspy';
 const DATA_KEY = `mdb.${NAME}`;
 const EVENT_KEY = `.${DATA_KEY}`;
+const DATA_API_KEY = '.data-api';
 
 const EVENT_ACTIVATE_BS = 'activate.bs.scrollspy';
 const EVENT_ACTIVATE = `activate${EVENT_KEY}`;
+const EVENT_LOAD_DATA_API = `load${EVENT_KEY}${DATA_API_KEY}`;
 
 const CLASS_COLLAPSIBLE = 'collapsible-scrollspy';
 const CLASS_ACTIVE = 'active';
 
 const SELECTOR_LIST = 'ul';
+const SELECTOR_DATA_SPY = '[data-mdb-spy="scroll"]';
 const SELECTOR_ACTIVE = `.${CLASS_ACTIVE}`;
 const SELECTOR_COLLAPSIBLE_SCROLLSPY = `.${CLASS_COLLAPSIBLE}`;
 
@@ -30,14 +33,10 @@ class ScrollSpy extends BSScrollSpy {
 
     this._collapsibles = [];
     this._init();
-
-    Manipulator.setDataAttribute(this._element, `${this.constructor.NAME}-initialized`, true);
-    bindCallbackEventsIfNeeded(this.constructor);
   }
 
   dispose() {
     EventHandler.off(this._scrollElement, EVENT_ACTIVATE_BS);
-    Manipulator.removeDataAttribute(this._element, `${this.constructor.NAME}-initialized`);
 
     super.dispose();
   }
@@ -118,14 +117,50 @@ class ScrollSpy extends BSScrollSpy {
   }
 
   _bindActivateEvent() {
-    EventHandler.on(this._element, EVENT_ACTIVATE_BS, (e) => {
+    EventHandler.on(this._scrollElement, EVENT_ACTIVATE_BS, (e) => {
       this._showSubsection();
       this._hideSubsection();
-      EventHandler.trigger(this._element, EVENT_ACTIVATE, {
+      EventHandler.trigger(this._scrollElement, EVENT_ACTIVATE, {
         relatedTarget: e.relatedTarget,
       });
     });
   }
 }
+
+/**
+ * ------------------------------------------------------------------------
+ * Data Api implementation - auto initialization
+ * ------------------------------------------------------------------------
+ */
+
+EventHandler.on(window, EVENT_LOAD_DATA_API, () => {
+  SelectorEngine.find(SELECTOR_DATA_SPY).forEach((el) => {
+    let instance = ScrollSpy.getInstance(el);
+    if (!instance) {
+      instance = new ScrollSpy(el, Manipulator.getDataAttributes(el));
+    }
+  });
+});
+
+/**
+ * ------------------------------------------------------------------------
+ * jQuery
+ * ------------------------------------------------------------------------
+ * add .rating to jQuery only if jQuery is present
+ */
+
+onDOMContentLoaded(() => {
+  const $ = getjQuery();
+
+  if ($) {
+    const JQUERY_NO_CONFLICT = $.fn[NAME];
+    $.fn[NAME] = ScrollSpy.jQueryInterface;
+    $.fn[NAME].Constructor = ScrollSpy;
+    $.fn[NAME].noConflict = () => {
+      $.fn[NAME] = JQUERY_NO_CONFLICT;
+      return ScrollSpy.jQueryInterface;
+    };
+  }
+});
 
 export default ScrollSpy;

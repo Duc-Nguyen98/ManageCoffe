@@ -1,10 +1,9 @@
-import { typeCheckConfig, isVisible } from '../mdb/util/index';
+import { getjQuery, typeCheckConfig, isVisible, onDOMContentLoaded } from '../mdb/util/index';
 import EventHandler from '../mdb/dom/event-handler';
 import Manipulator from '../mdb/dom/manipulator';
 import SelectorEngine from '../mdb/dom/selector-engine';
 import BSAlert from '../bootstrap/mdb-prefix/alert';
 import Stack from '../mdb/util/stack';
-import { bindCallbackEventsIfNeeded } from '../autoinit/init';
 
 /**
  * ------------------------------------------------------------------------
@@ -13,6 +12,8 @@ import { bindCallbackEventsIfNeeded } from '../autoinit/init';
  */
 
 const NAME = 'alert';
+const DATA_KEY = `mdb.${NAME}`;
+const EVENT_KEY = `.${DATA_KEY}`;
 const SELECTOR_ALERT = '.alert';
 
 const DefaultType = {
@@ -44,7 +45,8 @@ const Default = {
 const EVENT_CLOSE_BS = 'close.bs.alert';
 const EVENT_CLOSED_BS = 'closed.bs.alert';
 
-const EXTENDED_EVENTS = [{ name: 'close' }, { name: 'closed' }];
+const EVENT_CLOSE = `close${EVENT_KEY}`;
+const EVENT_CLOSED = `closed${EVENT_KEY}`;
 
 class Alert extends BSAlert {
   constructor(element, data = {}) {
@@ -52,14 +54,11 @@ class Alert extends BSAlert {
     this._options = this._getConfig(data);
 
     this._init();
-    Manipulator.setDataAttribute(this._element, `${this.constructor.NAME}-initialized`, true);
-    bindCallbackEventsIfNeeded(this.constructor);
   }
 
   dispose() {
     EventHandler.off(this._element, EVENT_CLOSE_BS);
     EventHandler.off(this._element, EVENT_CLOSED_BS);
-    Manipulator.removeDataAttribute(this._element, `${this.constructor.NAME}-initialized`);
 
     super.dispose();
   }
@@ -153,7 +152,8 @@ class Alert extends BSAlert {
       });
     }
 
-    this._bindMdbEvents();
+    this._bindCloseEvent();
+    this._bindClosedEvent();
 
     this._setup();
   }
@@ -281,8 +281,16 @@ class Alert extends BSAlert {
     return config;
   }
 
-  _bindMdbEvents() {
-    EventHandler.extend(this._element, EXTENDED_EVENTS, NAME);
+  _bindCloseEvent() {
+    EventHandler.on(this._element, EVENT_CLOSE_BS, () => {
+      EventHandler.trigger(this._element, EVENT_CLOSE);
+    });
+  }
+
+  _bindClosedEvent() {
+    EventHandler.on(this._element, EVENT_CLOSED_BS, () => {
+      EventHandler.trigger(this._element, EVENT_CLOSED);
+    });
   }
 
   _updatePosition() {
@@ -303,5 +311,39 @@ class Alert extends BSAlert {
     });
   }
 }
+
+/**
+ * ------------------------------------------------------------------------
+ * Data Api implementation - auto initialization
+ * ------------------------------------------------------------------------
+ */
+
+SelectorEngine.find(SELECTOR_ALERT).forEach((alert) => {
+  let instance = Alert.getInstance(alert);
+  if (!instance) {
+    instance = new Alert(alert);
+  }
+  return instance;
+});
+
+/**
+ * ------------------------------------------------------------------------
+ * jQuery
+ * ------------------------------------------------------------------------
+ */
+
+onDOMContentLoaded(() => {
+  const $ = getjQuery();
+
+  if ($) {
+    const JQUERY_NO_CONFLICT = $.fn[NAME];
+    $.fn[NAME] = Alert.jQueryInterface;
+    $.fn[NAME].Constructor = Alert;
+    $.fn[NAME].noConflict = () => {
+      $.fn[NAME] = JQUERY_NO_CONFLICT;
+      return Alert.jQueryInterface;
+    };
+  }
+});
 
 export default Alert;

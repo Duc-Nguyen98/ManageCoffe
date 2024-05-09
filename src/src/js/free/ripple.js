@@ -1,10 +1,8 @@
-import { element, typeCheckConfig } from '../mdb/util/index';
+import { element, getjQuery, typeCheckConfig, onDOMContentLoaded } from '../mdb/util/index';
 import Data from '../mdb/dom/data';
 import EventHandler from '../mdb/dom/event-handler';
 import Manipulator from '../mdb/dom/manipulator';
 import SelectorEngine from '../mdb/dom/selector-engine';
-import BaseComponent from './base-component';
-import { bindCallbackEventsIfNeeded } from '../autoinit/init';
 
 /**
  * ------------------------------------------------------------------------
@@ -16,9 +14,7 @@ const NAME = 'ripple';
 const DATA_KEY = 'mdb.ripple';
 const CLASSNAME_RIPPLE = 'ripple-surface';
 const CLASSNAME_RIPPLE_WAVE = 'ripple-wave';
-const CLASSNAME_RIPPLE_WRAPPER = 'input-wrapper';
-const SELECTOR_BTN = '.btn';
-const SELECTOR_COMPONENT = [SELECTOR_BTN, `[data-mdb-${NAME}-init]`];
+const SELECTOR_COMPONENT = ['.btn', '.ripple'];
 
 const CLASSNAME_UNBOUND = 'ripple-surface-unbound';
 const GRADIENT =
@@ -61,21 +57,19 @@ const DefaultType = {
  * ------------------------------------------------------------------------
  */
 
-class Ripple extends BaseComponent {
+class Ripple {
   constructor(element, options) {
-    super(element);
+    this._element = element;
     this._options = this._getConfig(options);
 
     if (this._element) {
+      Data.setData(element, DATA_KEY, this);
       Manipulator.addClass(this._element, CLASSNAME_RIPPLE);
-      Manipulator.setDataAttribute(this._element, `${this.constructor.NAME}-initialized`, true);
-      bindCallbackEventsIfNeeded(this.constructor);
     }
 
     this._clickHandler = this._createRipple.bind(this);
     this._rippleTimer = null;
     this._isMinWidthSet = false;
-    this._rippleInSpan = false;
 
     this.init();
   }
@@ -93,10 +87,10 @@ class Ripple extends BaseComponent {
   }
 
   dispose() {
-    EventHandler.off(this._element, 'mousedown', this._clickHandler);
-    Manipulator.removeDataAttribute(this._element, `${this.constructor.NAME}-initialized`);
-
-    super.dispose();
+    Data.removeData(this._element, DATA_KEY);
+    EventHandler.off(this._element, 'click', this._clickHandler);
+    this._element = null;
+    this._options = null;
   }
 
   // Private
@@ -109,57 +103,13 @@ class Ripple extends BaseComponent {
       }
     });
 
-    const dataAttributes = Manipulator.getDataAttributes(this._element);
-    if (this._element.classList.contains('btn') && dataAttributes.rippleInit === false) {
-      return;
-    }
-
-    this._options = this._getConfig();
-
-    if (this._element.tagName.toLowerCase() === 'input') {
-      const parent = this._element.parentNode;
-
-      this._rippleInSpan = true;
-
-      if (parent.tagName.toLowerCase() === 'span' && parent.classList.contains(CLASSNAME_RIPPLE)) {
-        this._element = parent;
-      } else {
-        const shadow = getComputedStyle(this._element).boxShadow;
-        const btn = this._element;
-        const wrapper = document.createElement('span');
-
-        if (btn.classList.contains('btn-block')) {
-          wrapper.style.display = 'block';
-        }
-
-        EventHandler.one(wrapper, 'mouseup', (e) => {
-          // prevent submit on click other than LMB, ripple still triggered, but submit is blocked
-          if (e.button === 0) {
-            btn.click();
-          }
-        });
-
-        wrapper.classList.add(CLASSNAME_RIPPLE, CLASSNAME_RIPPLE_WRAPPER);
-
-        Manipulator.addStyle(wrapper, {
-          border: 0,
-          'box-shadow': shadow,
-        });
-
-        // Put element as child
-        parent.replaceChild(wrapper, this._element);
-        wrapper.appendChild(this._element);
-        this._element = wrapper;
-      }
-      this._element.focus();
-    }
-
     if (!this._element.style.minWidth) {
-      Manipulator.style(this._element, { 'min-width': `${getComputedStyle(this._element).width}` });
+      Manipulator.style(this._element, { 'min-width': `${this._element.offsetWidth}px` });
       this._isMinWidthSet = true;
     }
 
     Manipulator.addClass(this._element, CLASSNAME_RIPPLE);
+    this._options = this._getConfig();
     this._createRipple(event);
   }
 
@@ -167,22 +117,12 @@ class Ripple extends BaseComponent {
     EventHandler.on(target, 'mousedown', this._clickHandler);
   }
 
-  _getEventLayer(event) {
-    const x = Math.round(event.clientX - event.target.getBoundingClientRect().x);
-    const y = Math.round(event.clientY - event.target.getBoundingClientRect().y);
-    return { layerX: x, layerY: y };
-  }
-
   _createRipple(event) {
-    if (this._element === null) {
-      return;
-    }
-
     if (!Manipulator.hasClass(this._element, CLASSNAME_RIPPLE)) {
       Manipulator.addClass(this._element, CLASSNAME_RIPPLE);
     }
 
-    const { layerX, layerY } = this._getEventLayer(event);
+    const { layerX, layerY } = event;
     const offsetX = layerX;
     const offsetY = layerY;
     const height = this._element.offsetHeight;
@@ -249,23 +189,10 @@ class Ripple extends BaseComponent {
             Manipulator.style(this._element, { 'min-width': '' });
             this._isMinWidthSet = false;
           }
-          if (this._rippleInSpan && this._element.classList.contains(CLASSNAME_RIPPLE_WRAPPER)) {
-            this._removeWrapperSpan();
-          } else {
-            Manipulator.removeClass(this._element, CLASSNAME_RIPPLE);
-          }
+          Manipulator.removeClass(this._element, CLASSNAME_RIPPLE);
         }
       }
     }, duration);
-  }
-
-  _removeWrapperSpan() {
-    const child = this._element.firstChild;
-
-    this._element.replaceWith(child);
-    this._element = child;
-    this._element.focus();
-    this._rippleInSpan = false;
   }
 
   _durationToMsNumber(time) {
@@ -430,6 +357,47 @@ class Ripple extends BaseComponent {
       return null;
     });
   }
+
+  static getInstance(element) {
+    return Data.getData(element, DATA_KEY);
+  }
+
+  static getOrCreateInstance(element, config = {}) {
+    return (
+      this.getInstance(element) || new this(element, typeof config === 'object' ? config : null)
+    );
+  }
 }
+
+/**
+ * ------------------------------------------------------------------------
+ * Data Api implementation - auto initialization
+ * ------------------------------------------------------------------------
+ */
+
+SELECTOR_COMPONENT.forEach((selector) => {
+  EventHandler.one(document, 'mousedown', selector, Ripple.autoInitial(new Ripple()));
+});
+
+/**
+ * ------------------------------------------------------------------------
+ * jQuery
+ * ------------------------------------------------------------------------
+ * add .ripple to jQuery only if jQuery is present
+ */
+
+onDOMContentLoaded(() => {
+  const $ = getjQuery();
+
+  if ($) {
+    const JQUERY_NO_CONFLICT = $.fn[NAME];
+    $.fn[NAME] = Ripple.jQueryInterface;
+    $.fn[NAME].Constructor = Ripple;
+    $.fn[NAME].noConflict = () => {
+      $.fn[NAME] = JQUERY_NO_CONFLICT;
+      return Ripple.jQueryInterface;
+    };
+  }
+});
 
 export default Ripple;

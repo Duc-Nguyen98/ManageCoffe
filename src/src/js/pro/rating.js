@@ -1,11 +1,9 @@
-import { typeCheckConfig } from '../mdb/util/index';
+import { getjQuery, typeCheckConfig, onDOMContentLoaded } from '../mdb/util/index';
 import Data from '../mdb/dom/data';
 import EventHandler from '../mdb/dom/event-handler';
 import SelectorEngine from '../mdb/dom/selector-engine';
-import Tooltip from '../free/tooltip';
+import Tooltip from '../bootstrap/mdb-prefix/tooltip';
 import Manipulator from '../mdb/dom/manipulator';
-import BaseComponent from '../free/base-component';
-import { bindCallbackEventsIfNeeded } from '../autoinit/init';
 
 /**
  * ------------------------------------------------------------------------
@@ -14,7 +12,8 @@ import { bindCallbackEventsIfNeeded } from '../autoinit/init';
  */
 
 const NAME = 'rating';
-const DATA_KEY = `mdb.${NAME}`;
+const DATA_KEY = 'mdb.rating';
+const SELECTOR_EXPAND = '[data-mdb-toggle="rating"]';
 const EVENT_KEY = `.${DATA_KEY}`;
 
 const ARROW_LEFT_KEY = 'ArrowLeft';
@@ -38,8 +37,8 @@ const Default = {
   dynamic: false,
 };
 
-const EVENT_SELECT = `scoreSelect${EVENT_KEY}`;
-const EVENT_HOVER = `scoreHover${EVENT_KEY}`;
+const EVENT_SELECT = `onSelect${EVENT_KEY}`;
+const EVENT_HOVER = `onHover${EVENT_KEY}`;
 const EVENT_KEYUP = `keyup${EVENT_KEY}`;
 const EVENT_FOCUSOUT = `focusout${EVENT_KEY}`;
 const EVENT_KEYDOWN = `keydown${EVENT_KEY}`;
@@ -51,10 +50,9 @@ const EVENT_MOUSEDOWN = `mousedown${EVENT_KEY}`;
  * ------------------------------------------------------------------------
  */
 
-class Rating extends BaseComponent {
+class Rating {
   constructor(element, options) {
-    super(element);
-
+    this._element = element;
     this._icons = SelectorEngine.find('i', this._element);
     this._options = this._getConfig(options);
     this._index = -1;
@@ -64,9 +62,8 @@ class Rating extends BaseComponent {
     this._tooltips = [];
 
     if (this._element) {
+      Data.setData(element, DATA_KEY, this);
       this._init();
-      Manipulator.setDataAttribute(this._element, `${this.constructor.NAME}-initialized`, true);
-      bindCallbackEventsIfNeeded(this.constructor);
     }
   }
 
@@ -76,6 +73,8 @@ class Rating extends BaseComponent {
   }
 
   dispose() {
+    Data.removeData(this._element, DATA_KEY);
+
     if (!this._options.readonly) {
       EventHandler.off(this._element, EVENT_KEYUP);
       EventHandler.off(this._element, EVENT_FOCUSOUT);
@@ -88,15 +87,13 @@ class Rating extends BaseComponent {
       });
 
       this._tooltips.forEach((el) => {
-        el._element.removeAttribute('data-mdb-toggle');
         el.dispose();
       });
 
       this._element.removeAttribute('tabIndex');
     }
-    Manipulator.removeDataAttribute(this._element, `${this.constructor.NAME}-initialized`);
 
-    super.dispose();
+    this._element = null;
   }
 
   // Private
@@ -166,9 +163,6 @@ class Rating extends BaseComponent {
         if (this._savedIndex !== null) {
           this._updateRating(this._savedIndex);
           this._index = this._savedIndex;
-        } else if (this._options.value) {
-          this._updateRating(this._options.value - 1);
-          this._index = this._options.value - 1
         } else {
           this._index = -1;
           this._clearRating();
@@ -339,6 +333,47 @@ class Rating extends BaseComponent {
       }
     });
   }
+
+  static getInstance(element) {
+    return Data.getData(element, DATA_KEY);
+  }
+
+  static getOrCreateInstance(element, config = {}) {
+    return (
+      this.getInstance(element) || new this(element, typeof config === 'object' ? config : null)
+    );
+  }
 }
+
+/**
+ * ------------------------------------------------------------------------
+ * Data Api implementation - auto initialization
+ * ------------------------------------------------------------------------
+ */
+
+SelectorEngine.find(SELECTOR_EXPAND).forEach((el) => {
+  Rating.autoInit(el);
+});
+
+/**
+ * ------------------------------------------------------------------------
+ * jQuery
+ * ------------------------------------------------------------------------
+ * add .rating to jQuery only if jQuery is present
+ */
+
+onDOMContentLoaded(() => {
+  const $ = getjQuery();
+
+  if ($) {
+    const JQUERY_NO_CONFLICT = $.fn[NAME];
+    $.fn[NAME] = Rating.jQueryInterface;
+    $.fn[NAME].Constructor = Rating;
+    $.fn[NAME].noConflict = () => {
+      $.fn[NAME] = JQUERY_NO_CONFLICT;
+      return Rating.jQueryInterface;
+    };
+  }
+});
 
 export default Rating;

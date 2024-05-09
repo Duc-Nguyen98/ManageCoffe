@@ -1,7 +1,7 @@
+import Data from '../mdb/dom/data';
 import EventHandler from '../mdb/dom/event-handler';
 import Manipulator from '../mdb/dom/manipulator';
-import BaseComponent from '../free/base-component';
-import { bindCallbackEventsIfNeeded } from '../autoinit/init';
+import SelectorEngine from '../mdb/dom/selector-engine';
 
 /**
  * ------------------------------------------------------------------------
@@ -10,6 +10,8 @@ import { bindCallbackEventsIfNeeded } from '../autoinit/init';
  */
 
 const NAME = 'navbar';
+const DATA_KEY = 'mdb.navbar';
+const CLASSNAME_WRAPPER = 'navbar-scroll';
 
 /**
  * ------------------------------------------------------------------------
@@ -17,7 +19,15 @@ const NAME = 'navbar';
  * ------------------------------------------------------------------------
  */
 
-class Navbar extends BaseComponent {
+class Navbar {
+  constructor(element) {
+    this._element = element;
+
+    if (this._element) {
+      Data.setData(element, DATA_KEY, this);
+    }
+  }
+
   // Getters
   static get NAME() {
     return NAME;
@@ -27,15 +37,13 @@ class Navbar extends BaseComponent {
   init() {
     this._onScroll();
     this._addEvent();
-    Manipulator.setDataAttribute(this._element, `${this.constructor.NAME}-initialized`, true);
-    bindCallbackEventsIfNeeded(this.constructor);
   }
 
   dispose() {
     this._removeEvent();
-    Manipulator.removeDataAttribute(this._element, `${this.constructor.NAME}-initialized`);
 
-    super.dispose();
+    Data.removeData(this._element, DATA_KEY);
+    this._element = null;
   }
 
   // Private
@@ -44,7 +52,7 @@ class Navbar extends BaseComponent {
   }
 
   _removeEvent() {
-    EventHandler.off(window, 'scroll');
+    EventHandler.off(window, 'scroll', this._onScroll);
   }
 
   _onScroll() {
@@ -54,6 +62,20 @@ class Navbar extends BaseComponent {
       Manipulator.removeClass(this._element, 'navbar-scrolled');
     }
   }
+
+  static getInstance(element) {
+    return Data.getData(element, DATA_KEY);
+  }
+
+  static getOrCreateInstance(element, config = {}) {
+    return (
+      this.getInstance(element) || new this(element, typeof config === 'object' ? config : null)
+    );
+  }
 }
+// auto-init
+SelectorEngine.find(`.${CLASSNAME_WRAPPER}`).forEach((element) => {
+  new Navbar(element).init();
+});
 
 export default Navbar;

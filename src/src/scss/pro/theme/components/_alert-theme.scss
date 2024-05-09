@@ -3,14 +3,18 @@
   $secondary: map-get($theme, secondary);
 
   .alert-primary {
-    --#{$prefix}alert-color: var(--#{$prefix}primary-text-emphasis);
-    --#{$prefix}alert-bg: var(--#{$prefix}primary-bg-subtle);
-    --#{$prefix}alert-border-color: var(--#{$prefix}primary-border-subtle);
+    @include alert-variant(
+      shift-color($primary, $alert-bg-scale),
+      shift-color($primary, $alert-border-scale),
+      shift-color($primary, $alert-color-scale)
+    );
   }
 
   .alert-secondary {
-    --#{$prefix}alert-color: var(--#{$prefix}secondary-text-emphasis);
-    --#{$prefix}alert-bg: var(--#{$prefix}secondary-bg-subtle);
-    --#{$prefix}alert-border-color: var(--#{$prefix}secondary-border-subtle);
+    @include alert-variant(
+      shift-color($secondary, $alert-bg-scale),
+      shift-color($secondary, $alert-border-scale),
+      shift-color($secondary, $alert-color-scale)
+    );
   }
 }

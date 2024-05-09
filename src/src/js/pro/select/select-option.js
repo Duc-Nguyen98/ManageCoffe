@@ -108,7 +108,7 @@ class SelectOption {
   }
 
   setActiveStyles() {
-    if (!this.active && !this.multiple) {
+    if (!this.active) {
       this.active = true;
       Manipulator.addClass(this.node, CLASS_NAME_ACITVE);
     }

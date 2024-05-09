@@ -35,8 +35,8 @@ class Swipe {
         return;
       }
       const direction = swipe.y.value > swipe.x.value ? swipe.y.direction : swipe.x.direction;
-      EventHandler.trigger(this._element, `swipe${direction}`, { touch: e });
-      EventHandler.trigger(this._element, 'swipe', { touch: e, direction });
+      EventHandler.trigger(this._element, `swipe${direction}`);
+      EventHandler.trigger(this._element, 'swipe', { direction });
       this._startPosition = null;
       return;
     }
@@ -47,7 +47,7 @@ class Swipe {
       swipe[axis].direction === this._options.direction &&
       swipe[axis].value > this._options.threshold
     ) {
-      EventHandler.trigger(this._element, `swipe${swipe[axis].direction}`, { touch: e });
+      EventHandler.trigger(this._element, `swipe${swipe[axis].direction}`);
       this._startPosition = null;
     }
   }

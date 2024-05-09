@@ -1,5 +1,13 @@
-import PerfectScrollbar from '../mdb/perfect-scrollbar';
-import { array, element, isVisible, typeCheckConfig, isRTL } from '../mdb/util/index';
+import PerfectScrollbar from 'perfect-scrollbar';
+import {
+  array,
+  element,
+  isVisible,
+  getjQuery,
+  typeCheckConfig,
+  onDOMContentLoaded,
+  isRTL,
+} from '../mdb/util/index';
 import FocusTrap from '../mdb/util/focusTrap';
 import { ENTER, TAB, ESCAPE } from '../mdb/util/keycodes';
 import Touch from '../mdb/util/touch';
@@ -9,8 +17,6 @@ import EventHandler from '../mdb/dom/event-handler';
 import Manipulator from '../mdb/dom/manipulator';
 import SelectorEngine from '../mdb/dom/selector-engine';
 import Ripple from '../free/ripple';
-import BaseComponent from '../free/base-component';
-import { bindCallbackEventsIfNeeded } from '../autoinit/init';
 
 /**
  * ------------------------------------------------------------------------
@@ -22,8 +28,9 @@ const NAME = 'sidenav';
 const DATA_KEY = 'mdb.sidenav';
 const ARROW_CLASS = 'rotate-icon';
 const BACKDROP_CLASS = 'sidenav-backdrop';
+const SELECTOR_SIDENAV = '.sidenav';
 const SELECTOR_TOGGLE = '[data-mdb-toggle="sidenav"]';
-const SELECTOR_TOGGLE_COLLAPSE = '[data-mdb-collapse-init]';
+const SELECTOR_TOGGLE_COLLAPSE = '[data-mdb-toggle="collapse"]';
 const SELECTOR_SHOW_SLIM = '[data-mdb-slim="true"]';
 const SELECTOR_HIDE_SLIM = '[data-mdb-slim="false"]';
 const SELECTOR_NAVIGATION = '.sidenav-menu';
@@ -85,10 +92,9 @@ const DEFAULT_OPTIONS = {
  * ------------------------------------------------------------------------
  */
 
-class Sidenav extends BaseComponent {
+class Sidenav {
   constructor(node, options = {}) {
-    super(node);
-
+    this._element = node;
     this._options = options;
 
     instanceCount++;
@@ -120,10 +126,10 @@ class Sidenav extends BaseComponent {
     };
 
     if (node) {
+      Data.setData(node, DATA_KEY, this);
+
       this._setup();
     }
-    Manipulator.setDataAttribute(this._element, `${this.constructor.NAME}-initialized`, true);
-    bindCallbackEventsIfNeeded(this.constructor);
   }
 
   // Getters
@@ -141,10 +147,7 @@ class Sidenav extends BaseComponent {
       if (!el.parentNode || el.parentNode === document) {
         return el;
       }
-      const isRelative =
-        el.parentNode.style.position === 'relative' ||
-        el.parentNode.classList.contains('position-relative');
-      if (isRelative) {
+      if (el.parentNode.style.position === 'relative') {
         return el.parentNode;
       }
       return findContainer(el.parentNode);
@@ -165,19 +168,8 @@ class Sidenav extends BaseComponent {
 
     const { x } = this._element.getBoundingClientRect();
 
-    if ((this.options.right && !isRTL) || (!this.options.right && isRTL)) {
-      let scrollBarWidth = 0;
-      // check if there is scrollbar and account for it width if there is one
-      if (this.container.scrollHeight > this.container.clientHeight) {
-        scrollBarWidth = this.container.offsetWidth - this.container.clientWidth;
-      }
-
-      if (this.container.tagName === 'BODY') {
-        const documentWidth = document.documentElement.clientWidth;
-        scrollBarWidth = Math.abs(window.innerWidth - documentWidth);
-      }
-
-      return Math.abs(x + scrollBarWidth - containerEnd) > 10;
+    if (this.options.right) {
+      return Math.abs(x - containerEnd) > 10;
     }
     return Math.abs(x - containerStart) < 10;
   }
@@ -207,9 +199,7 @@ class Sidenav extends BaseComponent {
       width: `${this.width}px`,
       height: this.options.position === 'fixed' ? '100vh' : '100%',
       position: this.options.position,
-      transitionDuration: this.transitionDuration,
-      transitionProperty: 'transform, width, padding, margin',
-      transitionTimingFunction: 'linear',
+      transition: `all ${this.transitionDuration} linear`,
     };
   }
 
@@ -251,9 +241,8 @@ class Sidenav extends BaseComponent {
     this._touch.dispose();
 
     Data.removeData(this._element, DATA_KEY);
-    Manipulator.removeDataAttribute(this._element, `${this.constructor.NAME}-initialized`);
 
-    super.dispose();
+    this._element = null;
   }
 
   hide() {
@@ -381,12 +370,7 @@ class Sidenav extends BaseComponent {
     }
 
     if (link.attributes.href) {
-      const trimmedLink = window.location.href.split(/#|\?/)[0];
-      const strippedRequests = window.location.href.split('?')[0];
-      return (
-        new URL(link, window.location.href).href === trimmedLink ||
-        new URL(link, window.location.href).href === strippedRequests
-      );
+      return new URL(link, window.location.href).href === window.location.href;
     }
 
     return false;
@@ -433,10 +417,6 @@ class Sidenav extends BaseComponent {
 
     // Slim
 
-    if (this.options.slimCollapsed) {
-      Manipulator.addClass(this._element, 'sidenav-slim');
-    }
-
     if (this.options.slim) {
       this._setupSlim();
     }
@@ -466,9 +446,6 @@ class Sidenav extends BaseComponent {
     // Shown on init
 
     if (!this.options.hidden) {
-      if (this.options.right) {
-        this.show();
-      }
       this._updateOffsets(true, true);
     }
   }
@@ -509,7 +486,7 @@ class Sidenav extends BaseComponent {
 
     const [toggler] = SelectorEngine.prev(list, SELECTOR_LINK);
 
-    Manipulator.setDataAttribute(toggler, 'collapse-init', '');
+    Manipulator.setDataAttribute(toggler, 'toggle', 'collapse');
     toggler.setAttribute('href', `#${ID}`);
     toggler.setAttribute('role', 'button');
 
@@ -567,13 +544,11 @@ class Sidenav extends BaseComponent {
 
   _setupContent() {
     this._content = SelectorEngine.find(this.options.content);
-    if (!this._initialContentStyle) {
-      this._initialContentStyle = this._content.map((el) => {
-        const { paddingLeft, paddingRight, marginLeft, marginRight, transition } =
-          window.getComputedStyle(el);
-        return { paddingLeft, paddingRight, marginLeft, marginRight, transition };
-      });
-    }
+    this._initialContentStyle = this._content.map((el) => {
+      const { paddingLeft, paddingRight, marginLeft, marginRight, transition } =
+        window.getComputedStyle(el);
+      return { paddingLeft, paddingRight, marginLeft, marginRight, transition };
+    });
   }
 
   _setupFocusTrap() {
@@ -790,9 +765,6 @@ class Sidenav extends BaseComponent {
 
     if (value) {
       this._collapseItems();
-      Manipulator.addClass(this._element, 'sidenav-slim');
-    } else {
-      Manipulator.removeClass(this._element, 'sidenav-slim');
     }
 
     this._slimCollapsed = value;
@@ -936,10 +908,9 @@ class Sidenav extends BaseComponent {
   }
 
   _updateOffsets(show, initial = false) {
-    const [paddingPosition, marginPosition] =
-      (this.options.right && !isRTL) || (!this.options.right && isRTL)
-        ? ['right', 'left']
-        : ['left', 'right'];
+    const [paddingPosition, marginPosition] = this.options.right
+      ? ['right', 'left']
+      : ['left', 'right'];
 
     const padding = {
       property: this._getProperty('padding', paddingPosition),
@@ -1001,6 +972,54 @@ class Sidenav extends BaseComponent {
       }
     });
   }
+
+  static getInstance(element) {
+    return Data.getData(element, DATA_KEY);
+  }
+
+  static getOrCreateInstance(element, config = {}) {
+    return (
+      this.getInstance(element) || new this(element, typeof config === 'object' ? config : null)
+    );
+  }
 }
+
+/**
+ * ------------------------------------------------------------------------
+ * Data Api implementation - auto initialization
+ * ------------------------------------------------------------------------
+ */
+
+EventHandler.on(document, 'click', SELECTOR_TOGGLE, Sidenav.toggleSidenav());
+
+SelectorEngine.find(SELECTOR_SIDENAV).forEach((sidenav) => {
+  let instance = Sidenav.getInstance(sidenav);
+  if (!instance) {
+    instance = new Sidenav(sidenav);
+  }
+
+  return instance;
+});
+
+/**
+ * ------------------------------------------------------------------------
+ * jQuery
+ * ------------------------------------------------------------------------
+ * add .sidenav to jQuery only if jQuery is present
+ */
+
+onDOMContentLoaded(() => {
+  const $ = getjQuery();
+
+  if ($) {
+    const JQUERY_NO_CONFLICT = $.fn[NAME];
+    $.fn[NAME] = Sidenav.jQueryInterface;
+    $.fn[NAME].Constructor = Sidenav;
+    $.fn[NAME].noConflict = () => {
+      $.fn[NAME] = JQUERY_NO_CONFLICT;
+      return Sidenav.jQueryInterface;
+    };
+  }
+});
 
 export default Sidenav;

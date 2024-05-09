@@ -1,10 +1,8 @@
-import { typeCheckConfig } from '../mdb/util/index';
+import { getjQuery, typeCheckConfig, onDOMContentLoaded } from '../mdb/util/index';
 import Data from '../mdb/dom/data';
 import EventHandler from '../mdb/dom/event-handler';
 import Manipulator from '../mdb/dom/manipulator';
 import SelectorEngine from '../mdb/dom/selector-engine';
-import BaseComponent from '../free/base-component';
-import { bindCallbackEventsIfNeeded } from '../autoinit/init';
 
 /**
  * ------------------------------------------------------------------------
@@ -14,12 +12,14 @@ import { bindCallbackEventsIfNeeded } from '../autoinit/init';
 
 const NAME = 'sticky';
 const DATA_KEY = 'mdb.sticky';
+const CLASS_STICKY = 'sticky';
+const SELECTOR_EXPAND = `.${CLASS_STICKY}`;
 
 const ANIMATED_CLASS = 'animation';
 
 const EVENT_KEY = `.${DATA_KEY}`;
-const EVENT_ACTIVATED = `activated${EVENT_KEY}`;
-const EVENT_DEACTIVATED = `deactivated${EVENT_KEY}`;
+const EVENT_ACTIVE = `active${EVENT_KEY}`;
+const EVENT_INACTIVE = `inactive${EVENT_KEY}`;
 
 const Default = {
   stickyActiveClass: '',
@@ -51,10 +51,9 @@ const DefaultType = {
  * ------------------------------------------------------------------------
  */
 
-class Sticky extends BaseComponent {
+class Sticky {
   constructor(element, options) {
-    super(element);
-
+    this._element = element;
     this._hiddenElement = null;
     this._elementPositionStyles = {};
     this._scrollDirection = '';
@@ -66,9 +65,8 @@ class Sticky extends BaseComponent {
 
     if (this._element) {
       this._options = this._getConfig(options);
+      Data.setData(element, DATA_KEY, this);
       this._init();
-      Manipulator.setDataAttribute(this._element, `${this.constructor.NAME}-initialized`, true);
-      bindCallbackEventsIfNeeded(this.constructor);
     }
   }
 
@@ -87,14 +85,24 @@ class Sticky extends BaseComponent {
     animationDuration = stickyAnimationUnsticky !== '' ? parseFloat(animationDuration) * 1000 : 0;
 
     this._disableSticky();
-    Manipulator.removeDataAttribute(this._element, `${this.constructor.NAME}-initialized`);
 
     setTimeout(() => {
-      super.dispose();
+      Data.removeData(this._element, DATA_KEY);
+
+      this._element = null;
+      this._options = null;
+      this._hiddenElement = null; // Element replacing the space of the original element when changing the position to "fixed"
+      this._elementPositionStyles = null;
+      this._scrollDirection = null;
+      this._isSticked = null;
+      this._elementOffsetTop = null;
+      this._scrollTop = null;
+      this._pushPoint = null;
+      this._manuallyDeactivated = null;
     }, animationDuration);
   }
 
-  activate() {
+  active() {
     // prevent action if sticky is already active
     if (this._isSticked) {
       return;
@@ -107,7 +115,7 @@ class Sticky extends BaseComponent {
     this._manuallyDeactivated = false;
   }
 
-  deactivate() {
+  inactive() {
     // prevent action if sticky is already inactive
     if (!this._isSticked) {
       return;
@@ -201,7 +209,7 @@ class Sticky extends BaseComponent {
     }
 
     if (this._options.stickyAnimationUnsticky) {
-      this._elementOffsetTop += this._element.height || 0;
+      this._elementOffsetTop += this._element.height;
     }
   }
 
@@ -270,7 +278,7 @@ class Sticky extends BaseComponent {
 
     this._hiddenElement.hidden = false;
 
-    EventHandler.trigger(this._element, EVENT_ACTIVATED);
+    EventHandler.trigger(this._element, EVENT_ACTIVE);
   }
 
   _changeBoundaryPosition() {
@@ -339,7 +347,7 @@ class Sticky extends BaseComponent {
       this._removeHiddenElement();
       this._toggleClass('', stickyActiveClass, this._element);
 
-      EventHandler.trigger(this._element, EVENT_DEACTIVATED);
+      EventHandler.trigger(this._element, EVENT_INACTIVE);
     }, animationDuration);
   }
 
@@ -461,6 +469,53 @@ class Sticky extends BaseComponent {
       }
     });
   }
+
+  static getInstance(element) {
+    return Data.getData(element, DATA_KEY);
+  }
+
+  static getOrCreateInstance(element, config = {}) {
+    return (
+      this.getInstance(element) || new this(element, typeof config === 'object' ? config : null)
+    );
+  }
 }
+
+/**
+ * ------------------------------------------------------------------------
+ * Data Api implementation - auto initialization
+ * ------------------------------------------------------------------------
+ */
+
+SelectorEngine.find(SELECTOR_EXPAND).forEach((stickyEl) => {
+  let instance = Sticky.getInstance(stickyEl);
+
+  if (!instance) {
+    instance = new Sticky(stickyEl);
+  }
+
+  return instance;
+});
+
+/**
+ * ------------------------------------------------------------------------
+ * jQuery
+ * ------------------------------------------------------------------------
+ * add .sticky() to jQuery only if jQuery is present
+ */
+
+onDOMContentLoaded(() => {
+  const $ = getjQuery();
+
+  if ($) {
+    const JQUERY_NO_CONFLICT = $.fn[NAME];
+    $.fn[NAME] = Sticky.jQueryInterface;
+    $.fn[NAME].Constructor = Sticky;
+    $.fn[NAME].noConflict = () => {
+      $.fn[NAME] = JQUERY_NO_CONFLICT;
+      return Sticky.jQueryInterface;
+    };
+  }
+});
 
 export default Sticky;

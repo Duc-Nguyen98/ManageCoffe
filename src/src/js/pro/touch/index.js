@@ -1,3 +1,4 @@
+import { getjQuery, onDOMContentLoaded } from '../../mdb/util';
 import Data from '../../mdb/dom/data';
 import EventHandler from '../../mdb/dom/event-handler';
 import Press from './press';
@@ -6,55 +7,46 @@ import Pan from './pan';
 import Pinch from './pinch';
 import Tap from './tap';
 import Rotate from './rotate';
-import BaseComponent from '../../free/base-component';
-import Manipulator from '../../mdb/dom/manipulator';
-import { bindCallbackEventsIfNeeded } from '../../autoinit/init';
 
 const NAME = 'touch';
 const DATA_KEY = 'mdb.touch';
 
-class Touch extends BaseComponent {
+class Touch {
   constructor(element, event = 'swipe', options = {}) {
-    super(element);
-
-    this._options = this._getConfig(options);
-    this._event = this._options.event || event;
+    this._element = element;
+    this._event = event;
 
     // events
 
-    this.swipe = this._event === 'swipe' ? new Swipe(element, this._options) : null;
-    this.press = this._event === 'press' ? new Press(element, this._options) : null;
-    this.pan = this._event === 'pan' ? new Pan(element, this._options) : null;
-    this.pinch = this._event === 'pinch' ? new Pinch(element, this._options) : null;
-    this.tap = this._event === 'tap' ? new Tap(element, this._options) : null;
-    this.rotate = this._event === 'rotate' ? new Rotate(element, this._options) : null;
+    this.swipe = event === 'swipe' ? new Swipe(element, options) : null;
+    this.press = event === 'press' ? new Press(element, options) : null;
+    this.pan = event === 'pan' ? new Pan(element, options) : null;
+    this.pinch = event === 'pinch' ? new Pinch(element, options) : null;
+    this.tap = event === 'tap' ? new Tap(element, options) : null;
+    this.rotate = event === 'rotate' ? new Rotate(element, options) : null;
 
     // handlers
 
-    this._touchStartHandler = this._handleTouchStart.bind(this);
-    this._touchMoveHandler = this._handleTouchMove.bind(this);
-    this._touchEndHandler = this._handleTouchEnd.bind(this);
+    this._touchStartHandler = (e) => this._handleTouchStart(e);
+    this._touchMoveHandler = (e) => this._handleTouchMove(e);
+    this._touchEndHandler = (e) => this._handleTouchEnd(e);
 
-    this.init();
-    Manipulator.setDataAttribute(this._element, `${this.constructor.NAME}-initialized`, true);
-    bindCallbackEventsIfNeeded(this.constructor);
+    if (this._element) {
+      Data.setData(element, DATA_KEY, this);
+    }
   }
-
-  // Getters
-  static get NAME() {
-    return NAME;
-  }
-
-  // Public
 
   dispose() {
     EventHandler.off(this._element, 'touchstart', this._touchStartHandler);
     EventHandler.off(this._element, 'touchmove', this._touchMoveHandler);
     EventHandler.off(this._element, 'touchend', this._touchEndHandler);
 
-    Manipulator.removeDataAttribute(this._element, `${this.constructor.NAME}-initialized`);
-
-    super.dispose();
+    this.swipe = null;
+    this.press = null;
+    this.pan = null;
+    this.pinch = null;
+    this.tap = null;
+    this.rotate = null;
   }
 
   init() {
@@ -68,27 +60,12 @@ class Touch extends BaseComponent {
     EventHandler.on(this._element, 'touchend', this._touchEndHandler);
   }
 
-  // Private
-
-  _getConfig(config) {
-    const dataAttributes = Manipulator.getDataAttributes(this._element);
-
-    config = {
-      ...dataAttributes,
-      ...config,
-    };
-
-    return config;
-  }
-
   _handleTouchStart(e) {
     this[this._event].handleTouchStart(e);
   }
 
   _handleTouchMove(e) {
-    if (this[this._event].handleTouchMove) {
-      this[this._event].handleTouchMove(e);
-    }
+    this[this._event].handleTouchMove(e);
   }
 
   _handleTouchEnd(e) {
@@ -118,6 +95,37 @@ class Touch extends BaseComponent {
       }
     });
   }
+
+  static getInstance(element) {
+    return Data.getData(element, DATA_KEY);
+  }
+
+  static getOrCreateInstance(element, config = {}) {
+    return (
+      this.getInstance(element) || new this(element, typeof config === 'object' ? config : null)
+    );
+  }
 }
+
+/**
+ * ------------------------------------------------------------------------
+ * jQuery
+ * ------------------------------------------------------------------------
+ * add .rating to jQuery only if jQuery is present
+ */
+
+onDOMContentLoaded(() => {
+  const $ = getjQuery();
+
+  if ($) {
+    const JQUERY_NO_CONFLICT = $.fn[NAME];
+    $.fn[NAME] = Touch.jQueryInterface;
+    $.fn[NAME].Constructor = Touch;
+    $.fn[NAME].noConflict = () => {
+      $.fn[NAME] = JQUERY_NO_CONFLICT;
+      return Touch.jQueryInterface;
+    };
+  }
+});
 
 export default Touch;

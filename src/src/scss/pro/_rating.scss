@@ -1,6 +1,4 @@
 .rating {
-  --#{$prefix}rating-icon-padding: #{$rating-icon-padding};
-
   display: flex;
   margin: 0;
   padding: 0;
@@ -8,11 +6,7 @@
     list-style: none;
   }
   i {
-    padding: var(--#{$prefix}rating-icon-padding);
-
-    &.fa-sm {
-      line-height: 1;
-    }
+    padding: $rating-icon-padding;
   }
 }
 .rating:not([data-mdb-readonly='true']) li {

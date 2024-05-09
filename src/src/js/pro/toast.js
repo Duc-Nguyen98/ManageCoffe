@@ -1,11 +1,9 @@
-import { typeCheckConfig } from '../mdb/util/index';
+import { getjQuery, typeCheckConfig, onDOMContentLoaded } from '../mdb/util/index';
 import EventHandler from '../mdb/dom/event-handler';
 import Manipulator from '../mdb/dom/manipulator';
 import SelectorEngine from '../mdb/dom/selector-engine';
 import BSToast from '../bootstrap/mdb-prefix/toast';
 import Stack from '../mdb/util/stack';
-import { bindCallbackEventsIfNeeded } from '../autoinit/init';
-
 /**
  * ------------------------------------------------------------------------
  * Constants
@@ -21,9 +19,9 @@ const EVENT_HIDE_BS = 'hide.bs.toast';
 const EVENT_HIDDEN_BS = 'hidden.bs.toast';
 
 const EVENT_SHOW = 'show.mdb.toast';
+const EVENT_SHOWN = 'shown.mdb.toast';
+const EVENT_HIDE = 'hide.mdb.toast';
 const EVENT_HIDDEN = 'hidden.mdb.toast';
-
-const EXTENDED_EVENTS = [{ name: 'shown' }, { name: 'hide' }];
 
 const DefaultType = {
   position: '(string|null)',
@@ -54,8 +52,6 @@ class Toast extends BSToast {
     super(element, data);
     this._config = this._getConfig(data);
     this._setup();
-    Manipulator.setDataAttribute(this._element, `${this.constructor.NAME}-initialized`, true);
-    bindCallbackEventsIfNeeded(this.constructor);
   }
 
   // Getters
@@ -104,7 +100,6 @@ class Toast extends BSToast {
     EventHandler.off(this._element, EVENT_SHOWN_BS);
     EventHandler.off(this._element, EVENT_HIDE_BS);
     EventHandler.off(this._element, EVENT_HIDDEN_BS);
-    Manipulator.removeDataAttribute(this._element, `${this.constructor.NAME}-initialized`);
 
     super.dispose();
   }
@@ -134,7 +129,8 @@ class Toast extends BSToast {
       this._appendToBody();
     }
 
-    this._bindMdbEvents();
+    this._bindShownEvent();
+    this._bindHideEvent();
   }
 
   _setupStacking() {
@@ -238,13 +234,8 @@ class Toast extends BSToast {
         display: 'none',
       });
     });
-
     EventHandler.on(this._element, EVENT_SHOW_BS, () => {
-      const showEvent = EventHandler.trigger(this._element, EVENT_SHOW);
-
-      if (showEvent.defaultPrevented) {
-        return;
-      }
+      EventHandler.trigger(this._element, EVENT_SHOW);
 
       this._setupAlignment();
       Manipulator.style(this._element, {
@@ -253,8 +244,16 @@ class Toast extends BSToast {
     });
   }
 
-  _bindMdbEvents() {
-    EventHandler.extend(this._element, EXTENDED_EVENTS, NAME);
+  _bindShownEvent() {
+    EventHandler.on(this._element, EVENT_SHOWN_BS, () => {
+      EventHandler.trigger(this._element, EVENT_SHOWN);
+    });
+  }
+
+  _bindHideEvent() {
+    EventHandler.on(this._element, EVENT_HIDE_BS, () => {
+      EventHandler.trigger(this._element, EVENT_HIDE);
+    });
   }
 
   _getConfig(options) {
@@ -289,28 +288,40 @@ class Toast extends BSToast {
       instance._updatePosition();
     });
   }
-
-  // Static
-
-  static jQueryInterface(config, options = {}) {
-    return this.each(function () {
-      let data;
-
-      if (typeof config === 'object') {
-        data = new Toast(this, config);
-      } else {
-        data = Toast.getOrCreateInstance(this, config);
-      }
-
-      if (typeof config === 'string') {
-        if (typeof data[config] === 'undefined') {
-          throw new TypeError(`No method named "${config}"`);
-        }
-
-        data[config](options);
-      }
-    });
-  }
 }
+
+/**
+ * ------------------------------------------------------------------------
+ * Data Api implementation - auto initialization
+ * ------------------------------------------------------------------------
+ */
+
+SelectorEngine.find(SELECTOR_TOAST).forEach((toast) => {
+  let instance = Toast.getInstance(toast);
+  if (!instance) {
+    instance = new Toast(toast);
+  }
+  return instance;
+});
+
+/**
+ * ------------------------------------------------------------------------
+ * jQuery
+ * ------------------------------------------------------------------------
+ */
+
+onDOMContentLoaded(() => {
+  const $ = getjQuery();
+
+  if ($) {
+    const JQUERY_NO_CONFLICT = $.fn[NAME];
+    $.fn[NAME] = Toast.jQueryInterface;
+    $.fn[NAME].Constructor = Toast;
+    $.fn[NAME].noConflict = () => {
+      $.fn[NAME] = JQUERY_NO_CONFLICT;
+      return Toast.jQueryInterface;
+    };
+  }
+});
 
 export default Toast;

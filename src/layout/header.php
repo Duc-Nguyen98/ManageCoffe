@@ -14,6 +14,10 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" />
     <!-- MDB -->
     <link rel="stylesheet" href="css/mdb.min.css" />
+
+    <script type="text/javascript" src="js/mdb.min.js"></script>
+
+
     <style>
         body {
             background-color: #fbfbfb;

@@ -17,7 +17,6 @@ export function getWrapperTemplate(id, config, label) {
 
   const formOutline = element('div');
   Manipulator.addClass(formOutline, 'form-outline');
-  formOutline.setAttribute('data-mdb-input-init', '');
 
   if (config.formWhite) {
     Manipulator.addClass(formOutline, 'form-white');
@@ -58,7 +57,7 @@ export function getWrapperTemplate(id, config, label) {
   }
 
   if (config.validation) {
-    Manipulator.addStyle(input, { 'pointer-events': 'none', 'caret-color': 'transparent' });
+    Manipulator.addStyle(input, { 'pointer-events': 'none' });
     Manipulator.addStyle(formOutline, { cursor: 'pointer' });
   } else {
     input.setAttribute('readonly', 'true');
@@ -358,7 +357,7 @@ function createOptionGroupTemplate(optionGroup, config) {
 
 export function getFakeValueTemplate(value) {
   const fakeValue = element('div');
-  fakeValue.textContent = value;
+  fakeValue.innerHTML = value;
   Manipulator.addClass(fakeValue, 'form-label');
   Manipulator.addClass(fakeValue, 'select-fake-value');
 
