@@ -1,5 +1,5 @@
 <?php
-function getAccountRoleDescription($role)
+function getProductDescription($role)
 {
     switch ($role) {
         case 0:

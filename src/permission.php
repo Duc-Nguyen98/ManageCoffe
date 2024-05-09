@@ -1,5 +1,5 @@
 <?php include 'layout/header.php'; ?>
-<?php include 'utils/client/getAccountRoleBadgeClass.php'; ?>
+<?php include 'utils/getAccountRoleBadgeClass.php'; ?>
 
 <!--Main layout-->
 <main style="margin-top: 58px;">

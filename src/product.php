@@ -1,4 +1,7 @@
 <?php include 'layout/header.php'; ?>
+<?php include 'utils/formatCurrency.php'; ?>
+<?php include 'utils/getProductDescription.php'; ?>
+
 <!--Main layout-->
 <main style="margin-top: 58px;">
     <div class="container-fluid py-4 my-5">
@@ -17,47 +20,53 @@
                     <div class="card-body">
                         <table class="table align-middle mb-0 bg-white table-hover">
                             <thead class="bg-light">
-                                <tr>
+                                <tr class="text-start">
                                     <th>#</th>
                                     <th>ID Sản Phẩm</th>
                                     <th>Sản Phẩm</th>
                                     <th>Danh Mục</th>
                                     <th>Giá Nhập</th>
-                                    <th>Đơn Vị Tính</th>
                                     <th>Tồn Kho-*</th>
                                     <th>Trạng Thái</th>
+                                    <th>Ngày Tạo</th>
                                     <th>Lịch Sử Cập Nhật</th>
                                     <th>Hoạt Động</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td><b>ISP01</b></td>
+                            <?php
+                                //! Handle Data Query Table
+                                $rows = mysqli_query($conn, "SELECT * FROM product WHERE soft_delete = 0");
+                                $i = 1;
 
+                                while ($row = mysqli_fetch_assoc($rows)) {
+                                ?>
+                                    <tr id="<?= $row['id']; ?>" class="text-start fw-bold">
+                                        <td><?= $row['id']; ?></td>
+                                    <td><b>ISP<?= $row['id']; ?></b></td>
                                     <td>
-                                        <div class="d-flex align-items-center">
-                                            <img src="https://images.unsplash.com/photo-1551499779-ee50f1aa4d25?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" style="width: 45px; height: 45px" class="rounded-circle" />
-                                            <div class="ms-3">
-                                                <p class="fw-bold mb-1">Cà Phê Muối</p>
+                                    <div class="d-flex align-items-center">
+                                                <img src="<?= $row['image']; ?>" alt="" style="width: 45px; height: 45px" class="rounded-circle">
+                                                <div class="ms-3">
+                                                    <p class="fw-bold mb-1 text-capitalize"><?= $row['name']; ?></p>
+                                                    <p class="text-muted mb-0">*-<?= $row['slug']; ?></p>
+                                                </div>
                                             </div>
-                                        </div>
                                     </td>
                                     <td>
                                         Cà Phê
                                     </td>
                                     <td>
-                                        <b>500.000 đ</b>
-                                    </td>
-
-                                    <td>ml</td>
-                                    <td>
-                                        <a href="#" class="badge badge-primary rounded-pill">14</a>
+                                        <b><?= formatCurrency($row['purchase_price']); ?></b>
                                     </td>
                                     <td>
-                                        <span class="badge badge-success rounded-pill d-inline">Đang Hoạt Động</span>
+                                        <h4 href="#" class="badge badge-primary rounded-pill"><?= $row['inventory_count']; ?>/SL</h4>
                                     </td>
-                                    <td class="text-muted">10:20:30 - 03/05/2024</td>
+                                    <td>
+                                        <span class="badge badge-success rounded-pill d-inline">Còn hàng</span>
+                                    </td>
+                                    <td class="text-muted"><?= $row['created_at']; ?></td>
+                                    <td class="text-muted"><?= $row['update_at']; ?></td>
                                     <td>
                                         <a href="<?php echo $base_url; ?>controllers/product/view.php" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
                                             <i class="fas fa-eye fa-lg"></i>
@@ -70,7 +79,9 @@
                                         </button>
                                     </td>
                                 </tr>
-
+                                <?php };
+                                //! Handle Data Query Table
+                                ?>
                             </tbody>
                         </table>
                         <div class="my-3 d-flex justify-content-between align-items-center">
