@@ -683,6 +683,8 @@
 
 <!-- cdnChart -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
-<script type="text/javascript" src="js/mdb.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/Duc-Nguyen98/ManageCoffe/src/js/mdb.umd.min.js"></script>
+
+
 <?php include 'utils/chartIndex.php'; ?>
 <?php include 'layout/footer.php'; ?>
