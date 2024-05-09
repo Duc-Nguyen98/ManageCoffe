@@ -3,19 +3,20 @@
     const dataChartBarDoubleDatasetsExample = {
         type: 'bar',
         data: {
-            labels: ['Desktop', 'Mobile', 'Tablet'],
+            labels: ['Thứ hai', 'Thứ ba', 'Thứ tư', 'Thứ năm', 'Thứ sáu', 'Thứ bảy', 'Chủ nhật'],
             datasets: [{
-                label: 'Users',
-                data: [510, 653, 255],
+                label: 'Số lượng nhập',
+                data: [510, 653, 255, 510, 653, 255, 510],
             }, {
-                label: 'Page views',
-                data: [1251, 1553, 1355],
-                backgroundColor: '#94DFD7',
-                borderColor: '#94DFD7',
+                label: 'Số lượng xuất',
+                data: [1251, 1553, 1355, 1251, 1553, 1355, 1251],
+                backgroundColor: '#DC4C64',
+                borderColor: '#DC4C64',
             }, ],
         },
     };
 
+    // Options
     // Options
     const optionsChartBarDoubleDatasetsExample = {
         options: {
@@ -30,8 +31,25 @@
                     stacked: false,
                 },
             },
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            let label = context.dataset.label || '';
+                            if (label) {
+                                label += ': ';
+                            }
+                            if (context.parsed.y !== null) {
+                                label += context.parsed.y + ' SL';
+                            }
+                            return label;
+                        }
+                    }
+                }
+            }
         },
     };
+
 
     new mdb.Chart(
         document.getElementById('chart-bar-double-datasets-example'),
@@ -45,15 +63,15 @@
     const dataChartTooltipsFormattingExample = {
         type: 'bar',
         data: {
-            labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday '],
+            labels: ['Thứ hai', 'Thứ ba', 'Thứ tư', 'Thứ năm', 'Thứ sáu', 'Thứ bảy', 'Chủ nhật'],
             datasets: [{
-                    label: 'Impressions',
+                    label: 'Doanh thu theo tuần',
                     yAxisID: 'y',
                     data: [2112, 2343, 2545, 3423, 2365, 1985, 987],
                     order: 2,
                 },
                 {
-                    label: 'Impressions (absolute top) %',
+                    label: 'Tăng trưởng (phần trăm) %',
                     yAxisID: 'y1',
                     data: [1.5, 2, 0.5, 3, 1.2, 4, 3.4],
                     type: 'line',
@@ -70,26 +88,32 @@
     };
 
     // Options
+    // Options
     const optionsChartTooltipsFormattingExample = {
         options: {
-            scales: {
-                y: {
-                    display: true,
-                    position: 'left',
-                },
-                y1: {
-                    display: true,
-                    position: 'right',
-                    grid: {
-                        drawOnChartArea: false,
-                    },
-                    ticks: {
-                        beginAtZero: true,
-                    },
-                },
-            },
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            let label = context.dataset.label || '';
+                            if (label) {
+                                label += ': ';
+                            }
+                            if (context.dataset.label === 'Doanh thu theo tuần') {
+                                label += context.parsed.y + ' ₫'; // Đơn vị: Việt Nam đồng
+                            } else if (context.dataset.label === 'Tăng trưởng (phần trăm) %') {
+                                label += context.parsed.y + ' %'; // Đơn vị: %
+                            } else {
+                                label += context.parsed.y;
+                            }
+                            return label;
+                        }
+                    }
+                }
+            }
         },
     };
+
 
     new mdb.Chart(
         document.getElementById('chart-tooltips-formatting-example'),

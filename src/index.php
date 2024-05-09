@@ -4,22 +4,12 @@
 <main style="margin-top: 58px;">
 
     <div class="container-fluid py-4 my-5">
-        <div class="row"><select data-mdb-select-init>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-                <option value="4">Four</option>
-                <option value="5">Five</option>
-                <option value="6">Six</option>
-                <option value="7">Seven</option>
-                <option value="8">Eight</option>
-            </select>
-
+        <div class="row">
             <div class="col-3">
                 <div class="card bg-primary bg-gradient text-white">
                     <div class="card-body">
                         <h5 class="card-title">$0</h5>
-                        <p class="card-text">Thanh toán nhà cung cấp22</p>
+                        <p class="card-text">Thanh toán nhà cung cấp</p>
                     </div>
                     <a class="card-footer text-white text-center" href="#">Thêm thông tin <i class="fas fa-circle-right fa-lg"></i></a>
                 </div>
