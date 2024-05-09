@@ -11,8 +11,10 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
     <!-- MDB -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.2.0/mdb.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="./public/css/mdb.min.css" />
-    <script type="text/javascript" src="./public/js/mdb.umd.min.js"></script>
+
+    <link rel="stylesheet" href=" ../public/css/mdb.min.css" />
+
+    <script type="text/javascript" src="../public/js/mdb.umd.min.js"></script>
 
 
 

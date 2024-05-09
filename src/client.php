@@ -15,18 +15,7 @@
 
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-1 mb-3">
-                                <select data-mdb-select-init>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
-                                    <option value="4">Four</option>
-                                    <option value="5">Five</option>
-                                    <option value="6">Six</option>
-                                    <option value="7">Seven</option>
-                                    <option value="8">Eight</option>
-                                </select>
-                            </div>
+                            
                             <div class="col-md-3 mb-3">
                                 <div class="form-outline" data-mdb-input-init>
                                     <input type="text" id="form12" class="form-control" />
