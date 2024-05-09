@@ -15,7 +15,6 @@
     <!-- MDB -->
     <link rel="stylesheet" href="css/mdb.min.css" />
 
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script> -->
 
 
     <style>

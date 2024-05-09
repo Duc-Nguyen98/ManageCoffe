@@ -8,25 +8,35 @@
                 <div class="card text-center">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h5 class="card-title text-left mb-0">Bảng Quản Lý Tài Khoản - client</h5>
-                        <div class="exportAction">
-                            <a href="<?php echo $base_url; ?>controllers/client/create.php" class="btn btn-primary" data-mdb-ripple-init><i class="fas fa-folder-plus fa-lg"></i> Thêm Mới</a>
-                        </div>
+
                     </div>
 
                     <div class="card-body">
                         <div class="row">
-                            
                             <div class="col-md-3 mb-3">
-                                <div class="form-outline" data-mdb-input-init>
-                                    <input type="text" id="form12" class="form-control" />
-                                    <label class="form-label" for="form12">Tìm kiếm...</label>
+                                <div class="input-group">
+                                    <input type="search" class="form-control rounded" placeholder="Nhập từ khóa..." aria-label="Search" aria-describedby="search-addon" />
+                                    <button type="button" class="btn btn-outline-primary" data-mdb-ripple-init>Tìm kiếm</button>
                                 </div>
                             </div>
                             <div class="col-md-3 mb-3">
-                                <div class="form-outline" data-mdb-input-init>
-                                    <input type="text" id="form12" class="form-control" />
-                                    <label class="form-label" for="form12">Trạng Thái</label>
-                                </div>
+                                <select data-mdb-select-init multiple data-mdb-clear-button="true">
+                                    <option value="1">One</option>
+                                    <option value="2">Two</option>
+                                    <option value="3">Three</option>
+                                    <option value="4">Four</option>
+                                </select>
+                                <label class="form-label select-label">Vai Trò</label>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <select data-mdb-select-init multiple data-mdb-clear-button="true">
+                                    <option value="1">One</option>
+                                    <option value="2">Two</option>
+                                </select>
+                                <label class="form-label select-label">Trạng Thái</label>
+                            </div>
+                            <div class="col-md-3 mb-3 exportAction">
+                                <a href="<?php echo $base_url; ?>controllers/client/create.php" class="btn btn-primary" data-mdb-ripple-init><i class="fas fa-folder-plus fa-lg"></i> Thêm Mới</a>
                             </div>
                         </div>
                         <table class="table align-middle mb-0 bg-white table-hover">
@@ -136,4 +146,8 @@
 </main>
 <!--Main layout-->
 
+
+<!-- cdnChart -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+<script type="text/javascript" src="js/mdb.umd.min.js"></script>
 <?php include 'layout/footer.php'; ?>
