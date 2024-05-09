@@ -10,9 +10,6 @@
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h5 class="card-title text-left mb-0">Bảng Công Thức</h5>
                         <div class="exportAction">
-                            <button type="button" class="btn btn-success" data-mdb-ripple-init><i class="fas fa-file-excel fa-lg"></i> Excel</button>
-                            <button type="button" class="btn btn-danger" data-mdb-ripple-init><i class="far fa-file-pdf fa-lg"></i> PDF</button>
-                            <button type="button" class="btn btn-info" data-mdb-ripple-init> <i class="fas fa-file-arrow-up fa-lg"></i> Import</button>
                             <a href="<?php echo $base_url; ?>controllers/recipe/create.php" class="btn btn-primary" data-mdb-ripple-init><i class="fas fa-folder-plus fa-lg"></i> Thêm Mới</a>
                         </div>
                     </div>
