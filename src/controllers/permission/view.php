@@ -1,5 +1,4 @@
 <?php include '../../layout/header.php'; ?>
-<?php include '../utils/displayViewIcon.php'; ?>
 <!--Main layout-->
 
 <main style="margin-top: 58px;">
@@ -102,9 +101,8 @@
 
                             // Duyệt qua mảng dữ liệu và hiển thị vào bảng
                             foreach ($guard_name as $item) {
-                                echo '<tr>
-                                        <th scope="row"><i class="fas fa-business-time"></i> ' . $item['name'] . '</th>
-                                        <td>' . ($item['view'] == 0 ? '<i class="fas fa-check"></i>' : '-') . '</td>';
+                                echo '<tr><th scope="row"><i class="fas fa-business-time"></i> ' . $item['name'] . '</th>';
+                                echo isset($item['view']) ? '<td>' . ($item['view'] == 0 ? '<i class="fas fa-check"></i>' : '-') . '</td>' : '<td>-</td>';
                                 echo isset($item['create']) ? '<td>' . ($item['create'] == 0 ? '<i class="fas fa-check"></i>' : '-') . '</td>' : '<td>-</td>';
                                 echo isset($item['update']) ? '<td>' . ($item['update'] == 0 ? '<i class="fas fa-check"></i>' : '-') . '</td>' : '<td>-</td>';
                                 echo isset($item['delete']) ? '<td>' . ($item['delete'] == 0 ? '<i class="fas fa-check"></i>' : '-') . '</td>' : '<td>-</td>';
