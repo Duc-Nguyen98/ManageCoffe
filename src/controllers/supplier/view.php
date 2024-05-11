@@ -87,8 +87,11 @@
                                     <label class="form-label" for="form8Example3">Địa Chỉ </label>
                                 </div>
                             </div>
+                        </div>
+                        <hr />
+                        <div class="row">
                             <div class="col-4">
-                                <img src="<?=$image ?>" class="img-fluid rounded-circle" alt="Townhouses and Skyscrapers" />
+                                <img src="<?= $image ?>" style=" width: 150px; height: 150px;" class="img-fluid rounded-circle smaller-image img-thumbnail" alt="Townhouses and Skyscrapers" />
                             </div>
                         </div>
                         <div class="card-footer text-muted d-flex justify-content-between">
