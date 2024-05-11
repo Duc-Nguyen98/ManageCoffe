@@ -1,6 +1,8 @@
 <?php include 'layout/header.php'; ?>
 <?php include 'utils/formatCurrency.php'; ?>
 <?php include 'utils/getInventoryBadge.php'; ?>
+<?php include 'utils/getClassBadge.php'; ?>
+<?php include 'utils/barCode.php'; ?>
 
 <!--Main layout-->
 <main style="margin-top: 58px;">
@@ -9,7 +11,7 @@
             <div class="col-12">
                 <div class="card text-center">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="card-title text-left mb-0">Bảng Sản Phẩm - Nguyên Liệu</h5>
+                        <h5 class="card-title text-left mb-0">Bảng Sản Phẩm - Nguyên Liệu </h5>
                         <div class="exportAction">
                             <button type="button" class="btn btn-success" data-mdb-ripple-init><i class="fas fa-file-excel fa-lg"></i> Excel</button>
                             <button type="button" class="btn btn-danger" data-mdb-ripple-init><i class="far fa-file-pdf fa-lg"></i> PDF</button>
@@ -25,13 +27,14 @@
                                     <th>ID Sản Phẩm</th>
                                     <th>Sản Phẩm</th>
                                     <th>Danh Mục</th>
+                                    <th class="text-center">Mã Vạch</th>
                                     <th>Trạng Thái</th>
                                     <th>Tồn Kho-*</th>
                                     <th>Giá Nhập</th>
                                     <th>Hình Thức KD</th>
                                     <th>Ngày Tạo</th>
                                     <th>Lịch Sử Cập Nhật</th>
-                                    <th>Hoạt Động</th>
+                                    <th class="text-center">Hoạt Động</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -57,12 +60,16 @@
                                         <td>
                                             <?= $row['categories_name'] ?>
                                         </td>
+                                        <td class="text-center">
+                                            <?= generateBarcodeHTML($row['barcode'], $row['id']) ?>
+                                        </td>
                                         <td>
-                                            <?= getInventoryBadge($row['inventory_count']); ?>
+                                            <?= getClassBadge($row['inventory_count']); ?>
 
                                         </td>
                                         <td>
-                                            <h4 href="#" class="badge badge-primary rounded-pill"><?= $row['inventory_count']; ?>/SL</h4>
+                                            <!-- <h4 href="#" class="badge badge-primary rounded-pill"><?= $row['inventory_count']; ?>/SL</h4> -->
+                                            <?= getInventoryBadge($row['inventory_count']) ?>
                                         </td>
                                         <td>
                                             <b><?= formatCurrency($row['purchase_price']); ?></b>
@@ -74,8 +81,8 @@
                                         </td>
                                         <td class="text-muted"><?= $row['created_at']; ?></td>
                                         <td class="text-muted"><?= $row['update_at']; ?></td>
-                                        <td>
-                                            <a href="<?php echo $base_url; ?>controllers/product/view.php" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
+                                        <td class="text-center">
+                                            <a href="<?php echo $base_url; ?>controllers/product/view.php?id=<?= $row['id']; ?>" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
                                                 <i class="fas fa-eye fa-lg"></i>
                                             </a>
                                             <a href="<?php echo $base_url; ?>controllers/product/edit.php" class="btn btn-link btn-rounded btn-sm fw-bold bg-primary bg-gradient text-white" data-mdb-ripple-color="dark">
@@ -128,4 +135,8 @@
 </main>
 <!--Main layout-->
 
+<script>
+    JsBarcode(".barcode").init();
+</script>
+<script scr="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
 <?php include 'layout/footer.php'; ?>
