@@ -68,7 +68,7 @@
                                         </td>
                                         <td class="text-muted"><?= $row['update_at']; ?></td>
                                         <td>
-                                            <a href="<?php echo $base_url; ?>controllers/supplier/view.php" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
+                                            <a href="<?php echo $base_url; ?>controllers/supplier/view.php?id=<?= $row['id']; ?>" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
                                                 <i class="fas fa-eye fa-lg"></i>
                                             </a>
                                             <a href="<?php echo $base_url; ?>controllers/supplier/Edit.php" class="btn btn-link btn-rounded btn-sm fw-bold bg-primary bg-gradient text-white" data-mdb-ripple-color="dark">
@@ -122,4 +122,5 @@
 </main>
 <!--Main layout-->
 
+<script src="https://cdn.jsdelivr.net/gh/Duc-Nguyen98/ManageCoffe/src/js/mdb.umd.min.js"></script>
 <?php include 'layout/footer.php'; ?>

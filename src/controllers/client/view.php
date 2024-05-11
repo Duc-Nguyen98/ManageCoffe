@@ -1,5 +1,4 @@
 <?php include '../../layout/header.php'; ?>
-<?php include '../../utils/database.php'; ?>
 <!--Main layout-->
 
 <main style="margin-top: 58px;">
