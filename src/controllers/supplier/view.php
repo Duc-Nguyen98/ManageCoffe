@@ -87,6 +87,9 @@
                                     <label class="form-label" for="form8Example3">Địa Chỉ </label>
                                 </div>
                             </div>
+                            <div class="col-4">
+                                <img src="<?=$image ?>" class="img-fluid rounded-circle" alt="Townhouses and Skyscrapers" />
+                            </div>
                         </div>
                         <div class="card-footer text-muted d-flex justify-content-between">
                             <a href="<?= $base_url ?>supplier.php" type="button" class="btn btn-secondary me-2" data-mdb-ripple-init>Quay về</a>
