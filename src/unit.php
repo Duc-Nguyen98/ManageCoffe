@@ -23,6 +23,7 @@
                                     <th>Đơn vị tính</th>
                                     <th>Ký hiệu</th>
                                     <th>Mô tả</th>
+                                    <th>Ngày Tạo</th>
                                     <th>Lịch sử cập nhật</th>
                                     <th>Hành động</th>
                                 </tr>
@@ -51,9 +52,10 @@
                                                 <?= truncateText($row['note']); ?>
                                             </span>
                                         </td>
+                                        <td class="text-muted"><?= $row['created_at']; ?></td>
                                         <td class="text-muted"><?= $row['updated_at']; ?></td>
                                         <td>
-                                            <a href="<?php echo $base_url; ?>controllers/unit/view.php" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
+                                            <a href="<?php echo $base_url; ?>controllers/unit/view.php?id=<?= $row['id']; ?>" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
                                                 <i class="fas fa-eye fa-lg"></i>
                                             </a>
                                             <a href="<?php echo $base_url; ?>controllers/unit/edit.php" class="btn btn-link btn-rounded btn-sm fw-bold bg-primary bg-gradient text-white" data-mdb-ripple-color="dark">
