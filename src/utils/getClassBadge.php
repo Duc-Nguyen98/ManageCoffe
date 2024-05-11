@@ -6,10 +6,8 @@ function getClassBadge($inventory_count)
 
     if ($inventory_count == 0) {
         $badge_class = 'badge-danger';
-    } elseif ($inventory_count <= 50) {
-        $badge_class = 'badge-warning';
     } else {
-        $badge_class = 'badge-primary';
+        $badge_class = 'badge-warning';
     }
 
     return '<h4 class="badge ' . $badge_class . ' rounded-pill d-inline">' . $count . '/SL</h4>';

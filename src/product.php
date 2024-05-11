@@ -28,19 +28,35 @@
                                     <th>Sản Phẩm</th>
                                     <th>Danh Mục</th>
                                     <th class="text-center">Mã Vạch</th>
-                                    <th>Trạng Thái</th>
+                                    <th>Tổng Nhập</th>
+                                    <th>Tổng Xuất</th>
                                     <th>Tồn Kho-*</th>
+                                    <th>Tình Trạng</th>
                                     <th>Giá Nhập</th>
-                                    <th>Hình Thức KD</th>
-                                    <th>Ngày Tạo</th>
                                     <th>Lịch Sử Cập Nhật</th>
+                                    <th>Trạng Thái</th>
                                     <th class="text-center">Hoạt Động</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php
                                 //! Handle Data Query Table
-                                $rows = mysqli_query($conn, "SELECT product.*, product_categories.name AS categories_name FROM product JOIN product_categories ON product.idcategory = product_categories.id WHERE product.soft_delete = 0;
+                                $rows = mysqli_query($conn, "SELECT 
+                                product.*, 
+                                product_categories.name AS categories_name, 
+                                brands.name AS brands_name, 
+                                units.name AS units_name 
+                                FROM 
+                                    product 
+                                JOIN 
+                                    product_categories ON product.idcategory = product_categories.id 
+                                JOIN 
+                                    brands ON product.brand_id = brands.id 
+                                JOIN 
+                                    units ON product.unit_id = units.id 
+                                WHERE 
+                                    product.soft_delete = 0;
+                                ;
                                  ");
                                 $i = 1;
                                 while ($row = mysqli_fetch_assoc($rows)) {
@@ -64,23 +80,27 @@
                                             <?= generateBarcodeHTML($row['barcode'], $row['id']) ?>
                                         </td>
                                         <td>
-                                            <?= getClassBadge($row['inventory_count']); ?>
-
+                                        <h4 class="badge badge-secondary rounded-pill d-inline"><?= $row['inventory_import']?>/SL</h4>
                                         </td>
                                         <td>
-                                            <!-- <h4 href="#" class="badge badge-primary rounded-pill"><?= $row['inventory_count']; ?>/SL</h4> -->
-                                            <?= getInventoryBadge($row['inventory_count']) ?>
+                                            <h4 class="badge badge-secondary rounded-pill d-inline"><?= $row['inventory_export']?>/SL</h4>
                                         </td>
+                                        <td>
+                                            <?= getInventoryBadge($row['inventory_import'] - $row['inventory_export']) ?>
+                                        </td>
+                                        <td>
+                                            <?= getInventoryText($row['inventory_import'] - $row['inventory_export']) ?>
+                                        </td>
+
                                         <td>
                                             <b><?= formatCurrency($row['purchase_price']); ?></b>
                                         </td>
+                                        <td class="text-muted"><?= $row['update_at']; ?></td>
                                         <td>
                                             <span class="badge <?= $row['status'] == 0 ? 'badge-success' : 'badge-danger'; ?> rounded-pill d-inline">
                                                 <?= $row['status'] == 0 ? 'Đang hợp tác' : 'Tạm ngừng hợp tác'; ?>
                                             </span>
                                         </td>
-                                        <td class="text-muted"><?= $row['created_at']; ?></td>
-                                        <td class="text-muted"><?= $row['update_at']; ?></td>
                                         <td class="text-center">
                                             <a href="<?php echo $base_url; ?>controllers/product/view.php?id=<?= $row['id']; ?>" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
                                                 <i class="fas fa-eye fa-lg"></i>
