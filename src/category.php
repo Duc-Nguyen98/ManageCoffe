@@ -59,7 +59,7 @@
                                         </td>
                                         <td class="text-muted"><?= $row['updated_at']; ?></td>
                                         <td>
-                                            <a href="<?php echo $base_url; ?>controllers/category/view.php" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
+                                            <a href="<?php echo $base_url; ?>controllers/category/view.php?id=<?= $row['id']; ?>" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
                                                 <i class="fas fa-eye fa-lg"></i>
                                             </a>
                                             <a href="<?php echo $base_url; ?>controllers/category/edit.php" class="btn btn-link btn-rounded btn-sm fw-bold bg-primary bg-gradient text-white" data-mdb-ripple-color="dark">

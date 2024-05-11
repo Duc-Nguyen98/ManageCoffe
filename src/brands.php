@@ -23,7 +23,7 @@
                                     <th>ID Thương Hiệu</th>
                                     <th>Tên Thương Hiệu</th>
                                     <th>Mô Tả</th>
-                                    <th>Trạng Thái</th>
+                                    <th>Ngày Tạo</th>
                                     <th>Lịch Sử Cập Nhật</th>
                                     <th>Hoạt Động</th>
                                 </tr>
@@ -53,15 +53,10 @@
                                                 <?= truncateText($row['note']); ?>
                                             </span>
                                         </td>
-                                        <td>
-                                            <span class="badge <?= $row['status'] == 0 ? 'badge-success' : 'badge-danger'; ?> rounded-pill d-inline">
-                                                <?= $row['status'] == 0 ? 'Đang hợp tác' : 'Tạm ngừng hợp tác'; ?>
-                                            </span>
-
-                                        </td>
+                                        <td class="text-muted"><?= $row['created_at']; ?></td>
                                         <td class="text-muted"><?= $row['update_at']; ?></td>
                                         <td>
-                                            <a href="<?php echo $base_url; ?>controllers/brands/view.php" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
+                                            <a href="<?php echo $base_url; ?>controllers/brands/view.php?id=<?= $row['id']; ?>" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
                                                 <i class="fas fa-eye fa-lg"></i>
                                             </a>
                                             <a href="<?php echo $base_url; ?>controllers/brands/edit.php" class="btn btn-link btn-rounded btn-sm fw-bold bg-primary bg-gradient text-white" data-mdb-ripple-color="dark">
