@@ -10,7 +10,7 @@ function formatListRecipe($jsonString) {
       $count = 0;
       foreach ($recipeArray as $ingredient) {
           // Tạo chuỗi cho mỗi nguyên liệu
-          $formattedText .= '- ' . ucfirst($ingredient['ingredient']) . ': ' . $ingredient['quantity'] . '<br>';
+          $formattedText .= '- ' . ucfirst($ingredient['ingredient']) . ': ' . $ingredient['quantity'] . $ingredient['unit'] . '<br>';
           
           // Tăng biến đếm
           $count++;

@@ -22,7 +22,8 @@
                                     <th>ID Công Thức</th>
                                     <th>Tên Công Thức</th>
                                     <th>Thành Phần</th>
-                                    <th>Mô Tả</th>
+                                    <th>Tác Giả</th>
+                                    <th>Ngày Tạo</th>
                                     <th>Lịch Sử Cập Nhật</th>
                                     <th>Hoạt Động</th>
                                 </tr>
@@ -55,14 +56,11 @@
                                         <td>
                                             <?= formatListRecipe($row['list_recipe']) ?>
                                         </td>
-                                        <td>
-                                            <span data-mdb-ripple-init data-mdb-tooltip-init data-mdb-placement="bottom" title="<?= $row['note'] ?>">
-                                                <?= truncateText($row['note']); ?>
-                                            </span>
-                                        </td>
+                                        <td><?= $row['created_by']; ?></td>
+                                        <td class="text-muted"><?= $row['created_at']; ?></td>
                                         <td class="text-muted"><?= $row['updated_at']; ?></td>
                                         <td>
-                                            <a href="<?php echo $base_url; ?>controllers/recipe/view.php" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
+                                            <a href="<?php echo $base_url; ?>controllers/recipe/view.php?id=<?= $row['id']; ?>" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
                                                 <i class="fas fa-eye fa-lg"></i>
                                             </a>
                                             <a href="<?php echo $base_url; ?>controllers/recipe/edit.php" class="btn btn-link btn-rounded btn-sm fw-bold bg-primary bg-gradient text-white" data-mdb-ripple-color="dark">
