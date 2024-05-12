@@ -1,5 +1,6 @@
 <?php include 'layout/header.php'; ?>
 <?php include 'utils/getAccountRoleBadgeClass.php'; ?>
+<?php include '../src/controllers/client/script.php'; ?>
 
 
 <!--Main layout-->
@@ -15,15 +16,19 @@
 
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-3 mb-3">
-                                <div class="input-group">
-                                    <input type="search" class="form-control rounded" placeholder="Nhập từ khóa..." aria-label="Search" aria-describedby="search-addon" />
-                                    <button type="button" class="btn btn-outline-primary" data-mdb-ripple-init>Tìm kiếm</button>
+                            <div class="row">
+                                <div class="col-md-3 mb-3">
+                                    <div class="input-group">
+                                        <input type="search" class="form-control rounded" placeholder="Nhập từ khóa..." aria-label="Search" aria-describedby="search-addon" />
+                                        <button type="button" class="btn btn-outline-primary" data-mdb-ripple-init>Tìm kiếm</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3"></div> <!-- Thêm một cột trống để căn chỉnh -->
+                                <div class="col-md-3 mb-3 d-flex justify-content-end">
+                                    <a href="<?php echo $base_url; ?>controllers/client/create.php" class="btn btn-primary ms-auto" data-mdb-ripple-init><i class="fas fa-folder-plus fa-lg"></i> Thêm Mới</a>
                                 </div>
                             </div>
-                            <div class="col-md-3 mb-3 exportAction">
-                                <a href="<?php echo $base_url; ?>controllers/client/create.php" class="btn btn-primary" data-mdb-ripple-init><i class="fas fa-folder-plus fa-lg"></i> Thêm Mới</a>
-                            </div>
+
                         </div>
                         <table class="table align-middle mb-0 bg-white table-hover">
                             <thead class="bg-light">
@@ -73,12 +78,10 @@
                                             <a href="<?php echo $base_url; ?>controllers/client/view.php?id=<?= $row['id']; ?>" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
                                                 <i class="fas fa-eye fa-lg"></i>
                                             </a>
-
                                             <a href="<?php echo $base_url; ?>controllers/client/edit.php?id=<?= $row['id']; ?>" class="btn btn-link btn-rounded btn-sm fw-bold bg-primary bg-gradient text-white" data-mdb-ripple-color="dark">
                                                 <i class="fas fa-marker fa-lg"></i>
-
                                             </a>
-                                            <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-danger bg-gradient text-white" data-mdb-ripple-color="dark"  onclick="submitData(<?php echo $row['id']; ?>);">
+                                            <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-danger bg-gradient text-white" data-mdb-ripple-color="dark" onclick="submitData(<?php echo $row['id']; ?>);">
                                                 <i class="fas fa-recycle fa-lg"></i>
                                             </button>
                                         </td>

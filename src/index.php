@@ -8,8 +8,33 @@
             <div class="col-3">
                 <div class="card bg-primary bg-gradient text-white">
                     <div class="card-body">
-                        <h5 class="card-title">$0</h5>
-                        <p class="card-text">Thanh toán nhà cung cấp</p>
+                        <?php
+                        // Thực hiện truy vấn SQL để lấy tổng inventory_import
+                        $query = "SELECT 
+                            DATE(update_at) AS ngay,
+                            SUM(inventory_import) AS total_inventory_day
+                        FROM 
+                            product
+                        WHERE
+                            DATE(update_at) = CURDATE() -- Lọc theo ngày hiện tại
+                        GROUP BY 
+                            DATE(update_at);
+                        ";
+                        $result = mysqli_query($conn, $query);
+
+                        // Kiểm tra và lấy giá trị tổng nếu có kết quả trả về
+                        if ($result && mysqli_num_rows($result) > 0) {
+                            $row = mysqli_fetch_assoc($result);
+                            $total_inventory_day = $row['total_inventory_day'];
+                        } else {
+                            // Xử lý trường hợp không có kết quả trả về
+                            $total_inventory_day = 0;
+                        }
+                        ?>
+
+                        <h6 class="card-title text-uppercase">nguyên liệu đã nhập trong ngày - tuần - tháng</h6>
+                        <p class="card-text"><?= $total_inventory_day ?>/SP</p>
+
                     </div>
                     <a class="card-footer text-white text-center" href="#">Thêm thông tin <i class="fas fa-circle-right fa-lg"></i></a>
                 </div>
@@ -17,8 +42,8 @@
             <div class="col-3">
                 <div class="card bg-danger bg-gradient text-white">
                     <div class="card-body">
-                        <h5 class="card-title">$0</h5>
-                        <p class="card-text">Thanh toán nhà cung cấp</p>
+                        <h6 class="card-title text-uppercase">nguyên liệu đã nhập trong ngày - tuần - tháng</h6>
+                        <p class="card-text"><?= $total_inventory_import ?>/SP</p>
                     </div>
                     <a class="card-footer text-white text-center" href="#">Thêm thông tin <i class="fas fa-circle-right fa-lg"></i></a>
 
@@ -27,8 +52,8 @@
             <div class="col-3">
                 <div class="card bg-success bg-gradient text-white">
                     <div class="card-body">
-                        <h5 class="card-title">$0</h5>
-                        <p class="card-text">Thanh toán nhà cung cấp</p>
+                        <h6 class="card-title text-uppercase">3. Có bao nhiêu nguyên liệu trong kho</h6>
+                        <p class="card-text"><?= $total_inventory_import ?>/SP</p>
                     </div>
                     <a class="card-footer text-white text-center" href="#">Thêm thông tin <i class="fas fa-circle-right fa-lg"></i></a>
 
@@ -37,8 +62,8 @@
             <div class="col-3">
                 <div class="card bg-info bg-gradient text-white">
                     <div class="card-body">
-                        <h5 class="card-title">$0</h5>
-                        <p class="card-text">Thanh toán nhà cung cấp</p>
+                        <h6 class="card-title text-uppercase">4. Có bao nhiêu nguyên liệu sắp hết</h6>
+                        <p class="card-text"><?= $total_inventory_import ?>/SP</p>
                     </div>
                     <a class="card-footer text-white text-center" href="#">Thêm thông tin <i class="fas fa-circle-right fa-lg"></i></a>
 
@@ -428,100 +453,67 @@
             </div>
             <div class="col-5">
                 <div class="card text-left">
-                    <div class="card-header"> Top 5 nguyên liệu nhập (2024)
+                    <div class="card-header"> Top 5 nguyên liệu bán chạy (2024)
                     </div>
                     <div class="card-body">
                         <table class="table align-middle mb-0 bg-white table-hover">
                             <thead class="bg-light">
                                 <tr>
                                     <th>#</th>
-                                    <th>Name</th>
-                                    <th>Title</th>
-                                    <th>Money</th>
+                                    <th>Nguyên Liệu</th>
+                                    <th class="text-center"> SL Nhập</th>
+                                    <th class="text-center"> SL Xuất</th>
+                                    <th>Danh Thu </th>
 
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <img src="https://mdbootstrap.com/img/new/avatars/6.jpg" alt="" style="width: 45px; height: 45px" class="rounded-circle" />
-                                            <div class="ms-3">
-                                                <p class="fw-bold mb-1">Cà phê chồn</p>
-                                                <p class="text-muted mb-0">Cà phê</p>
+                                <?php
+                                //! Handle Data Query Table
+
+                                include 'utils/formatCurrency.php';
+
+
+                                //! Handle Data Query Table
+                                $rows = mysqli_query($conn, "SELECT *, product_categories.name AS categories_name 
+                                    FROM product 
+                                    JOIN product_categories ON product.idcategory = product_categories.id
+                                    ORDER BY inventory_export DESC
+                                    LIMIT 5;
+                                    ;
+                                    ");
+                                $i = 1;
+                                while ($row = mysqli_fetch_assoc($rows)) {
+                                ?>
+                                    <tr>
+                                        <td id="<?= $row['id']; ?>"><b><?= $i ?></b></td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img src="<?= $row['image'];  ?>" alt="" style="width: 45px; height: 45px" class="rounded-circle" />
+                                                <div class="ms-3">
+                                                    <p class="fw-bold mb-1"><?= $row['name'];  ?></p>
+                                                    <p class="text-muted mb-0"><?= $row['categories_name'];  ?></p>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <span class="badge badge-success rounded-pill d-inline">Active</span>
-                                    </td>
-                                    <td>$100000</td>
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <img src="https://mdbootstrap.com/img/new/avatars/6.jpg" alt="" style="width: 45px; height: 45px" class="rounded-circle" />
-                                            <div class="ms-3">
-                                                <p class="fw-bold mb-1">Cà phê chồn</p>
-                                                <p class="text-muted mb-0">Cà phê</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <span class="badge badge-success rounded-pill d-inline">Active</span>
-                                    </td>
-                                    <td>$100000</td>
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <img src="https://mdbootstrap.com/img/new/avatars/6.jpg" alt="" style="width: 45px; height: 45px" class="rounded-circle" />
-                                            <div class="ms-3">
-                                                <p class="fw-bold mb-1">Cà phê chồn</p>
-                                                <p class="text-muted mb-0">Cà phê</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <span class="badge badge-success rounded-pill d-inline">Active</span>
-                                    </td>
-                                    <td>$100000</td>
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <img src="https://mdbootstrap.com/img/new/avatars/6.jpg" alt="" style="width: 45px; height: 45px" class="rounded-circle" />
-                                            <div class="ms-3">
-                                                <p class="fw-bold mb-1">Cà phê chồn</p>
-                                                <p class="text-muted mb-0">Cà phê</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <span class="badge badge-success rounded-pill d-inline">Active</span>
-                                    </td>
-                                    <td>$100000</td>
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <img src="https://mdbootstrap.com/img/new/avatars/6.jpg" alt="" style="width: 45px; height: 45px" class="rounded-circle" />
-                                            <div class="ms-3">
-                                                <p class="fw-bold mb-1">Cà phê chồn</p>
-                                                <p class="text-muted mb-0">Cà phê</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <span class="badge badge-success rounded-pill d-inline">Active</span>
-                                    </td>
-                                    <td>$100000</td>
-                                </tr>
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="badge badge-primary rounded-pill d-inline"><?= $row['inventory_import'];  ?></span>
+                                        </td>
+                                        <td class="text-center">
+                                            <span class=" badge badge-danger rounded-pill d-inline"><?= $row['inventory_export'];  ?></span>
+                                        </td>
+                                        <td><b>
+                                                <?php
+                                                // Sử dụng hàm formatCurrency() tại đây
+                                                echo formatCurrency(($row['inventory_export'] * $row['purchase_price']));
+                                                ?>
+                                            </b></td>
+                                    </tr>
+                                <?php
+                                    $i++;
+                                }
+                                //! Handle Data Query Table
+                                ?>
 
                             </tbody>
                         </table>
@@ -684,7 +676,6 @@
 <!-- cdnChart -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/Duc-Nguyen98/ManageCoffe/src/js/mdb.umd.min.js"></script>
-
 
 <?php include 'utils/chartIndex.php'; ?>
 <?php include 'layout/footer.php'; ?>
