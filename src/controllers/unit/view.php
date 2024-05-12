@@ -34,54 +34,42 @@
                         $name = $row["name"];
                         $symbol = $row["symbol"];
                         $note = $row["note"];
-                        $status     = $row["status"];
                         $created_at    = $row["created_at"];
                         $updated_at = $row["updated_at"];
 
                 ?>
                         <div class="row">
-                            <div class="col-4">
+                            <div class="col-3">
                                 <!-- Email input -->
                                 <div data-mdb-input-init class="form-outline">
                                     <input type="email" id="form8Example2" class="form-control active" value="<?= $name ?>" />
                                     <label class="form-label" for="form8Example<?= $value ?>">Nhà Cung Cấp</label>
                                 </div>
                             </div>
-                            <div class="col-4">
+                            <div class="col-3">
                                 <!-- Name input -->
                                 <div class="form-outline" data-mdb-input-init>
                                     <input type="email" id="typeEmail" class="form-control active" value="<?= $symbol ?>" />
                                     <label class="form-label" for="text">Số Điện Thoại </label>
                                 </div>
                             </div>
-                            <div class="col-4">
-                                <!-- Last name input -->
-                                <!-- Last name input -->
-                                <div data-mdb-input-init class="form-outline">
-                                    <input type="text" id="form8Example4" class="form-control active" value="<?= ($status == 0 ? " Đang hợp tác	" : "Tạm dừng hợp tác") ?>" />
-                                    <label class="form-label" for="form8Example4">Trạng Thái</label>
-                                </div>
-                            </div>
-                        </div>
-                        <hr />
-                        <div class="row">
-                            <div class="col-4">
+
+                            <div class="col-3">
                                 <!-- First name input -->
                                 <div data-mdb-input-init class="form-outline">
                                     <input type="text" id="form8Example3" class="form-control active" value="<?= $created_at ?>" />
                                     <label class="form-label" for="form8Example3">Ngày Tạo</label>
                                 </div>
                             </div>
-                            <div class="col-4">
+                            <div class="col-3">
                                 <!-- First name input -->
                                 <div data-mdb-input-init class="form-outline">
                                     <input type="text" id="form8Example3" class="form-control active" value="<?= $updated_at ?>" />
                                     <label class="form-label" for="form8Example3">Lịch Sử Cập Nhật</label>
                                 </div>
                             </div>
-
                         </div>
-                        <hr/>
+                        <hr />
                         <div class="row">
                             <div class="col-12">
                                 <!-- Name input -->

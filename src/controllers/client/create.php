@@ -11,7 +11,7 @@
     <div class="container-fluid py-4 my-5">
         <div class="card text-center">
             <div class="card-header text-start">
-                <h5>Cập nhật thông tin chi tiết - #IAC </h5>
+                <h5>Tạo mới thông tin chi tiết - #IAC </h5>
             </div>
             <div class="card-body">
 
@@ -102,7 +102,7 @@
                     <div class="card-footer text-muted d-flex justify-content-between">
                         <a href="<?php echo $base_url; ?>client.php" type="button" class="btn btn-secondary me-2" data-mdb-ripple-init>Quay về</a>
                         <div class="d-flex">
-                            <button id="btnLuuThayDoi" type="button" class="btn btn-primary me-2" data-mdb-ripple-init onclick="submitData('insert')">Lưu thay đổi</button>
+                            <button id="btnLuuThayDoi" type="button" class="btn btn-primary me-2" data-mdb-ripple-init onclick="submitData2('insert')">Lưu thay đổi</button>
                         </div>
                     </div>
 
@@ -111,6 +111,24 @@
         </div>
     </div>;
 </main>
+
+<script>
+    function submitData2(action) {
+        var name = document.getElementById("name").value;
+        var email = document.getElementById("email").value;
+        var account_role = document.getElementById("account_role").value;
+        var is_active = document.getElementById("is_active").value;
+        var password = document.getElementById("password").value;
+
+  
+
+        if (name === '' || email === '' || account_role === '' || is_active === ''|| password === '') {
+            alert("Vui lòng điền đầy đủ thông tin.");
+        } else{
+            submitData('insert');
+        }
+    }
+</script>
 
 
 
