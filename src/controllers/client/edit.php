@@ -149,9 +149,6 @@
         var email = document.getElementById("email").value;
         var account_role = document.getElementById("account_role").value;
         var is_active = document.getElementById("is_active").value;
-
-  
-
         if (name === '' || email === '' || account_role === '' || is_active === '') {
             alert("Vui lòng điền đầy đủ thông tin.");
         } else{
