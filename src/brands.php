@@ -37,7 +37,7 @@
                                 while ($row = mysqli_fetch_assoc($rows)) {
                                 ?>
                                     <tr id="<?= $row['id']; ?>" class="text-start fw-bold">
-                                        <td><?= $row['id']; ?></td>
+                                        <td><?= $i++ ?></td>
                                         <td>IDB<?= $row['id']; ?></td>
                                         <td>
                                             <div class="d-flex align-items-center">
@@ -59,7 +59,7 @@
                                             <a href="<?php echo $base_url; ?>controllers/brands/view.php?id=<?= $row['id']; ?>" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
                                                 <i class="fas fa-eye fa-lg"></i>
                                             </a>
-                                            <a href="<?php echo $base_url; ?>controllers/brands/edit.php" class="btn btn-link btn-rounded btn-sm fw-bold bg-primary bg-gradient text-white" data-mdb-ripple-color="dark">
+                                            <a href="<?php echo $base_url; ?>controllers/brands/edit.php?id=<?= $row['id']; ?>" class="btn btn-link btn-rounded btn-sm fw-bold bg-primary bg-gradient text-white" data-mdb-ripple-color="dark">
                                                 <i class="fas fa-marker fa-lg"></i>
                                             </a>
                                             <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-danger bg-gradient text-white" data-mdb-ripple-color="dark">
@@ -108,5 +108,6 @@
     </div>
 </main>
 <!--Main layout-->
+
 
 <?php include 'layout/footer.php'; ?>
