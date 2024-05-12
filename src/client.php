@@ -1,5 +1,7 @@
 <?php include 'layout/header.php'; ?>
 <?php include 'utils/getAccountRoleBadgeClass.php'; ?>
+
+
 <!--Main layout-->
 <main style="margin-top: 58px;">
     <div class="container-fluid py-4 my-5">
@@ -81,8 +83,6 @@
                                             </div>
 
                                         </td>
-
-
                                         <td class="text-muted"><?= $row['created_at']; ?></td>
                                         <td class="text-muted"><?= $row['updated_at']; ?></td>
                                         <td>
@@ -94,7 +94,7 @@
                                                 <i class="fas fa-marker fa-lg"></i>
 
                                             </a>
-                                            <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-danger bg-gradient text-white" data-mdb-ripple-color="dark" value="<?= $row['id']; ?>">
+                                            <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-danger bg-gradient text-white" data-mdb-ripple-color="dark"  onclick="submitData(<?php echo $row['id']; ?>);">
                                                 <i class="fas fa-recycle fa-lg"></i>
                                             </button>
                                         </td>
@@ -150,6 +150,5 @@
 
 
 <!-- cdnChart -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/Duc-Nguyen98/ManageCoffe/src/js/mdb.umd.min.js"></script>
 <?php include 'layout/footer.php'; ?>
