@@ -88,7 +88,7 @@
                                                 <i class="fas fa-eye fa-lg"></i>
                                             </a>
 
-                                            <a href="<?php echo $base_url; ?>controllers/client/edit.php" class="btn btn-link btn-rounded btn-sm fw-bold bg-primary bg-gradient text-white" data-mdb-ripple-color="dark">
+                                            <a href="<?php echo $base_url; ?>controllers/client/edit.php?id=<?= $row['id']; ?>" class="btn btn-link btn-rounded btn-sm fw-bold bg-primary bg-gradient text-white" data-mdb-ripple-color="dark">
                                                 <i class="fas fa-marker fa-lg"></i>
 
                                             </a>
