@@ -21,22 +21,6 @@
                                     <button type="button" class="btn btn-outline-primary" data-mdb-ripple-init>Tìm kiếm</button>
                                 </div>
                             </div>
-                            <div class="col-md-3 mb-3">
-                                <select data-mdb-select-init multiple data-mdb-clear-button="true">
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
-                                    <option value="4">Four</option>
-                                </select>
-                                <label class="form-label select-label">Vai Trò</label>
-                            </div>
-                            <div class="col-md-3 mb-3">
-                                <select data-mdb-select-init multiple data-mdb-clear-button="true">
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                </select>
-                                <label class="form-label select-label">Trạng Thái</label>
-                            </div>
                             <div class="col-md-3 mb-3 exportAction">
                                 <a href="<?php echo $base_url; ?>controllers/client/create.php" class="btn btn-primary" data-mdb-ripple-init><i class="fas fa-folder-plus fa-lg"></i> Thêm Mới</a>
                             </div>
