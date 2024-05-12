@@ -55,8 +55,8 @@
                                 while ($row = mysqli_fetch_assoc($rows)) {
                                 ?>
                                     <tr id="<?= $row['id']; ?>" class="text-start fw-bold">
-                                        <td><?= $row['id']; ?></td>
-                                        <td><b>IAC<?= $row['id']; ?></b></td>
+                                        <td><?= $i++ ?></td>
+                                        <td><b>IAC<?= $row['id'] ?></b></td>
                                         <td>
                                             <span class="badge <?= getAccountRoleBadgeClass($row['account_role']); ?> rounded-pill d-inline">
                                                 <?= $row['role_name'] ?>
@@ -84,6 +84,7 @@
                                             <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-danger bg-gradient text-white" data-mdb-ripple-color="dark" onclick="submitData(<?php echo $row['id']; ?>);">
                                                 <i class="fas fa-recycle fa-lg"></i>
                                             </button>
+
                                         </td>
                                     </tr>
                                 <?php };

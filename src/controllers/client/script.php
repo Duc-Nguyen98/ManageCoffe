@@ -9,6 +9,7 @@
                 name: $("#name").val(),
                 email: $("#email").val(),
                 note: $("#note").val(),
+                password: $("#password").val(),
                 account_role: $("#account_role").val(),
                 is_active: $("#is_active").val(),
             };
