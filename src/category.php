@@ -30,7 +30,7 @@
                             <tbody>
                                 <?php
                                 //! Handle Data Query Table
-                                $rows = mysqli_query($conn, "SELECT * FROM product_categories WHERE soft_delete = 0");
+                                $rows = mysqli_query($conn, "SELECT * FROM product_categories WHERE soft_delete = 0 ORDER BY id DESC");
                                 $i = 1;
 
                                 while ($row = mysqli_fetch_assoc($rows)) {
@@ -62,7 +62,7 @@
                                             <a href="<?php echo $base_url; ?>controllers/category/view.php?id=<?= $row['id']; ?>" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
                                                 <i class="fas fa-eye fa-lg"></i>
                                             </a>
-                                            <a href="<?php echo $base_url; ?>controllers/category/edit.php" class="btn btn-link btn-rounded btn-sm fw-bold bg-primary bg-gradient text-white" data-mdb-ripple-color="dark">
+                                            <a href="<?php echo $base_url; ?>controllers/category/edit.php?id=<?= $row['id']; ?>" class="btn btn-link btn-rounded btn-sm fw-bold bg-primary bg-gradient text-white" data-mdb-ripple-color="dark">
                                                 <i class="fas fa-marker fa-lg"></i>
 
                                             </a>

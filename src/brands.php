@@ -31,7 +31,7 @@
                             <tbody>
                                 <?php
                                 //! Handle Data Query Table
-                                $rows = mysqli_query($conn, "SELECT * FROM brands WHERE soft_delete = 0");
+                                $rows = mysqli_query($conn, "SELECT * FROM brands WHERE soft_delete = 0 ORDER BY id DESC");
                                 $i = 1;
 
                                 while ($row = mysqli_fetch_assoc($rows)) {

@@ -9,6 +9,7 @@
                 name: $("#name").val(),
                 slug: $("#slug").val(),
                 note: $("#note").val(),
+                status: $("#status").val(),
 
             };
 
