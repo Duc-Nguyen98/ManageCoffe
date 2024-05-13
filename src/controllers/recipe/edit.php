@@ -1,4 +1,6 @@
 <?php include '../../layout/header.php'; ?>
+<?php require 'script.php'; ?>
+
 <!--Main layout-->
 
 <main style="margin-top: 58px;">
@@ -57,7 +59,6 @@
                     <a href="<?php echo $base_url; ?>recipe.php" type="button" class="btn btn-secondary me-2" data-mdb-ripple-init>Quay về</a>
                     <div class="d-flex">
                         <button type="button" class="btn btn-primary me-2" data-mdb-ripple-init>Lưu thay đổi</button>
-                        <button type="button" class="btn btn-secondary" data-mdb-ripple-init onclick="resetInputs()">Đặt lại</button>
                     </div>
                 </div>
 
