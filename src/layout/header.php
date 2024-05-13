@@ -7,7 +7,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <title>HNMU Coffe</title>
     <!-- MDB icon -->
-    <link rel="icon" href="https://cdn.haitrieu.com/wp-content/uploads/2021/11/Logo-DH-Thu-Do-Ha-Noi-HNMU.png"
+    <link rel="icon" href="https://i.pinimg.com/736x/b3/49/28/b3492812df22600add213540ad43a53a.jpg"
         type="image/x-icon" />
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
@@ -264,7 +264,7 @@
 
                 <!-- Brand -->
                 <a class="navbar-brand d-flex align-items-center mx-3" href="<?php echo $base_url; ?>index.php">
-                    <img src="https://cdn.haitrieu.com/wp-content/uploads/2021/11/Logo-DH-Thu-Do-Ha-Noi-HNMU.png" style="width: 45px;height: 45px;" alt="HNMU Logo" loading="lazy" />
+                    <img src="https://i.pinimg.com/736x/b3/49/28/b3492812df22600add213540ad43a53a.jpg" style="width: 45px;height: 45px;" alt="HNMU Logo" loading="lazy" />
                     <h4 class="text-muted mb-0 ms-2"><b>HNMU Coffee</b></h4>
                 </a>
 
