@@ -44,7 +44,20 @@
                         $i = 1;
 
                         while ($row = mysqli_fetch_assoc($rows)) {
+                            $total_sale_price = $row['total_sale_price']; // Giá trị tổng của các sản phẩm
+                            $transport = $row['transport']; // Phí vận chuyển
+                            $discount_percentage = $row['discount']; // Phần trăm giảm giá (ví dụ: 30%)
+
+                            // Tính tổng giá trị hóa đơn
+                            $total_invoice_value = $total_sale_price + $transport;
+
+                            // Tính giảm giá phần trăm
+                            $discount_amount = ($total_invoice_value * $discount_percentage) / 100;
+
+                            // Tính giá trị cuối cùng
+                            $final_value = $total_invoice_value - $discount_amount;
                             ?>
+                            
                             <tr id="<?= $row['id']; ?>" class="text-start fw-bold">
                                 <td><?= $i++ ?></td>
 
@@ -59,10 +72,10 @@
                                 </td>
                                 <td>
                                     <p class="fw-normal mb-1"><b><span class="text-primary">-
-                                                <?= ($row['discount']) * 100 ?>% </span></b></p>
+                                                <?= $row['discount'] ?>% </span></b></p>
                                 </td>
                                 <td>
-                                    <p class="fw-normal mb-1"><b> <?= formatCurrency(($row['total_sale_price'] +  $row['transport'])-(($row['discount']) * 100)) ?> </b></p>
+                                    <p class="fw-normal mb-1"><b> <?= formatCurrency($final_value) ?> </b></p>
                                 </td>
                                 <td class="text-muted"><?= $row['created_at']; ?></td>
                                 <td>
@@ -73,16 +86,6 @@
                                 </td>
                                 <td class="text-muted"><?= $row['client_name']; ?></td>
                                 <td>
-                                    <!-- <a href="#"
-                                        class="btn btn-link btn-rounded btn-sm fw-bold bg-success bg-gradient text-white"
-                                        data-mdb-ripple-color="dark">
-                                        <i class="fas fa-file-excel"></i>
-                                    </a>
-                                    <a href="#"
-                                        class="btn btn-link btn-rounded btn-sm fw-bold bg-danger bg-gradient text-white"
-                                        data-mdb-ripple-color="dark">
-                                        <i class="far fa-file-pdf"></i>
-                                    </a> -->
                                     <a href="#"
                                         class="btn btn-link btn-rounded btn-sm fw-bold bg-warning bg-gradient text-white"
                                         data-mdb-ripple-color="dark">
