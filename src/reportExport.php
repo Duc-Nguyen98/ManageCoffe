@@ -16,8 +16,8 @@
                             <th scope="col">Giảm giá</th>
                             <th scope="col">Tổng tiền</th>
                             <th scope="col">Tạo ngày</th>
-                            <th scope="col">Trạng thái</th>
                             <th scope="col">Người tạo</th>
+                            <th scope="col">Trạng thái</th>
                             <th scope="col">Báo cáo</th>
                         </tr>
                     </thead>
@@ -78,14 +78,24 @@
                                     <p class="fw-normal mb-1"><b> <?= formatCurrency($final_value) ?> </b></p>
                                 </td>
                                 <td class="text-muted"><?= $row['created_at']; ?></td>
+                                <td class="text-muted"><?= $row['client_name']; ?></td>
                                 <td>
                                     <span
                                         class="badge <?= $row['status'] == 0 ? 'badge-success' : 'badge-danger'; ?> rounded-pill d-inline">
                                         <?= $row['status'] == 0 ? 'Hợp lệ' : 'Không hợp lệ'; ?>
                                     </span>
                                 </td>
-                                <td class="text-muted"><?= $row['client_name']; ?></td>
                                 <td>
+                                    <!-- <a href="#"
+                                        class="btn btn-link btn-rounded btn-sm fw-bold bg-success bg-gradient text-white"
+                                        data-mdb-ripple-color="dark">
+                                        <i class="fas fa-file-excel"></i>
+                                    </a>
+                                    <a href="#"
+                                        class="btn btn-link btn-rounded btn-sm fw-bold bg-danger bg-gradient text-white"
+                                        data-mdb-ripple-color="dark">
+                                        <i class="far fa-file-pdf"></i>
+                                    </a> -->
                                     <a href="#"
                                         class="btn btn-link btn-rounded btn-sm fw-bold bg-warning bg-gradient text-white"
                                         data-mdb-ripple-color="dark">
