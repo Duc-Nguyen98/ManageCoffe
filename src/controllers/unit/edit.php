@@ -62,7 +62,7 @@
                                     <!-- Name input -->
                                     <div class="form-outline" data-mdb-input-init>
                                         <textarea class="form-control " id="note" rows="4"><?= $note ?></textarea>
-                                        <label class="form-label" for="textAreaExample">Mô tả thông tin</label>
+                                        <label class="form-label" for="textAreaExample"><?= $note ?></label>
                                     </div>
                                 </div>
                             </div>
