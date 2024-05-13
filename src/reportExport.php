@@ -97,7 +97,7 @@
                                         <i class="far fa-file-pdf"></i>
                                     </a> -->
                                     <a href="#"
-                                        class="btn btn-link btn-rounded btn-sm fw-bold bg-warning bg-gradient text-white"
+                                        class="btn btn-link btn-rounded btn-sm fw-bold bg-danger bg-gradient text-white"
                                         data-mdb-ripple-color="dark">
                                         <i class="fas fa-triangle-exclamation"></i>
                                     </a>
