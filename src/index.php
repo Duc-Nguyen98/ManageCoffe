@@ -5,525 +5,109 @@
 
     <div class="container-fluid py-4 my-5">
         <div class="row">
+            <!-- tiền nhập -->
             <div class="col-3">
+                <?php $sql = "SELECT 
+                        FORMAT(SUM(sub_total), 0) AS total_amount
+                    FROM 
+                        purchases
+                    WHERE 
+                        MONTH(Purchases_date) = MONTH(CURRENT_DATE())
+                        AND YEAR(Purchases_date) = YEAR(CURRENT_DATE())";
+
+                    $result = $conn->query($sql);
+
+                    if ($result->num_rows > 0) {
+                        // Lấy dòng dữ liệu đầu tiên từ kết quả truy vấn
+                        $row = $result->fetch_assoc();
+                        // Gán giá trị total_amount vào biến $total_inventory_day
+                        $total_inventory_day = $row["total_amount"];
+                    } else {
+                        // Nếu không có dữ liệu trả về, gán giá trị mặc định cho $total_inventory_day
+                        $total_inventory_day = 0;
+                    }
+                    ?>
                 <div class="card bg-primary bg-gradient text-white">
                     <div class="card-body">
-                        <?php
-                        // Thực hiện truy vấn SQL để lấy tổng inventory_import
-                        $query = "SELECT 
-                            DATE(update_at) AS ngay,
-                            SUM(inventory_import) AS total_inventory_day
-                        FROM 
-                            product
-                        WHERE
-                            DATE(update_at) = CURDATE() -- Lọc theo ngày hiện tại
-                        GROUP BY 
-                            DATE(update_at);
-                        ";
-                        $result = mysqli_query($conn, $query);
-
-                        // Kiểm tra và lấy giá trị tổng nếu có kết quả trả về
-                        if ($result && mysqli_num_rows($result) > 0) {
-                            $row = mysqli_fetch_assoc($result);
-                            $total_inventory_day = $row['total_inventory_day'];
-                        } else {
-                            // Xử lý trường hợp không có kết quả trả về
-                            $total_inventory_day = 0;
-                        }
-                        ?>
-
-                        <h6 class="card-title text-uppercase">nguyên liệu đã nhập trong ngày - tuần - tháng</h6>
-                        <p class="card-text"><?= $total_inventory_day ?>/SP</p>
-
+                        <h6 class="card-title text-uppercase fw-normal">SỐ TIỀN NHẬP HÀNG</h6>
+                        <p class="card-text fa-2x fw-bolder"><?= $total_inventory_day ?>đ</p>
                     </div>
                     <a class="card-footer text-white text-center" href="#">Thêm thông tin <i class="fas fa-circle-right fa-lg"></i></a>
                 </div>
             </div>
+            <!-- tiền thu được -->
             <div class="col-3">
+                <?php
+                    // Câu truy vấn SQL để lấy tổng số tiền từ bảng invoices
+                    $sql = "SELECT FORMAT(SUM(sub_total), 0) AS total_amount
+                            FROM invoices
+                            WHERE MONTH(invoice_date) = MONTH(CURRENT_DATE()) AND YEAR(invoice_date) = YEAR(CURRENT_DATE())";
+
+                    $result = $conn->query($sql);
+
+                    // Kiểm tra kết quả và gán giá trị vào biến $total_inventory_import
+                    if ($result->num_rows > 0) {
+                        $row = $result->fetch_assoc();
+                        $total_inventory_import = $row["total_amount"];
+                    } else {
+                        $total_inventory_import = "0"; // Nếu không có kết quả, gán giá trị mặc định là 0
+                    }
+                    ?>
                 <div class="card bg-danger bg-gradient text-white">
                     <div class="card-body">
-                        <h6 class="card-title text-uppercase">nguyên liệu đã nhập trong ngày - tuần - tháng</h6>
-                        <p class="card-text"><?= $total_inventory_import ?>/SP</p>
+                        <h6 class="card-title text-uppercase fw-normal">SỐ TIỀN THU ĐƯỢC</h6>
+                        <p class="card-text fa-2x fw-bolder"><?= $total_inventory_import ?>đ</p>
                     </div>
                     <a class="card-footer text-white text-center" href="#">Thêm thông tin <i class="fas fa-circle-right fa-lg"></i></a>
-
                 </div>
+            </div>
+            <!--Nguyên liệu trong kho-->
+            <div class="col-3">
+            <?php
+                $sql = "SELECT COUNT(*) AS remaining_products FROM product WHERE (inventory_import - inventory_export) > 0 AND status = 0 AND soft_delete = 0";
+                $result = $conn->query($sql);
+
+                if ($result->num_rows > 0) {
+                    // Lấy kết quả từ câu truy vấn
+                    $row = $result->fetch_assoc();
+                    $remaining_products = $row["remaining_products"];
+
+                    // In ra số lượng nguyên liệu còn trong kho
+                    echo '<div class="card bg-success bg-gradient text-white">
+                            <div class="card-body">
+                                <h6 class="card-title text-uppercase fw-normal">SỐ NGUYÊN LIỆU TRONG KHO</h6>
+                                <p class="card-text fa-2x fw-bolder">' . $remaining_products . '</p>
+                            </div>
+                            <a class="card-footer text-white text-center" href="#">Thêm thông tin <i class="fas fa-circle-right fa-lg"></i></a>
+                        </div>';
+                } else {
+                    echo "0 results";
+                }
+                ?>
+                <!--Số nguyên liệu sắp hết-->
             </div>
             <div class="col-3">
-                <div class="card bg-success bg-gradient text-white">
+                <div class="card bg-info bg-gradient text-white fw-normal">
                     <div class="card-body">
-                        <h6 class="card-title text-uppercase">3. Có bao nhiêu nguyên liệu trong kho</h6>
-                        <p class="card-text"><?= $total_inventory_import ?>/SP</p>
+                        <h6 class="card-title text-uppercase">NGUYÊN LIỆU SẮP HẾT</h6>
+                        <p class="card-text fa-3x">/SP</p>
                     </div>
                     <a class="card-footer text-white text-center" href="#">Thêm thông tin <i class="fas fa-circle-right fa-lg"></i></a>
-
-                </div>
-            </div>
-            <div class="col-3">
-                <div class="card bg-info bg-gradient text-white">
-                    <div class="card-body">
-                        <h6 class="card-title text-uppercase">4. Có bao nhiêu nguyên liệu sắp hết</h6>
-                        <p class="card-text"><?= $total_inventory_import ?>/SP</p>
-                    </div>
-                    <a class="card-footer text-white text-center" href="#">Thêm thông tin <i class="fas fa-circle-right fa-lg"></i></a>
-
-                </div>
-            </div>
-
-        </div>
-        <div class="row my-3">
-            <div class="card text-left">
-                <div class="card-header"> <i class="fas fa-chart-line fa-lg"></i> Hoạt động gần đây
-                </div>
-                <div class="card-body">
-                    <!-- Tabs navs -->
-                    <ul class="nav nav-tabs mb-3" id="ex-with-icons" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <a data-mdb-tab-init class="nav-link active" id="ex-with-icons-tab-1" href="#ex-with-icons-tabs-1" role="tab" aria-controls="ex-with-icons-tabs-1" aria-selected="true"><i class="fas fa-chart-pie fa-fw me-2"></i>Sales</a>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <a data-mdb-tab-init class="nav-link" id="ex-with-icons-tab-2" href="#ex-with-icons-tabs-2" role="tab" aria-controls="ex-with-icons-tabs-2" aria-selected="false"><i class="fas fa-chart-line fa-fw me-2"></i>Subscriptions</a>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <a data-mdb-tab-init class="nav-link" id="ex-with-icons-tab-3" href="#ex-with-icons-tabs-3" role="tab" aria-controls="ex-with-icons-tabs-3" aria-selected="false"><i class="fas fa-cogs fa-fw me-2"></i>Settings</a>
-                        </li>
-                    </ul>
-                    <!-- Tabs navs -->
-
-                    <!-- Tabs content -->
-                    <div class="tab-content" id="ex-with-icons-content">
-
-                        <div class="tab-pane fade show active" id="ex-with-icons-tabs-1" role="tabpanel" aria-labelledby="ex-with-icons-tab-1">
-                            <!-- table 1 -->
-                            <table class="table align-middle mb-0 bg-white table-hover">
-                                <thead class="bg-light">
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Name</th>
-                                        <th>Title</th>
-                                        <th>Status</th>
-                                        <th>Position</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <img src="https://mdbootstrap.com/img/new/avatars/8.jpg" alt="" style="width: 45px; height: 45px" class="rounded-circle" />
-                                                <div class="ms-3">
-                                                    <p class="fw-bold mb-1">John Doe</p>
-                                                    <p class="text-muted mb-0">john.doe@gmail.com</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <p class="fw-normal mb-1">Software engineer</p>
-                                            <p class="text-muted mb-0">IT department</p>
-                                        </td>
-                                        <td>
-                                            <span class="badge badge-success rounded-pill d-inline">Active</span>
-                                        </td>
-                                        <td>Senior</td>
-                                        <td>
-                                            <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
-                                                <i class="fas fa-eye fa-lg"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-primary bg-gradient text-white" data-mdb-ripple-color="dark">
-                                                <i class="fas fa-marker fa-lg"></i>
-
-                                            </button>
-                                            <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-danger bg-gradient text-white" data-mdb-ripple-color="dark">
-                                                <i class="fas fa-recycle fa-lg"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <img src="https://mdbootstrap.com/img/new/avatars/6.jpg" class="rounded-circle" alt="" style="width: 45px; height: 45px" />
-                                                <div class="ms-3">
-                                                    <p class="fw-bold mb-1">Alex Ray</p>
-                                                    <p class="text-muted mb-0">alex.ray@gmail.com</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <p class="fw-normal mb-1">Consultant</p>
-                                            <p class="text-muted mb-0">Finance</p>
-                                        </td>
-                                        <td>
-                                            <span class="badge badge-primary rounded-pill d-inline">Onboarding</span>
-                                        </td>
-                                        <td>Junior</td>
-                                        <td>
-                                            <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
-                                                <i class="fas fa-eye fa-lg"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-primary bg-gradient text-white" data-mdb-ripple-color="dark">
-                                                <i class="fas fa-marker fa-lg"></i>
-
-                                            </button>
-                                            <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-danger bg-gradient text-white" data-mdb-ripple-color="dark">
-                                                <i class="fas fa-recycle fa-lg"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <img src="https://mdbootstrap.com/img/new/avatars/7.jpg" class="rounded-circle" alt="" style="width: 45px; height: 45px" />
-                                                <div class="ms-3">
-                                                    <p class="fw-bold mb-1">Kate Hunington</p>
-                                                    <p class="text-muted mb-0">kate.hunington@gmail.com</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <p class="fw-normal mb-1">Designer</p>
-                                            <p class="text-muted mb-0">UI/UX</p>
-                                        </td>
-                                        <td>
-                                            <span class="badge badge-warning rounded-pill d-inline">Awaiting</span>
-                                        </td>
-                                        <td>Senior</td>
-                                        <td>
-                                            <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
-                                                <i class="fas fa-eye fa-lg"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-primary bg-gradient text-white" data-mdb-ripple-color="dark">
-                                                <i class="fas fa-marker fa-lg"></i>
-
-                                            </button>
-                                            <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-danger bg-gradient text-white" data-mdb-ripple-color="dark">
-                                                <i class="fas fa-recycle fa-lg"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <!-- end table 1 -->
-                        </div>
-                        <div class="tab-pane fade" id="ex-with-icons-tabs-2" role="tabpanel" aria-labelledby="ex-with-icons-tab-2">
-                            <!-- table 2 -->
-                            <table class="table align-middle mb-0 bg-white table-hover">
-                                <thead class="bg-light">
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Name</th>
-                                        <th>Title</th>
-                                        <th>Status</th>
-                                        <th>Position</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <img src="https://mdbootstrap.com/img/new/avatars/8.jpg" alt="" style="width: 45px; height: 45px" class="rounded-circle" />
-                                                <div class="ms-3">
-                                                    <p class="fw-bold mb-1">John Doe</p>
-                                                    <p class="text-muted mb-0">john.doe@gmail.com</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <p class="fw-normal mb-1">Software engineer</p>
-                                            <p class="text-muted mb-0">IT department</p>
-                                        </td>
-                                        <td>
-                                            <span class="badge badge-success rounded-pill d-inline">Active</span>
-                                        </td>
-                                        <td>Senior</td>
-                                        <td>
-                                            <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
-                                                <i class="fas fa-eye fa-lg"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-primary bg-gradient text-white" data-mdb-ripple-color="dark">
-                                                <i class="fas fa-marker fa-lg"></i>
-
-                                            </button>
-                                            <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-danger bg-gradient text-white" data-mdb-ripple-color="dark">
-                                                <i class="fas fa-recycle fa-lg"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <img src="https://mdbootstrap.com/img/new/avatars/6.jpg" class="rounded-circle" alt="" style="width: 45px; height: 45px" />
-                                                <div class="ms-3">
-                                                    <p class="fw-bold mb-1">Alex Ray</p>
-                                                    <p class="text-muted mb-0">alex.ray@gmail.com</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <p class="fw-normal mb-1">Consultant</p>
-                                            <p class="text-muted mb-0">Finance</p>
-                                        </td>
-                                        <td>
-                                            <span class="badge badge-primary rounded-pill d-inline">Onboarding</span>
-                                        </td>
-                                        <td>Junior</td>
-                                        <td>
-                                            <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
-                                                <i class="fas fa-eye fa-lg"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-primary bg-gradient text-white" data-mdb-ripple-color="dark">
-                                                <i class="fas fa-marker fa-lg"></i>
-
-                                            </button>
-                                            <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-danger bg-gradient text-white" data-mdb-ripple-color="dark">
-                                                <i class="fas fa-recycle fa-lg"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <img src="https://mdbootstrap.com/img/new/avatars/7.jpg" class="rounded-circle" alt="" style="width: 45px; height: 45px" />
-                                                <div class="ms-3">
-                                                    <p class="fw-bold mb-1">Kate Hunington</p>
-                                                    <p class="text-muted mb-0">kate.hunington@gmail.com</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <p class="fw-normal mb-1">Designer</p>
-                                            <p class="text-muted mb-0">UI/UX</p>
-                                        </td>
-                                        <td>
-                                            <span class="badge badge-warning rounded-pill d-inline">Awaiting</span>
-                                        </td>
-                                        <td>Senior</td>
-                                        <td>
-                                            <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
-                                                <i class="fas fa-eye fa-lg"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-primary bg-gradient text-white" data-mdb-ripple-color="dark">
-                                                <i class="fas fa-marker fa-lg"></i>
-
-                                            </button>
-                                            <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-danger bg-gradient text-white" data-mdb-ripple-color="dark">
-                                                <i class="fas fa-recycle fa-lg"></i>
-                                            </button>
-                                        </td>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <!-- end table 2 -->
-                        </div>
-                        <div class="tab-pane fade" id="ex-with-icons-tabs-3" role="tabpanel" aria-labelledby="ex-with-icons-tab-3">
-                            <!-- table 3 -->
-                            <table class="table align-middle mb-0 bg-white table-hover">
-                                <thead class="bg-light">
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Name</th>
-                                        <th>Title</th>
-                                        <th>Status</th>
-                                        <th>Position</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <img src="https://mdbootstrap.com/img/new/avatars/8.jpg" alt="" style="width: 45px; height: 45px" class="rounded-circle" />
-                                                <div class="ms-3">
-                                                    <p class="fw-bold mb-1">John Doe</p>
-                                                    <p class="text-muted mb-0">john.doe@gmail.com</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <p class="fw-normal mb-1">Software engineer</p>
-                                            <p class="text-muted mb-0">IT department</p>
-                                        </td>
-                                        <td>
-                                            <span class="badge badge-success rounded-pill d-inline">Active</span>
-                                        </td>
-                                        <td>Senior</td>
-                                        <td>
-                                            <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
-                                                <i class="fas fa-eye fa-lg"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-primary bg-gradient text-white" data-mdb-ripple-color="dark">
-                                                <i class="fas fa-marker fa-lg"></i>
-
-                                            </button>
-                                            <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-danger bg-gradient text-white" data-mdb-ripple-color="dark">
-                                                <i class="fas fa-recycle fa-lg"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <img src="https://mdbootstrap.com/img/new/avatars/6.jpg" class="rounded-circle" alt="" style="width: 45px; height: 45px" />
-                                                <div class="ms-3">
-                                                    <p class="fw-bold mb-1">Alex Ray</p>
-                                                    <p class="text-muted mb-0">alex.ray@gmail.com</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <p class="fw-normal mb-1">Consultant</p>
-                                            <p class="text-muted mb-0">Finance</p>
-                                        </td>
-                                        <td>
-                                            <span class="badge badge-primary rounded-pill d-inline">Onboarding</span>
-                                        </td>
-                                        <td>Junior</td>
-                                        <td>
-                                            <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
-                                                <i class="fas fa-eye fa-lg"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-primary bg-gradient text-white" data-mdb-ripple-color="dark">
-                                                <i class="fas fa-marker fa-lg"></i>
-
-                                            </button>
-                                            <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-danger bg-gradient text-white" data-mdb-ripple-color="dark">
-                                                <i class="fas fa-recycle fa-lg"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <img src="https://mdbootstrap.com/img/new/avatars/7.jpg" class="rounded-circle" alt="" style="width: 45px; height: 45px" />
-                                                <div class="ms-3">
-                                                    <p class="fw-bold mb-1">Kate Hunington</p>
-                                                    <p class="text-muted mb-0">kate.hunington@gmail.com</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <p class="fw-normal mb-1">Designer</p>
-                                            <p class="text-muted mb-0">UI/UX</p>
-                                        </td>
-                                        <td>
-                                            <span class="badge badge-warning rounded-pill d-inline">Awaiting</span>
-                                        </td>
-                                        <td>Senior</td>
-                                        <td>
-                                            <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white" data-mdb-ripple-color="dark">
-                                                <i class="fas fa-eye fa-lg"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-primary bg-gradient text-white" data-mdb-ripple-color="dark">
-                                                <i class="fas fa-marker fa-lg"></i>
-
-                                            </button>
-                                            <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold bg-danger bg-gradient text-white" data-mdb-ripple-color="dark">
-                                                <i class="fas fa-recycle fa-lg"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <!-- end table 3 -->
-                        </div>
-                    </div>
-                    <!-- Tabs content -->
                 </div>
             </div>
         </div>
+
+        
         <div class="row my-3">
             <div class="col-7">
-
+                <!--Biểu đồ-->
                 <div class="card text-left">
                     <div class="card-header">Thống kê (2024)</div>
                     <div class="card-body">
                         <canvas id="chart-tooltips-formatting-example"></canvas>
                     </div>
                 </div>
-            </div>
-            <div class="col-5">
-                <div class="card text-left">
-                    <div class="card-header"> Top 5 nguyên liệu bán chạy (2024)
-                    </div>
-                    <div class="card-body">
-                        <table class="table align-middle mb-0 bg-white table-hover">
-                            <thead class="bg-light">
-                                <tr>
-                                    <th>#</th>
-                                    <th>Nguyên Liệu</th>
-                                    <th class="text-center"> SL Nhập</th>
-                                    <th class="text-center"> SL Xuất</th>
-                                    <th>Danh Thu </th>
-
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                //! Handle Data Query Table
-
-                                include 'utils/formatCurrency.php';
-
-
-                                //! Handle Data Query Table
-                                $rows = mysqli_query($conn, "SELECT *, product_categories.name AS categories_name 
-                                    FROM product 
-                                    JOIN product_categories ON product.idcategory = product_categories.id
-                                    ORDER BY inventory_export DESC
-                                    LIMIT 5;
-                                    ;
-                                    ");
-                                $i = 1;
-                                while ($row = mysqli_fetch_assoc($rows)) {
-                                ?>
-                                    <tr>
-                                        <td id="<?= $row['id']; ?>"><b><?= $i ?></b></td>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <img src="<?= $row['image'];  ?>" alt="" style="width: 45px; height: 45px" class="rounded-circle" />
-                                                <div class="ms-3">
-                                                    <p class="fw-bold mb-1"><?= $row['name'];  ?></p>
-                                                    <p class="text-muted mb-0"><?= $row['categories_name'];  ?></p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="text-center">
-                                            <span class="badge badge-primary rounded-pill d-inline"><?= $row['inventory_import'];  ?></span>
-                                        </td>
-                                        <td class="text-center">
-                                            <span class=" badge badge-danger rounded-pill d-inline"><?= $row['inventory_export'];  ?></span>
-                                        </td>
-                                        <td><b>
-                                                <?php
-                                                // Sử dụng hàm formatCurrency() tại đây
-                                                echo formatCurrency(($row['inventory_export'] * $row['purchase_price']));
-                                                ?>
-                                            </b></td>
-                                    </tr>
-                                <?php
-                                    $i++;
-                                }
-                                //! Handle Data Query Table
-                                ?>
-
-                            </tbody>
-                        </table>
-                        <!-- end table 1 -->
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row my-3">
-            <div class="col-7">
+                <!--u-->
                 <div class="card text-left">
                     <div class="card-header">Cảnh báo hàng tồn kho</div>
                     <div class="card-body">
@@ -658,7 +242,79 @@
                     </div>
                 </div>
             </div>
+
             <div class="col-5">
+                 <!--Top 5-->
+                <div class="card text-left">
+                    <div class="card-header"> Top 5 nguyên liệu bán chạy (2024)
+                    </div>
+                    <div class="card-body">
+                        <table class="table align-middle mb-0 bg-white table-hover">
+                            <thead class="bg-light">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Nguyên Liệu</th>
+                                    <th class="text-center"> SL Nhập</th>
+                                    <th class="text-center"> SL Xuất</th>
+                                    <th>Danh Thu </th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                //! Handle Data Query Table
+
+                                include 'utils/formatCurrency.php';
+
+
+                                //! Handle Data Query Table
+                                $rows = mysqli_query($conn, "SELECT *, product_categories.name AS categories_name 
+                                    FROM product 
+                                    JOIN product_categories ON product.idcategory = product_categories.id
+                                    ORDER BY inventory_export DESC
+                                    LIMIT 5;
+                                    ;
+                                    ");
+                                $i = 1;
+                                while ($row = mysqli_fetch_assoc($rows)) {
+                                ?>
+                                    <tr>
+                                        <td id="<?= $row['id']; ?>"><b><?= $i ?></b></td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img src="<?= $row['image'];  ?>" alt="" style="width: 45px; height: 45px" class="rounded-circle" />
+                                                <div class="ms-3">
+                                                    <p class="fw-bold mb-1"><?= $row['name'];  ?></p>
+                                                    <p class="text-muted mb-0"><?= $row['categories_name'];  ?></p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="badge badge-primary rounded-pill d-inline"><?= $row['inventory_import'];  ?></span>
+                                        </td>
+                                        <td class="text-center">
+                                            <span class=" badge badge-danger rounded-pill d-inline"><?= $row['inventory_export'];  ?></span>
+                                        </td>
+                                        <td><b>
+                                                <?php
+                                                // Sử dụng hàm formatCurrency() tại đây
+                                                echo formatCurrency(($row['inventory_export'] * $row['purchase_price']));
+                                                ?>
+                                            </b></td>
+                                    </tr>
+                                <?php
+                                    $i++;
+                                }
+                                //! Handle Data Query Table
+                                ?>
+
+                            </tbody>
+                        </table>
+                        <!-- end table 1 -->
+                    </div>
+                </div>
+
+                <!--Biểu đồ-->
                 <div class="card text-left">
                     <div class="card-header">Báo cáo nhập xuất hàng (2024)</div>
                     <div class="card-body">
