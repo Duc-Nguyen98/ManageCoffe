@@ -38,7 +38,7 @@
                             ON 
                                 invoices.created_by = client.id 
                             ORDER BY 
-                                invoices.created_at DESC;
+                                invoices.id DESC;
                         ");
 
                         $i = 1;
