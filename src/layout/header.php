@@ -134,7 +134,7 @@
 </head>
 
 <body>
-    <?php $base_url = '/ManageCoffe2/src/'; ?>
+    <?php $base_url = '/ManageCoffe/src/'; ?>
     <?php include $_SERVER['DOCUMENT_ROOT'] . $base_url . 'utils/database.php'; ?>
     <?php include $_SERVER['DOCUMENT_ROOT'] . $base_url . 'utils/truncate.php'; ?>
 
