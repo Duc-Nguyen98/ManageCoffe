@@ -46,8 +46,8 @@
                     $result2 = $conn->query($sql2);
 
                     // Kiểm tra kết quả và gán giá trị vào biến $total_inventory_import
-                    if ($result2->num_rows > 0) {
-                        $row = $result->fetch_assoc();
+                    if ($result2->num_rows   > 0) {
+                        $row = $result2->fetch_assoc();
                         $total_inventory_import = $row["total_amount"];
                     } else {
                         $total_inventory_import = "0"; // Nếu không có kết quả, gán giá trị mặc định là 0
