@@ -11,7 +11,7 @@
     <div class="container-fluid py-4 my-5">
         <div class="card text-center">
             <div class="card-header text-start">
-                <h5>Tạo mới thông tin chi tiết - #IAC </h5>
+                <h5>Tạo mới hóa đơn - #IVP </h5>
             </div>
             <div class="card-body">
 
@@ -100,7 +100,7 @@
 
                     </div>
                     <div class="card-footer text-muted d-flex justify-content-between">
-                        <a href="<?php echo $base_url; ?>client.php" type="button" class="btn btn-secondary me-2" data-mdb-ripple-init>Quay về</a>
+                        <a href="<?php echo $base_url; ?>invoice.php" type="button" class="btn btn-secondary me-2" data-mdb-ripple-init>Quay về</a>
                         <div class="d-flex">
                             <button id="btnLuuThayDoi" type="button" class="btn btn-primary me-2" data-mdb-ripple-init onclick="submitData2('insert')">Lưu thay đổi</button>
                         </div>
