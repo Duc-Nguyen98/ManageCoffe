@@ -24,23 +24,48 @@
                     <tbody>
                         <?php
                         //! Handle Data Query Table
-                        $rows = mysqli_query($conn, "SELECT invoices.*, invoice_product.discount, invoice_product.transport, SUM(invoice_product.quanity), SUM(invoice_product.sale_price), client.name AS client_name FROM invoices JOIN client ON invoices.created_by = client.id JOIN invoice_product ON invoice_product.invoice_id = invoices.id GROUP BY invoices.id;");   
-
-                        
+                        $rows = mysqli_query($conn, "SELECT 
+                        invoices.*, 
+                        client.name AS client_name,
+                        (SELECT DISTINCT SUM(sale_price) 
+                         FROM `invoice_product` 
+                         WHERE invoice_product.invoice_id = invoices.id
+                        ) AS total_sale_price
+                            FROM 
+                                invoices 
+                            JOIN 
+                                client 
+                            ON 
+                                invoices.created_by = client.id 
+                            ORDER BY 
+                                invoices.id DESC;
+                        ");
 
                         $i = 1;
 
                         while ($row = mysqli_fetch_assoc($rows)) {
-                            ?>
+                            $total_sale_price = $row['total_sale_price']; // Giá trị tổng của các sản phẩm
+                            $transport = $row['transport']; // Phí vận chuyển
+                            $discount_percentage = $row['discount']; // Phần trăm giảm giá (ví dụ: 30%)
 
+                            // Tính tổng giá trị hóa đơn
+                            $total_invoice_value = $total_sale_price + $transport;
+
+                            // Tính giảm giá phần trăm
+                            $discount_amount = ($total_invoice_value * $discount_percentage) / 100;
+
+                            // Tính giá trị cuối cùng
+                            $final_value = $total_invoice_value - $discount_amount;
+                            ?>
+                            
                             <tr id="<?= $row['id']; ?>" class="text-start fw-bold">
                                 <td><?= $i++ ?></td>
 
                                 <td>
-                                    <p class="fw-normal mb-1"><b>IVP<?= $row['id']; ?></b></p>
+                                    <p class="fw-normal mb-1"><b>IVB<?= $row['id']; ?></b></p>
                                 </td>
                                 <td>
-                                    <p class="fw-normal mb-1"><b> <?= formatCurrency($row['sum_sale_price']) ?> </b></p>
+                                    <p class="fw-normal mb-1"><b> <?= formatCurrency($row['total_sale_price']) ?> </b></p>
                                 </td>
                                 <td>
                                     <p class="fw-normal mb-1"><b> <?= formatCurrency($row['transport']) ?> </b></p>

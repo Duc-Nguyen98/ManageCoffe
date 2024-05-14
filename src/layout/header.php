@@ -179,12 +179,12 @@
                     <!-- Collapsed content -->
                     <ul id="collapseExample4" class="collapse show list-group list-group-flush">
                         <li class="list-group-item py-1">
-                            <a href="<?php echo $base_url; ?>" class="text-reset"><i
-                                    class="fas fa-caret-right me-2 fa-sm"></i>Nhập Kho #</a>
+                            <a href="<?php echo $base_url; ?>invoice.php" class="text-reset"><i
+                                    class="fas fa-caret-right me-2 fa-sm"></i>Nhập hàng</a>
                         </li>
                         <li class="list-group-item py-1">
                             <a href="<?php echo $base_url; ?>" class="text-reset"><i
-                                    class="fas fa-caret-right me-2 fa-sm"></i>Xuất Kho #</a>
+                                    class="fas fa-caret-right me-2 fa-sm"></i>Xuất hàng #</a>
                         </li>
                     </ul>
                     <!-- Collapse 5 -->
@@ -203,6 +203,10 @@
                         </li>
                         <li class="list-group-item py-1">
                             <a href="<?php echo $base_url; ?>reportImport.php" class="text-reset"><i
+                            class="fas fa-caret-right me-2 fa-sm"></i>Báo Cáo Nhập</a>
+                        </li>
+                        <li class="list-group-item py-1">
+                            <a href="<?php echo $base_url; ?>providersReport.php" class="text-reset"><i
                             class="fas fa-caret-right me-2 fa-sm"></i>Báo Cáo Nhập</a>
                         </li>
                     </ul>
