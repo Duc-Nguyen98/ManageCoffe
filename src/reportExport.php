@@ -6,7 +6,28 @@
     <div class="container-fluid py-4 my-5">
         <div class="row">
             <div class="col-12">
-                <table class="table table-hover">
+                <div class="card text-center">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="card-title text-left mb-0">Bảng Quản Lý Tài Khoản - client</h5>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="row">
+                                <div class="col-md-3 mb-3">
+                                    <div class="input-group">
+                                        <input type="search" class="form-control rounded" placeholder="Nhập từ khóa..." aria-label="Search" aria-describedby="search-addon" />
+                                        <button type="button" class="btn btn-outline-primary" data-mdb-ripple-init>Tìm kiếm</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3"></div> <!-- Thêm một cột trống để căn chỉnh -->
+                                <div class="col-md-3 mb-3 d-flex justify-content-end">
+                                    <a href="<?php echo $base_url; ?>controllers/client/create.php" class="btn btn-primary ms-auto" data-mdb-ripple-init><i class="fas fa-folder-plus fa-lg"></i> Thêm Mới</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <table class="table table-hover">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
@@ -86,6 +107,10 @@
                         //! Handle Data Query Table
                         ?>
                 </table>
+                    </div>
+                </div>                  
+                <!--Table-->
+                
             </div>
         </div>
     </div>

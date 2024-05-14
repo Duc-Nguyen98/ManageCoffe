@@ -7,7 +7,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <title>HNMU Coffe</title>
     <!-- MDB icon -->
-    <link rel="icon" href="https://cdn.haitrieu.com/wp-content/uploads/2021/11/Logo-DH-Thu-Do-Ha-Noi-HNMU.png"
+    <link rel="icon" href="https://i.pinimg.com/736x/b3/49/28/b3492812df22600add213540ad43a53a.jpg"
         type="image/x-icon" />
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
@@ -90,11 +90,51 @@
         .filepond--drip-blob {
             background-color: #7f8a9a;
         }
+
+        /*Custome color*/
+        :root{
+            --mdb-secondary-color: #8C593B !important;
+            --mdb-body-color: #3D2C2A !important;
+            --mdb-primary-rgb:140,89,59;
+            --mdb-link-hover-color-rgb: 140,89,59;
+            --mdb-primary-text-emphasis: #8C593B;
+            --mdb-primary-bg-subtle: #f5f5f5;
+        }
+
+        .daterangepicker .ranges li.active {
+            background-color: #8C593B;
+        }
+
+        .daterangepicker .ranges li:hover {
+            background-color: #e3d9d3;
+        }
+
+        .daterangepicker td.active, .daterangepicker td.active:hover {
+            background-color: #8C593B !important;
+        }
+
+        .daterangepicker td.in-range {
+            background-color: #e3d9d3;
+        }
+
+        .daterangepicker td.available:hover, .daterangepicker th.available:hover {
+            background-color: #D9BF9A
+        }
+
+        .btn-primary {
+            --mdb-btn-bg: #8C593B;
+            --mdb-btn-box-shadow: 0 4px 9px -4px #8C593B;
+            --mdb-btn-hover-bg: #8C593B;
+            --mdb-btn-focus-bg: #8C593B;
+            --mdb-btn-active-bg: #8C593B;
+            --mdb-btn-box-shadow-state: 0 8px 9px -4px rgb(140 89 59), 0 4px 18px 0 rgba(56, 107, 192, 0.2);
+            --mdb-btn-disabled-bg: #8C593B;
+        }
     </style>
 </head>
 
 <body>
-    <?php $base_url = '/ManageCoffe/src/'; ?>
+    <?php $base_url = '/ManageCoffe2/src/'; ?>
     <?php include $_SERVER['DOCUMENT_ROOT'] . $base_url . 'utils/database.php'; ?>
     <?php include $_SERVER['DOCUMENT_ROOT'] . $base_url . 'utils/truncate.php'; ?>
 
@@ -228,8 +268,7 @@
 
                 <!-- Brand -->
                 <a class="navbar-brand d-flex align-items-center mx-3" href="<?php echo $base_url; ?>index.php">
-                    <img src="https://cdn.haitrieu.com/wp-content/uploads/2021/11/Logo-DH-Thu-Do-Ha-Noi-HNMU.png"
-                        style="width: 45px;height: 45px;" alt="HNMU Logo" loading="lazy" />
+                    <img src="https://i.pinimg.com/736x/b3/49/28/b3492812df22600add213540ad43a53a.jpg" style="width: 45px;height: 45px;" alt="HNMU Logo" loading="lazy" />
                     <h4 class="text-muted mb-0 ms-2"><b>HNMU Coffee</b></h4>
                 </a>
 

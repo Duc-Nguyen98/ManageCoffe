@@ -17,7 +17,6 @@
     };
 
     // Options
-    // Options
     const optionsChartBarDoubleDatasetsExample = {
         options: {
             scales: {

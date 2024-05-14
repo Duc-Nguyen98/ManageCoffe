@@ -11,7 +11,6 @@
                 <div class="card text-center">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h5 class="card-title text-left mb-0">Bảng Quản Lý Tài Khoản - client</h5>
-
                     </div>
 
                     <div class="card-body">
@@ -28,7 +27,6 @@
                                     <a href="<?php echo $base_url; ?>controllers/client/create.php" class="btn btn-primary ms-auto" data-mdb-ripple-init><i class="fas fa-folder-plus fa-lg"></i> Thêm Mới</a>
                                 </div>
                             </div>
-
                         </div>
                         <table class="table align-middle mb-0 bg-white table-hover">
                             <thead class="bg-light">
