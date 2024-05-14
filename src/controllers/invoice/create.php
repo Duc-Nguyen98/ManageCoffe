@@ -171,6 +171,9 @@
 
                             <a href="<?= $base_url ?>invoice.php" type="button" class="btn btn-secondary me-2"
                                 data-mdb-ripple-init>Quay về</a>
+                            <button id="btnLuuThayDoi" type="button" class="btn btn-primary me-2" data-mdb-ripple-init
+                                onclick="submitData2('edit')">Lưu thay đổi</button>
+
                             <div class="row">
                                 <div class="col-12 text-end">
                                     <h6 class="text-black-50 fst-italic">Tạo
