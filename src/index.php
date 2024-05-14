@@ -39,15 +39,15 @@
             <div class="col-3">
                 <?php
                     // Câu truy vấn SQL để lấy tổng số tiền từ bảng invoices
-                    $sql = "SELECT FORMAT(SUM(sub_total), 0) AS total_amount
+                    $sql2 = "SELECT FORMAT(SUM(sub_total), 0) AS total_amount
                             FROM invoices
                             WHERE MONTH(invoice_date) = MONTH(CURRENT_DATE()) AND YEAR(invoice_date) = YEAR(CURRENT_DATE())";
 
-                    $result = $conn->query($sql);
+                    $result2 = $conn->query($sql);
 
                     // Kiểm tra kết quả và gán giá trị vào biến $total_inventory_import
-                    if ($result->num_rows > 0) {
-                        $row = $result->fetch_assoc();
+                    if ($result2->num_rows > 0) {
+                        $row = $result2->fetch_assoc();
                         $total_inventory_import = $row["total_amount"];
                     } else {
                         $total_inventory_import = "0"; // Nếu không có kết quả, gán giá trị mặc định là 0
