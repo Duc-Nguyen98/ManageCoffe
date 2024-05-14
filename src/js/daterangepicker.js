@@ -1,15 +1,24 @@
 $(function() {
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
     var start = moment().subtract(29, 'days');
     var end = moment();
 
     function cb(start, end) {
+<<<<<<< Updated upstream
         $('#reportrange span').html(start.format('DD-MM-YYYY') + ' - ' + end.format('DD-MM-YYYY'));       
+=======
+        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+>>>>>>> Stashed changes
     }
 
     $('#reportrange').daterangepicker({
         startDate: start,
         endDate: end,
         ranges: {
+<<<<<<< Updated upstream
            'Hôm nay': [moment(), moment()],
            'Hôm qua': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
            '7 ngày trước': [moment().subtract(6, 'days'), moment()],
@@ -49,8 +58,20 @@ $(function() {
                 "Tháng 12"
             ],
             "firstDay": 1
+=======
+           'Today': [moment(), moment()],
+           'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+           'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+           'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+           'This Month': [moment().startOf('month'), moment().endOf('month')],
+           'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+>>>>>>> Stashed changes
         }
     }, cb);
 
     cb(start, end);
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 });

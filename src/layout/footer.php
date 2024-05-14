@@ -9,14 +9,20 @@
 <!-- MDB -->
 <script type="text/javascript" src="js/mdb.umd.min.js"></script>
 
+<<<<<<< Updated upstream
 <!--Daterangepicker-->
 <script src="js/daterangepicker.js"></script>
 
+=======
+
+<script src="js/daterangepicker.js"></script>
+>>>>>>> Stashed changes
 <script src="https://unpkg.com/filepond@4.31.1/dist/filepond.min.js"></script>
 <script src='https://unpkg.com/filepond-plugin-file-encode/dist/filepond-plugin-file-encode.min.js'></script>
 <script src='https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.min.js'></script>
 <script src='https://unpkg.com/filepond-plugin-image-exif-orientation/dist/filepond-plugin-image-exif-orientation.min.js'></script>
 <script src='https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.js'></script>
+<<<<<<< Updated upstream
 
 <!-- export Excel-->
 <script src="js/table2excel.js"></script>
@@ -45,6 +51,18 @@
     };
 </script>
 
+=======
+<!--Md bootstrap-->
+<script type="text/javascript" src="js/mdb.umd.min.js"></script>
+<!--Excel-->
+    <script src="js/table2excel.js"></script>
+    <script>
+        document.getElementById('downloadexcel').addEventListener('click',function(){
+        var table2excel = new Table2Excel();
+        table2excel.export(document.querySelectorAll("table"));
+        });
+    </script>
+>>>>>>> Stashed changes
 
 </body>
 </html>
