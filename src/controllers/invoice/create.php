@@ -168,7 +168,6 @@
                             </div>
                         </div>
                         <div class="card-footer text-muted d-flex justify-content-between px-0 pt-4">
-
                             <a href="<?= $base_url ?>invoice.php" type="button" class="btn btn-secondary me-2"
                                 data-mdb-ripple-init>Quay về</a>
                             <div class="row">
