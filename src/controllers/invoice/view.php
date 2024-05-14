@@ -109,6 +109,7 @@
                                                         $quanity = $row2["quanity"];
                                                         $unit_cost = $row2["unit_cost"];
                                                         $sale_price = $row2["sale_price"];
+                                                        $created_at = $row2["created_at"];
                                                         ?>
                                                         <tr>
                                                             <th scope="row"><?= $i++ ?></th>
@@ -172,8 +173,8 @@
                                 data-mdb-ripple-init>Quay về</a>
                             <div class="row">
                                 <div class="col-12 text-end">
-                                    <h6 class="text-black-50 fst-italic">Người tạo: <?= formatCurrency($final_value) ?> - Tạo
-                                        ngày: <?= formatCurrency($final_value) ?></h6>
+                                    <h6 class="text-black-50 fst-italic">Tạo
+                                        ngày: <?= $created_at ?> - Người tạo: <?= formatCurrency($final_value) ?></h6>
                                 </div>
                             </div>
 
