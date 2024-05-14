@@ -133,6 +133,16 @@
             --mdb-btn-box-shadow-state: 0 8px 9px -4px rgb(140 89 59), 0 4px 18px 0 rgba(56, 107, 192, 0.2);
             --mdb-btn-disabled-bg: #8C593B;
         }
+        .table th, .table td {
+            vertical-align: middle; /* Align items vertically in the middle */
+            text-align: center; /* Center-align text horizontally */
+        }
+        .input-group .form-control {
+            flex: 1; /* Ensure input takes up the remaining space */
+        }
+        .input-group .input-group-text {
+            width: 50px; /* Set a fixed width for the input group text */
+        }
     </style>
 </head>
 

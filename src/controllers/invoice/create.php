@@ -1,5 +1,6 @@
 <?php include '../../layout/header.php'; ?>
 <?php include '../../utils/formatCurrency.php'; ?>
+<?php include '../../utils/barCode.php'; ?>
 
 <!--Main layout-->
 
@@ -13,25 +14,29 @@
                 <div class="row">
 
                     <div class="col-12">
-                        <select id="multiSelection" name="recipes" class="form-select" data-mdb-select-init>
-
+                        <select data-mdb-select-init data-mdb-filter="true" id="recipes">
                             <?php
+                            // Thực hiện truy vấn SQL
                             $query = "SELECT * FROM `recipe`";
-                            $result = $conn->query($query);
+                            $result = mysqli_query($conn, $query);
 
-                            // Check if there are results
-                            if ($result->num_rows > 0) {
-                                // Loop through the results and create an option for each row
-                                while ($row = $result->fetch_assoc()) {
-                                    echo '<option value="' . $row['id'] . '">' . $row['name'] . '</option>';
+                            // Kiểm tra và hiển thị kết quả
+                            if ($result && mysqli_num_rows($result) > 0) {
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    $id = $row['id'];
+                                    $name = $row['name'];
+                                    $status = $row['status'];
+                                    // Tạo các tùy 
+                                    echo "<option value='' hidden selected></option>";
+
+                                    echo "<option value='$id'>$name</option>";
                                 }
-
                             } else {
-                                echo '<option value="">Không tìm thấy công thức, vui lòng thử lại sau!</option>';
+                                echo "<option value=''>Không có danh mục</option>";
                             }
                             ?>
-                            <label class="form-label select-label">Chọn công thức</label>';
                         </select>
+                        <label class="form-label select-label">Danh Mục Công Thức</label>
                     </div>
 
                     <div class="row">
@@ -41,7 +46,9 @@
                                     <thead class="table-info">
                                         <tr>
                                             <th scope="col">#</th>
-                                            <th scope="col">Nguyên Liệu</th>
+                                            <th scope="col">Tên</th>
+                                            <th scope="col">Barcode</th>
+                                            <th scope="col">SL Khả dụng</th>
                                             <th scope="col">Số lượng</th>
                                             <th scope="col">Giá bán</th>
                                             <th scope="col">Thành tiền</th>
@@ -50,10 +57,38 @@
                                     <tbody>
                                         <tr>
                                             <th scope="row">1</th>
-                                            <td><b><span class="fw-light">#IDR1</span>-1</b></td>
-                                            <td><b>1/SL</b></td>
-                                            <td><b>1</b></td>
-                                            <td><b>1</b></td>
+                                            <td class="fs-5 fw-bolder">Trà chanh giã </td>
+                                            <td class="fs-5 fw-bolder">  <?= generateBarcodeHTML(2147483647,1) ?> </td>
+                                            <td>
+                                                <div class="input-group mb-3">
+                                                    <input type="number" class="form-control" placeholder=""
+                                                        aria-label="" min="0" aria-describedby="basic-addon2"
+                                                        disabled />
+                                                    <span class="input-group-text" id="basic-addon2">SL</span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="input-group mb-3">
+                                                    <input type="text" class="form-control" placeholder="" aria-label=""
+                                                        min="0" aria-describedby="basic-addon2" />
+                                                    <span class="input-group-text" id="basic-addon2">SL</span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="input-group mb-3">
+                                                    <input type="text" class="form-control" placeholder="" aria-label=""
+                                                        aria-describedby="basic-addon2" />
+                                                    <span class="input-group-text" id="basic-addon2">VNĐ</span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="input-group mb-3">
+                                                    <input type="text" class="form-control" placeholder="" aria-label=""
+                                                        aria-describedby="basic-addon2" disabled />
+                                                    <span class="input-group-text" id="basic-addon2">VNĐ</span>
+                                                </div>
+                                            </td>
+
                                         </tr>
                                     </tbody>
                                 </table>
@@ -116,7 +151,7 @@
                         </div>
                         <div class="row my-2">
                             <div class="col-10 ">
-                                <h6>Thành tiền: </h6>
+                                <h6>Tổng tiền: </h6>
                             </div>
                             <div class="col-2">
                                 <div class="input-group mb-3">
