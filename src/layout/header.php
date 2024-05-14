@@ -245,10 +245,6 @@
                             <a href="<?php echo $base_url; ?>reportImport.php" class="text-reset"><i
                             class="fas fa-caret-right me-2 fa-sm"></i>Báo Cáo Nhập</a>
                         </li>
-                        <li class="list-group-item py-1">
-                            <a href="<?php echo $base_url; ?>providersReport.php" class="text-reset"><i
-                            class="fas fa-caret-right me-2 fa-sm"></i>Báo Cáo Nhập</a>
-                        </li>
                     </ul>
                     <!-- Collapse 6 -->
                 </div>

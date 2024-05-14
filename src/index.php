@@ -90,7 +90,7 @@
                 <div class="card bg-info bg-gradient text-white fw-normal">
                     <div class="card-body">
                         <h6 class="card-title text-uppercase">NGUYÊN LIỆU SẮP HẾT</h6>
-                        <p class="card-text fa-3x">/SP</p>
+                        <p class="card-text fa-2x">/SP</p>
                     </div>
                     <a class="card-footer text-white text-center" href="#">Thêm thông tin <i class="fas fa-circle-right fa-lg"></i></a>
                 </div>
