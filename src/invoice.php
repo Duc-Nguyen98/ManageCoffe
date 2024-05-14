@@ -15,7 +15,7 @@
                             <button type="button" class="btn btn-info" data-mdb-ripple-init> <i
                                     class="fas fa-file-arrow-up fa-lg"></i> Import</button>
 
-                            <a href="<?php echo $base_url; ?>controllers/unit/create.php" class="btn btn-primary"
+                            <a href="<?php echo $base_url; ?>controllers/invoice/create.php" class="btn btn-primary"
                                 data-mdb-ripple-init><i class="fas fa-folder-plus fa-lg"></i> Thêm Mới</a>
                         </div>
                     </div>
