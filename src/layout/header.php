@@ -219,11 +219,11 @@
                     <!-- Collapsed content -->
                     <ul id="collapseExample4" class="collapse show list-group list-group-flush">
                         <li class="list-group-item py-1">
-                            <a href="<?php echo $base_url; ?>invoice.php" class="text-reset"><i
+                            <a href="<?php echo $base_url; ?>" class="text-reset"><i
                                     class="fas fa-caret-right me-2 fa-sm"></i>Nhập hàng</a>
                         </li>
                         <li class="list-group-item py-1">
-                            <a href="<?php echo $base_url; ?>" class="text-reset"><i
+                            <a href="<?php echo $base_url; ?>invoice.php" class="text-reset"><i
                                     class="fas fa-caret-right me-2 fa-sm"></i>Xuất hàng #</a>
                         </li>
                     </ul>
