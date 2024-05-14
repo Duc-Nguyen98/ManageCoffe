@@ -43,10 +43,10 @@
                             FROM invoices
                             WHERE MONTH(invoice_date) = MONTH(CURRENT_DATE()) AND YEAR(invoice_date) = YEAR(CURRENT_DATE())";
 
-                    $result2 = $conn->query($sql2);
+                    $result2 = $conn->query($sql);
 
                     // Kiểm tra kết quả và gán giá trị vào biến $total_inventory_import
-                    if ($result2->num_rows   > 0) {
+                    if ($result2->num_rows > 0) {
                         $row = $result2->fetch_assoc();
                         $total_inventory_import = $row["total_amount"];
                     } else {
