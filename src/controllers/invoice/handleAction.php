@@ -16,48 +16,26 @@ if (isset($_POST["action"])) {
 
 function insert()
 {
-    global $conn;
+    global $conn;  // Đảm bảo bạn có kết nối database hoạt động
 
-    $name = $_POST["name"];
-    $email = $_POST["email"];
-    $password = $_POST["password"];
-    $account_role = $_POST["account_role"];
-    $is_active = $_POST["is_active"];
-    $note = $_POST["note"];
+    // Lấy dữ liệu từ POST
+    $totalCountExport = $_POST['totalCountExport'];
+    $transportShip = $_POST['transportShip'];
+    $voucherPercent = $_POST['voucherPercent'];
+    $totalValue = $_POST['totalValue'];
+    $tableData = json_decode($_POST['tableData'], true);  // Chuyển JSON thành mảng PHP
 
-    $query = "INSERT INTO `client`(`name`, `email`, `note`, `password`, `account_role`, `is_active`, `soft_delete`) 
-    VALUES ('$name', '$email', '$note', '$password', $account_role, $is_active, 0)";
-    mysqli_query($conn, $query);
+    // Xử lý dữ liệu nhận được
+    echo "Received data: \n";
+    echo "Total Count Export: $totalCountExport\n";
+    echo "Transport Ship: $transportShip\n";
+    echo "Voucher%: $voucherPercent\n";
+    echo "Total Value: $totalValue\n";
+    print_r($tableData);  // Hiển thị dữ liệu bảng
 
-    // echo $query;
-    echo "Tạo Mới Bản Ghi Thành Công!";
+    // Tiếp tục với lưu trữ dữ liệu hoặc xử lý khác
 }
 
 
 
-function edit()
-{
-    global $conn;
-    $id = $_POST["id"];
-    $name = $_POST["name"];
-    $email = $_POST["email"];
-    $account_role = $_POST["account_role"];
-    $is_active = $_POST["is_active"];
-    $note = $_POST["note"];
 
-    $query = "UPDATE client SET name= '$name', email= '$email',account_role	= '$account_role',  is_active = '$is_active', note ='$note',  updated_at = NOW()  WHERE id=$id";
-    mysqli_query($conn, $query);
-    // echo $query;
-    echo "Cập Nhật Bản Ghi Thành Công!";
-}
-
-function delete()
-{
-    global $conn;
-
-    $id = $_POST["action"];
-    $query = "UPDATE `client` SET `soft_delete`= 1 WHERE id = $id";
-    mysqli_query($conn, $query);
-    echo $query;
-    echo "Deleted Successfully";
-}
