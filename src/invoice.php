@@ -8,7 +8,7 @@
             <div class="col-12">
                 <div class="card text-center">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="card-title text-left mb-0">Bảng Đơn Vị Tính - Ký Hiệu</h5>
+                        <h5 class="card-title text-left mb-0">Bảng hóa đơn -* Xuất hàng</h5>
                         <div class="exportAction">
                             <button type="button" class="btn btn-success" data-mdb-ripple-init><i
                                     class="fas fa-file-excel fa-lg"></i> Excel</button>
