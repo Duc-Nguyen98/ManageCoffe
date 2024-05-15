@@ -9,7 +9,7 @@
         <div class="container-fluid py-4 my-5">
             <div class="card text-center">
                 <div class="card-header text-start">
-                    <h5>Tạo mới thông tin chi tiết - #ISP </h5>
+                    <h5>Tạo mới thông tin chi tiết </h5>
                 </div>
                 <div class="card-body">
                     <!-- Query data -->
@@ -18,14 +18,14 @@
                             <!-- Email input -->
                             <div data-mdb-input-init class="form-outline">
                                 <input type="text" id="name" class="form-control " value="" />
-                                <label class="form-label" for="form8Example<?= $value ?>">Tên Công Thức </label>
+                                <label class="form-label" for="form8Example<?= $value ?>">Tên Sản Phẩm </label>
                             </div>
                         </div>
                         <div class="col-3">
                             <!-- Email input -->
                             <div data-mdb-input-init class="form-outline">
                                 <input type="text" id="slug" class="form-control " value="" />
-                                <label class="form-label" for="form8Example<?= $value ?>">slug </label>
+                                <label class="form-label" for="form8Example<?= $value ?>">Slug </label>
                             </div>
                         </div>
                         <div class="col-3">

@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <title>HNMU Coffe</title>
+    <link rel="stylesheet" href="css/custom.css">
     <!-- MDB icon -->
     <link rel="icon" href="https://i.pinimg.com/736x/b3/49/28/b3492812df22600add213540ad43a53a.jpg"
         type="image/x-icon" />
@@ -24,6 +25,11 @@
     <link rel='stylesheet'
         href='https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css'>
     <link rel='stylesheet' href='https://unpkg.com/filepond/dist/filepond.min.css'>
+    <!--Daterange-->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
 
     <style>
@@ -94,6 +100,7 @@
             background-color: #7f8a9a;
         }
 
+        
         /*Custome color*/
         :root{
             --mdb-secondary-color: #8C593B !important;
