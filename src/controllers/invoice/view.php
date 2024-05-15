@@ -72,7 +72,7 @@
                         ?>
 
                         <div class="row">
-                            <table class="table">
+                            <table class="table" id="table">
                                 <tbody>
                                     <?php
                                     if (isset($_GET['id'])) {
@@ -133,7 +133,6 @@
 
                                 </tbody>
                             </table>
-
                         </div>
                         <div class="row mt-4 py-4 text-end">
                             <div class="col-11 ">
@@ -168,9 +167,12 @@
                             </div>
                         </div>
                         <div class="card-footer text-muted d-flex justify-content-between px-0 pt-4">
-
-                            <a href="<?= $base_url ?>invoice.php" type="button" class="btn btn-secondary me-2"
-                                data-mdb-ripple-init>Quay về</a>
+                            <div class="col-6 text-start">
+                                <a href="<?= $base_url ?>invoice.php" type="button" class="btn btn-secondary me-2"
+                                    data-mdb-ripple-init>Quay về</a>
+                                    <button type="button" class="btn btn-danger me-2" data-mdb-ripple-init id="dl-pdf"><i class="far fa-file-pdf fa-lg"></i> PDF</button>
+                                    <button type="button" class="btn btn-warning me-2" data-mdb-ripple-init id="printBtn"><i class="fa-solid fa-print"></i> In </button>    
+                            </div>
                             <div class="row">
                                 <div class="col-12 text-end">
                                     <h6 class="text-black-50 fst-italic">Tạo

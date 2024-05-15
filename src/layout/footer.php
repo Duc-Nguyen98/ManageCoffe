@@ -26,7 +26,7 @@
         var element =document.getElementById('table');
         var opt = {
             margin: 0.5,
-            filename: 'report_import.pdf',
+            filename: 'PDF.pdf',
             image: { type: 'jpeg', quality: 0.98 },
             html2canvas: { scale: 2 },
             jsPDF: { unit: 'in', format: 'letter', orientation: 'landscape' }
@@ -47,5 +47,17 @@
 
 <!--Search-->
 <script src="js/search.js"></script>
+
+<!--In-->
+<script>
+document.getElementById('printBtn').addEventListener('click', function() {
+    printData();
+});
+
+function printData() {
+    window.print();
+}
+
+</script>
 </body>
 </html>

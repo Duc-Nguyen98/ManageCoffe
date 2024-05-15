@@ -100,56 +100,20 @@
             background-color: #7f8a9a;
         }
 
-        
-        /*Custome color*/
-        :root{
-            --mdb-secondary-color: #8C593B !important;
-            --mdb-body-color: #3D2C2A !important;
-            --mdb-primary-rgb:140,89,59;
-            --mdb-link-hover-color-rgb: 140,89,59;
-            --mdb-primary-text-emphasis: #8C593B;
-            --mdb-primary-bg-subtle: #f5f5f5;
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #table, #table * {
+                visibility: visible;
+            }
+            #table {
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
         }
 
-        .daterangepicker .ranges li.active {
-            background-color: #8C593B;
-        }
-
-        .daterangepicker .ranges li:hover {
-            background-color: #e3d9d3;
-        }
-
-        .daterangepicker td.active, .daterangepicker td.active:hover {
-            background-color: #8C593B !important;
-        }
-
-        .daterangepicker td.in-range {
-            background-color: #e3d9d3;
-        }
-
-        .daterangepicker td.available:hover, .daterangepicker th.available:hover {
-            background-color: #D9BF9A
-        }
-
-        .btn-primary {
-            --mdb-btn-bg: #8C593B;
-            --mdb-btn-box-shadow: 0 4px 9px -4px #8C593B;
-            --mdb-btn-hover-bg: #8C593B;
-            --mdb-btn-focus-bg: #8C593B;
-            --mdb-btn-active-bg: #8C593B;
-            --mdb-btn-box-shadow-state: 0 8px 9px -4px rgb(140 89 59), 0 4px 18px 0 rgba(56, 107, 192, 0.2);
-            --mdb-btn-disabled-bg: #8C593B;
-        }
-        .table th, .table td {
-            vertical-align: middle; /* Align items vertically in the middle */
-            text-align: center; /* Center-align text horizontally */
-        }
-        .input-group .form-control {
-            flex: 1; /* Ensure input takes up the remaining space */
-        }
-        .input-group .input-group-text {
-            width: 50px; /* Set a fixed width for the input group text */
-        }
     </style>
 </head>
 
