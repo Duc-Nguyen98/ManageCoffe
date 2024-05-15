@@ -8,10 +8,10 @@
             <div class="col-12">
                 <div class="card text-center">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="card-title text-left mb-0">Bảng hóa đơn -* Xuất hàng</h5>
+                        <h5 class="card-title text-left mb-0">Quản Lý Xuất Hàng</h5>
                         <div class="exportAction">
-                            <button type="button" class="btn btn-success" data-mdb-ripple-init><i
-                                    class="fas fa-file-excel fa-lg"></i> Excel</button>
+                            <button type="button" class="btn btn-success" data-mdb-ripple-init id="downloadexcel">
+                                <i class="fas fa-file-excel fa-lg"></i> Excel</button>
                             <button type="button" class="btn btn-info" data-mdb-ripple-init> <i
                                     class="fas fa-file-arrow-up fa-lg"></i> Import</button>
 
@@ -20,7 +20,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <table class="table table-hover">
+                        <table class="table table-hover" id="table">
                             <thead class="text-start">
                                 <tr>
                                     <th scope="col">#</th>
@@ -57,8 +57,6 @@
                         GROUP BY 
                             invoices.id;
                         ");
-
-                        
                                 $i = 1;
 
                                 while ($row = mysqli_fetch_assoc($rows)) {
@@ -115,11 +113,6 @@
                                                 class="btn btn-link btn-rounded btn-sm fw-bold bg-info bg-gradient text-white"
                                                 data-mdb-ripple-color="dark">
                                                 <i class="fas fa-eye fa-lg"></i>
-                                            </a>
-                                            <a href="#"
-                                                class="btn btn-link btn-rounded btn-sm fw-bold bg-danger bg-gradient text-white"
-                                                data-mdb-ripple-color="dark">
-                                                <i class="far fa-file-pdf fa-lg"></i>
                                             </a>
                                             <a href="#"
                                                 class="btn btn-link btn-rounded btn-sm fw-bold bg-warning bg-gradient text-white"
