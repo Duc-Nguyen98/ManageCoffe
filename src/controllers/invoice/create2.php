@@ -74,13 +74,12 @@
       var total = countExport * priceExport;
       totalInput.value = total;
 
-      // Gọi hàm getInputValues để cập nhật lại các giá trị
+      // Gọi hàm để cập nhật lại các giá trị
       getInputValues();
     }
-
     function getInputValues() {
       // Lấy tất cả các hàng trong bảng
-      var totalRecipe = 0
+      var totalRecipe = 0;
       var totalCount = 0;
       var totalPrice = 0;
       var totalValue = 0;
@@ -99,10 +98,15 @@
         totalCount += countExport;
         totalPrice += priceExport;
         totalValue += total;
+
       });
+
       document.getElementById("value_count").value = totalCount;
       document.getElementById("value_total").value = totalValue;
     }
+
+
+
   </script>
 </head>
 
@@ -135,8 +139,13 @@
   <div>
     <label for="value_count">Total Count Export:</label>
     <input type="number" value="0" min="0" id="value_count" disabled>
+    <label for="value_count">Transport Ship:</label>
+    <input type="number" value="0" min="0" id="ship" disabled>
+    <label for="value_count">Voucher%:</label>
+    <input type="number" value="0" min="0" max="100" id="voucher" disabled>
     <label for="value_total">Total Value:</label>
     <input type="number" value="0" min="0" id="value_total" disabled>
+   
   </div>
 
 </body>
