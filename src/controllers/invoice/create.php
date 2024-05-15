@@ -14,22 +14,20 @@
                 <div class="row">
 
                     <div class="col-12">
-                        <select data-mdb-select-init data-mdb-filter="true" id="recipes">
+                        <select data-mdb-select-init data-mdb-filter="true" id="recipes" onchange="showUser(this.value)">
                             <?php
                             // Thực hiện truy vấn SQL
-                            $query = "SELECT * FROM `recipe`";
+                            $query = "SELECT id,name,status FROM `recipe`";
                             $result = mysqli_query($conn, $query);
 
                             // Kiểm tra và hiển thị kết quả
                             if ($result && mysqli_num_rows($result) > 0) {
                                 while ($row = mysqli_fetch_assoc($result)) {
-                                    $id = $row['id'];
+                                    $valueOption = $row['id'];
                                     $name = $row['name'];
                                     $status = $row['status'];
                                     // Tạo các tùy 
-                                    echo "<option value='' hidden selected></option>";
-
-                                    echo "<option value='$id'>$name</option>";
+                                    echo "<option value='$valueOption'>$name</option>";
                                 }
                             } else {
                                 echo "<option value=''>Không có danh mục</option>";
@@ -39,63 +37,71 @@
                         <label class="form-label select-label">Danh Mục Công Thức</label>
                     </div>
 
+                    <div id="txtHint"><b>Person info will be listed here.</b></div>
+ 
+                            
                     <div class="row">
-                        <table class="table">
+                        <table class="table"  id="recipeTable">
+                            <thead class="table-info">
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Tên</th>
+                                    <th scope="col">Barcode</th>
+                                    <th scope="col">SL Khả dụng</th>
+                                    <th scope="col">Số lượng</th>
+                                    <th scope="col">Giá bán</th>
+                                    <th scope="col">Thành tiền</th>
+                                </tr>
+                            </thead>
                             <tbody>
-                                <table class="table">
-                                    <thead class="table-info">
-                                        <tr>
-                                            <th scope="col">#</th>
-                                            <th scope="col">Tên</th>
-                                            <th scope="col">Barcode</th>
-                                            <th scope="col">SL Khả dụng</th>
-                                            <th scope="col">Số lượng</th>
-                                            <th scope="col">Giá bán</th>
-                                            <th scope="col">Thành tiền</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <th scope="row">1</th>
-                                            <td class="fs-5 fw-bolder">Trà chanh giã </td>
-                                            <td class="fs-5 fw-bolder">  <?= generateBarcodeHTML(2147483647,1) ?> </td>
-                                            <td>
-                                                <div class="input-group mb-3">
-                                                    <input type="number" class="form-control" placeholder=""
-                                                        aria-label="" min="0" aria-describedby="basic-addon2"
-                                                        disabled />
-                                                    <span class="input-group-text" id="basic-addon2">SL</span>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="input-group mb-3">
-                                                    <input type="text" class="form-control" placeholder="" aria-label=""
-                                                        min="0" aria-describedby="basic-addon2" />
-                                                    <span class="input-group-text" id="basic-addon2">SL</span>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="input-group mb-3">
-                                                    <input type="text" class="form-control" placeholder="" aria-label=""
-                                                        aria-describedby="basic-addon2" />
-                                                    <span class="input-group-text" id="basic-addon2">VNĐ</span>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="input-group mb-3">
-                                                    <input type="text" class="form-control" placeholder="" aria-label=""
-                                                        aria-describedby="basic-addon2" disabled />
-                                                    <span class="input-group-text" id="basic-addon2">VNĐ</span>
-                                                </div>
-                                            </td>
+                                <?php
+                                // Kiểm tra xem đã chọn giá trị nào từ dropdown chưa
+                                if (isset($valueOption)) {
+                                    // Thực hiện truy vấn SQL
+                                    $query2 = "SELECT 
+                                recipe_product.*, 
+                                product.id, 
+                                product.name, 
+                                product.barcode, 
+                                product.inventory_export 
+                                FROM 
+                                    recipe_product
+                                JOIN 
+                                    product 
+                                ON 
+                                    recipe_product.id_product = product.id
+                                JOIN
+                                    recipe
+                                ON
+                                    recipe_product.id_recipe = recipe.id
+                                WHERE 
+                                    recipe.id = $valueOption;
+                                ";
 
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                    echo $query2;
+                                    $result2 = mysqli_query($conn, $query2);
+                                    if ($result2 && mysqli_num_rows($result2) > 0) {
+                                        while ($row2 = mysqli_fetch_assoc($result2)) {
+                                            $id = $row2['id'];
+                                            $name = $row2['name'];
+                                            $price_export = $row2['price_export'];
+                                            $barcode = $row2['barcode'];
+                                            $inventory_export = $row2['inventory_export'];
+                                            $count_export = $row2['count_export'];
+                                            // Hiển thị thông tin sản phẩm
+                                            // Code HTML để hiển thị thông tin sản phẩm ở đây
+                                        }
+                                    } else {
+                                        echo "<tr><td colspan='7'>Không có sản phẩm nào</td></tr>";
+                                    }
+                                } else {
+                                    echo "<tr><td colspan='7'>Vui lòng chọn một công thức</td></tr>";
+                                }
+                                ?>
                             </tbody>
                         </table>
+                    </div> 
 
-                    </div>
                     <div class="row mt-4 py-4 text-end">
                         <div class="row my-3">
                             <div class="col-10 ">
@@ -104,8 +110,7 @@
                             <div class="col-2 ">
                                 <div class="input-group mb-3">
                                     <input type="number" class="form-control" placeholder="" aria-label=""
-                                        aria-describedby="basic-addon2" id="sum_quanity" value="" disabled
-                                        oninput="calculateSum()" />
+                                        aria-describedby="basic-addon2" value="" disabled />
                                     <span class="input-group-text" id="basic-addon2">SP</span>
                                 </div>
                             </div>
@@ -117,8 +122,7 @@
                             <div class="col-2">
                                 <div class="input-group mb-3">
                                     <input type="number" class="form-control" placeholder="" aria-label=""
-                                        aria-describedby="basic-addon2" id="sum_sale_price" value="" disabled
-                                        oninput="calculateSum()" />
+                                        aria-describedby="basic-addon2" value="" disabled oninput="calculateSum()" />
                                     <span class="input-group-text" id="basic-addon2">VNĐ</span>
                                 </div>
                             </div>
@@ -176,20 +180,58 @@
 
 <!--Main layout-->
 <script>
-    let d1 = document.getElementById("sum_quanity").defaultValue = 0;
-    let d2 = document.getElementById("sum_sale_price").defaultValue = 0;
-    let d3 = document.getElementById("discount").defaultValue = 0;
-    let d4 = document.getElementById("transport").defaultValue = 0;
-    let d5 = document.getElementById("final_value").defaultValue = 0;
 
-    function calculateSum() {
+    window.onload = function () {
+        // Lấy giá trị ban đầu của s1 và s2 khi trang được tải
+
+
+
+        // let initialS1 = parseFloat(document.getElementById('sum_quanity').value) || 0;
+        // let initialS2 = parseFloat(document.getElementById('sum_sale_price').value) || 0;
+        // let d3 = document.getElementById("discount").defaultValue = 0;
+        // let d4 = document.getElementById("transport").defaultValue = 0;
+
+
+        // Hiển thị kết quả tính toán ban đầu
+        // calculateSum(initialS1, initialS2);
+
+    }
+
+
+
+
+    function calculateSum(a, b) {
         let s1 = parseFloat(document.getElementById('sum_quanity').value) || 0;
         let s2 = parseFloat(document.getElementById('sum_sale_price').value) || 0;
+        sum = s1 * s2;
+        document.getElementById('sum_total').value = sum
+
         let s3 = parseFloat(document.getElementById('discount').value) || 0;
         let s4 = parseFloat(document.getElementById('transport').value) || 0;
-        let s5 = s1 + s2 + s3 + s4;
-        document.getElementById('final_value').value = s5;
+        // let s5 = s1 + s2 + s3 + s4;
+        // document.getElementById('final_value').value = s5;
+        // document.getElementById('final_value').value = s5;
+        console.log(s1, s2, sum);
+
+
     }
+
+
+    function showUser(str) {
+        if (str == "") {
+            document.getElementById("txtHint").innerHTML = "";
+            return;
+        }
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("txtHint").innerHTML = this.responseText;
+            }
+        }
+        xmlhttp.open("GET", "family.php?q=" + str, true);
+        xmlhttp.send();
+    }
+
 </script>
 <!-- MDBootstrap JS -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.10.2/mdb.min.js"></script>
