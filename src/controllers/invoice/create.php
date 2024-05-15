@@ -133,7 +133,7 @@
           output += `<tr>
                 <td><strong>${i++}</strong></td>
                 <td><strong>${row.name}</strong></td>
-                <td><strong>${row.barcode}</strong></td>
+                <td><strong>${row.barcode}<strong></td>
                 <td>
                     <div class="form-outline mb-3" data-mdb-input-init>
                         <input type="number" class="form-control" id="inventory_export_${row.id}" min="0" name="inventory_export" value="${row.inventory_export}" disabled />
