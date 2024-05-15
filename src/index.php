@@ -4,7 +4,7 @@
 <main style="margin-top: 58px;">
 
     <div class="container-fluid py-4 my-5">
-        <div class="row">
+        <div class="row mb-3">
             <!-- tiền nhập -->
             <div class="col-3">
                 <?php $sql = "SELECT 
@@ -81,19 +81,38 @@
                             <a class="card-footer text-white text-center" href="#">Thêm thông tin <i class="fas fa-circle-right fa-lg"></i></a>
                         </div>';
                 } else {
-                    echo "0 results";
+                    echo "0";
                 }
                 ?>
                 <!--Số nguyên liệu sắp hết-->
             </div>
             <div class="col-3">
-                <div class="card bg-info bg-gradient text-white fw-normal">
-                    <div class="card-body">
-                        <h6 class="card-title text-uppercase">NGUYÊN LIỆU SẮP HẾT</h6>
-                        <p class="card-text fa-2x">/SP</p>
-                    </div>
-                    <a class="card-footer text-white text-center" href="#">Thêm thông tin <i class="fas fa-circle-right fa-lg"></i></a>
-                </div>
+            <?php
+                $sql = "SELECT COUNT(*) AS count_low_inventory
+                        FROM product
+                        WHERE inventory_import - inventory_export <= 50
+                        AND MONTH(created_at) = MONTH(CURRENT_DATE())
+                        AND YEAR(created_at) = YEAR(CURRENT_DATE())";
+
+                $result = $conn->query($sql);
+
+                if ($result->num_rows > 0) {
+                while($row = $result->fetch_assoc()) {
+                    $count_low_inventory = $row["count_low_inventory"];
+
+                    echo '<div class="card bg-info bg-gradient text-white">
+                            <div class="card-body">
+                                <h6 class="card-title text-uppercase fw-normal">NGUYÊN LIỆU SẮP HẾT</h6>
+                                <p class="card-text fa-2x">' . $count_low_inventory . '</p>
+                            </div>
+                            <a class="card-footer text-white text-center" href="#">Thêm thông tin <i class="fas fa-circle-right fa-lg"></i></a>
+                        </div>';
+                }
+                } else {
+                echo "Không có dữ liệu.";
+                }
+                ?>
+
             </div>
         </div>
 
@@ -101,7 +120,7 @@
         <div class="row my-3">
             <div class="col-7">
                 <!--Biểu đồ-->
-                <div class="card text-left">
+                <div class="card text-left mb-3">
                     <div class="card-header">Thống kê (2024)</div>
                     <div class="card-body">
                         <canvas id="chart-tooltips-formatting-example"></canvas>

@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <title>HNMU Coffe</title>
+    <link rel="stylesheet" href="css/custom.css">
     <!-- MDB icon -->
     <link rel="icon" href="https://i.pinimg.com/736x/b3/49/28/b3492812df22600add213540ad43a53a.jpg"
         type="image/x-icon" />
@@ -16,11 +17,15 @@
         href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" />
     <!-- MDB -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Duc-Nguyen98/ManageCoffe/src/css/mdb.min.css" />
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
     <link rel='stylesheet'
         href='https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css'>
     <link rel='stylesheet' href='https://unpkg.com/filepond/dist/filepond.min.css'>
+    <!--Daterange-->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
 
     <style>
@@ -91,45 +96,7 @@
             background-color: #7f8a9a;
         }
 
-        /*Custome color*/
-        :root{
-            --mdb-secondary-color: #8C593B !important;
-            --mdb-body-color: #3D2C2A !important;
-            --mdb-primary-rgb:140,89,59;
-            --mdb-link-hover-color-rgb: 140,89,59;
-            --mdb-primary-text-emphasis: #8C593B;
-            --mdb-primary-bg-subtle: #f5f5f5;
-        }
-
-        .daterangepicker .ranges li.active {
-            background-color: #8C593B;
-        }
-
-        .daterangepicker .ranges li:hover {
-            background-color: #e3d9d3;
-        }
-
-        .daterangepicker td.active, .daterangepicker td.active:hover {
-            background-color: #8C593B !important;
-        }
-
-        .daterangepicker td.in-range {
-            background-color: #e3d9d3;
-        }
-
-        .daterangepicker td.available:hover, .daterangepicker th.available:hover {
-            background-color: #D9BF9A
-        }
-
-        .btn-primary {
-            --mdb-btn-bg: #8C593B;
-            --mdb-btn-box-shadow: 0 4px 9px -4px #8C593B;
-            --mdb-btn-hover-bg: #8C593B;
-            --mdb-btn-focus-bg: #8C593B;
-            --mdb-btn-active-bg: #8C593B;
-            --mdb-btn-box-shadow-state: 0 8px 9px -4px rgb(140 89 59), 0 4px 18px 0 rgba(56, 107, 192, 0.2);
-            --mdb-btn-disabled-bg: #8C593B;
-        }
+        
     </style>
 </head>
 
