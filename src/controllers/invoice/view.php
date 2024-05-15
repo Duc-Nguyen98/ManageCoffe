@@ -174,7 +174,7 @@
                             <div class="row">
                                 <div class="col-12 text-end">
                                     <h6 class="text-black-50 fst-italic">Tạo
-                                        ngày: <?= $created_at ?> - Người tạo: <?= formatCurrency($final_value) ?></h6>
+                                        ngày: <?= $created_at ?></h6>
                                 </div>
                             </div>
 
